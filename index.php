@@ -1,5 +1,12 @@
 <?php
 
+use class;
+
+include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
+include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
+
+$dbManager = new Manager($db);
+
 ?>
 
 <!DOCTYPE html>
