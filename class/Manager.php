@@ -13,7 +13,31 @@ class Manager {
 
     public function getAllDestinations()
     {
+      
+        $destinations = [];
 
+        
+        $query = "SELECT * FROM destination";
+        $result = $this->db->query($query);
+
+        if ($result) {
+            $rows = $result->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($rows as $row) {
+                $DestinationsData = [
+                    'id' => $row['id'],
+                    'name' => $row['name'],
+                    'hunger' => $row['hunger'],
+                    'species_id' => $row['species_id'],
+                    'energy' => $row['energy'],
+                    'age' => $row['age'],
+                    'height' => $row['height'],
+                    'weight' => $row['weight'],
+                ];
+
+                $destination = new Destination($DestinationsData);
+                $destinations[] = $animal;
+            }
 
     } 
 
