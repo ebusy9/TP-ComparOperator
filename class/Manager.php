@@ -69,14 +69,29 @@ class Manager {
         $stmt->execute([$expire, $signatory, $id]);
     }
 
-    public function createTourOperator()
+    public function createTourOperator(TourOperator $operator)
     {
 
+        $req = $this->db->prepare("INSERT INTO tour_operator (id, name, link) VALUES (:id, :name, :link)");
+        $req->execute([
+            ':id'=>$operator->getId(),
+            ':name'=>$operator->getName(),
+            ':link'=>$operator->getLink(),
+
+    ]);
+        $operator->setId($this->db->lastInsertId());
     }
 
-    public function createDestination()
+    public function createDestination(Destination $destination)
     {
-        
+        $req = $this->db->prepare("INSERT INTO destination (id, location, price, tour_operator_id) VALUES (:id, :location, :price, :tour_operator_id)");
+        $req->execute([
+            ':id'=>$destination->getId(),
+            ':location'=>$destination->getLocation(),
+            ':price'=>$destination->getPrice(),
+
+    ]);
+        $destination->setId($this->db->lastInsertId());
     }
 
     
