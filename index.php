@@ -43,11 +43,13 @@ $dbManager = new Manager($db);
             </div>
         </nav>
     </header>
-    <section class="">
-    <div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8">
-            <div class="card" style="margin-top: -15px; background-color: #40514E;">
+
+
+    <section class="offers-section" style="text-align: center; font-family: 'SF Pro Display', sans-serif;">
+      <div class="container-fluid">
+         <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+              <div class="card" style="margin-top: -15px; background-color: #40514E;">
                 <div class="card-body">
                     <form class="row g-3">
                         <div class="col-12 col-md-4">
@@ -69,7 +71,7 @@ $dbManager = new Manager($db);
                             <input class="form-control" type="text" placeholder="Jeune" aria-label=".form-control-sm example">
                         </div>
                         <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button id="btns" type="button" class="btn btn-primary btn-sm">
+                               <button id="btns" type="button" class="btn btn-sm text-light">
                                    <i class="fas fa-search"></i> Rechercher
                                       </button>
                         </div>
@@ -81,11 +83,57 @@ $dbManager = new Manager($db);
     </div>
 </div>
 
+
+       <p class="font-weight-bold" style="font-family:'SF Pro Display', sans-serif;">
+       <h3>Nos meilleures offres sélectionées pour vous</h3>
+      </p>
+
+       <div class="container" style="margin-top: auto;">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="assets/card_image/img_test.jpg" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <!-- les score vont être ici -->
+              <p class="card-text"><small class="text-body-secondary">1560€</small></p>
+
+              <div class="col-12 d-flex align-items-center justify-content-center">
+                               <button id="btns" type="button" class="btn btn-sm text-light">
+                                 Voir Opérateur
+                                      </button>
+                        </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center p-4">
+
+<h1>Nos Partenaire</h1>
+      
+    <img src="assets/logo/partenaire_mobile.png" alt="" class="img-fluid rounded" style="background-color: #40514E;">
+</div>
+
+
 </section>
 
 
-    <footer>
 
+    <footer style="text-align: center;margin-top:25px;">
+
+   
+
+  
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

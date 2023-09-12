@@ -8,7 +8,13 @@
 
 #btns
 {
-    background-color:#11999E ;   
+    background-color:#11999E ; 
+    outline: none;  
     
+}
+
+.offers-section
+{
+    background-color:#E4F9F5 ;
 }
 
