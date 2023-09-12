@@ -13,57 +13,60 @@ class Manager {
 
     public function getAllDestinations()
     {
-      
-        $destinations = [];
+        $result = $this->db->query("SELECT * FROM destination");
+            $rows = $result->fetchAll();
 
-        
-        $query = "SELECT * FROM destination";
-        $result = $this->db->query($query);
+           return $rows;
 
-        if ($result) {
-            $rows = $result->fetchAll(PDO::FETCH_ASSOC);
+         }
 
-            foreach ($rows as $row) {
-                $DestinationsData = [
-                    'id' => $row['id'],
-                    'name' => $row['name'],
-                    'hunger' => $row['hunger'],
-                    'species_id' => $row['species_id'],
-                    'energy' => $row['energy'],
-                    'age' => $row['age'],
-                    'height' => $row['height'],
-                    'weight' => $row['weight'],
-                ];
 
-                $destination = new Destination($DestinationsData);
-                $destinations[] = $animal;
-            }
 
+
+    public function getOperatorByDestination(int $id): array
+    {
+        $result = $this->db->prepare("SELECT * FROM destination WHERE tour_operator_id = :tour_operator_id");
+        $result->execute([':tour_operator_id'=>$id]);
+        $rows = $result->fetchAll();
+
+       return $rows;
     } 
 
-    public function getOperatorByDestination()
+    public function createReview(Review $review)
     {
+        $req = $this->db->prepare("INSERT INTO review (message, tour_operator_id, author_id) VALUES (:message, :tour_operator_id, :author_id)");
+        $req->execute([
+            ':message'=>$review->getMessage(),
+            ':tour_operator_id'=>$review->getId(),
+            ':author_id'=>$review->getId(),
 
-    } 
-
-    public function createReview()
-    {
-
+    ]);
+        $review->setId($this->db->lastInsertId());
     }
 
-    public function getReviewsByOperator()
+    public function getReviewsByOperator(int $id): array
     {
+        $result = $this->db->prepare("SELECT * FROM review WHERE tour_operator_id = :tour_operator_id");
+        $result->execute([':tour_operator_id'=>$id]);
+        $rows = $result->fetchAll();
 
+       return $rows;
     }
 
     public function getAllOperators()
     {
+        $result = $this->db->query("SELECT * FROM tour_operator");
+        $rows = $result->fetchAll();
+
+       return $rows;
 
     }
 
-    public function updateOperatorToPrenium()
+    public function updateOperatorToPrenium(string $signatory, string $expire, int $id): void
     {
-
+      
+        $stmt = $this->db->prepare("UPDATE certificate SET expire_at = ?, signatory = ? WHERE tour_operator_id = ?");
+        $stmt->execute([$expire, $signatory, $id]);
     }
 
     public function createTourOperator()
