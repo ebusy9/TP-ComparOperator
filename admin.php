@@ -22,12 +22,15 @@ $dbManager = new Manager($db);
 
           <header>
 
-
+         <?php var_dump($dbManager->getReviewsByOperator(2)); ?>
           </header>
 
 
                <section>
-
+               <form id="create" method="post" action="process/add_review.php">
+ <input type="text" name="message" id="">
+ <input type="submit" value="test">
+</form>
 
                </section>
 

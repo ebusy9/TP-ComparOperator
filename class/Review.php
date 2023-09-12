@@ -7,6 +7,7 @@ class Review {
     private int $id;
     private string $message;
     private int $author;
+    private int $operatorId;
 
     public function hydrate(array $data)
     {
@@ -60,6 +61,19 @@ class Review {
     public function setAuthor(int $author): void
     {
         $this->author = $author;
+
+    }
+
+
+    public function getOperatorId(): int
+    {
+        return $this->operatorId;
+    }
+
+   
+    public function setOperatorId(int $operatorId): void
+    {
+        $this->operatorId = $operatorId;
 
     }
 }
