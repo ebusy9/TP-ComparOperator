@@ -78,7 +78,7 @@ $dbManager = new Manager($db);
 </ul>
   <div class="card-footer" style="align-items: center;">
    <button id="btns" type="button" class="btn btn-primary"
-        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: 5.5rem; --bs-btn-font-size: .75rem;">
         <i class="fa-sharp fa-solid fa-magnifying-glass"></i>  Rechercher
 </button>
   </div>
