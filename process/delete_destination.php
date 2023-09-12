@@ -9,3 +9,6 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "d
 
 $dbManager = new Manager($db);
 
+$dbManager->deleteDestinationById($date['id']);
+
+$dbManager->get
