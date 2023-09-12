@@ -11,6 +11,7 @@ class TourOperator {
     private array $destinations;
     private array $reviews;
     private array $scores;
+    private string $img;
     
 
     public function hydrate(array $data)

@@ -8,6 +8,7 @@ class Destination {
     private string $location;
     private int $price;
     private int $OperatorId;
+    private string $img;
 
     public function hydrate(array $data)
     {

@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 return response.json()
             })
             .then(json => {
+                toCardsDiv.innerHTML = "" 
                 json.forEach(element => {
                     toCardsDiv.innerHTML += `<h4>${element['name']}</h4>
                 <a href="${element['link']}">Site web de l'operateur</a>
