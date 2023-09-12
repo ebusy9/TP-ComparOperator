@@ -12,6 +12,7 @@ $operatorId =2;
 
 $dbManager = new Manager($db);
 $ReviewData = new Review();
+
 $ReviewData->hydrate([
     "author" => $author,
     "message" =>$_POST["message"],

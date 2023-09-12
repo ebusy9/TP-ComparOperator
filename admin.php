@@ -27,8 +27,9 @@ $dbManager = new Manager($db);
 
 
                <section>
-               <form id="create" method="post" action="process/add_review.php">
- <input type="text" name="message" id="">
+               <form id="create" method="post" action="process/add_destination.php">
+ <input type="text" name="location" id="">
+ <input type="text" name="price" id="">
  <input type="submit" value="test">
 </form>
 
