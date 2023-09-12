@@ -7,6 +7,7 @@ class Destination {
     private int $id;
     private string $location;
     private int $price;
+    private int $OperatorId;
 
     public function hydrate(array $data)
     {
@@ -57,6 +58,19 @@ class Destination {
     {
         $this->price = $price;
 
+
+    }
+
+ 
+    public function getOperatorId(): int
+    {
+        return $this->OperatorId;
+    }
+
+
+    public function setOperatorId(int $OperatorId): void
+    {
+        $this->OperatorId = $OperatorId;
 
     }
 }

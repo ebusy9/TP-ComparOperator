@@ -25,6 +25,7 @@ class Manager {
 
     public function getOperatorByDestination(int $id): array
     {
+
         $result = $this->db->prepare("SELECT * FROM destination WHERE tour_operator_id = :tour_operator_id");
         $result->execute([':tour_operator_id'=>$id]);
         $rows = $result->fetchAll();
@@ -36,9 +37,9 @@ class Manager {
     {
         $req = $this->db->prepare("INSERT INTO review (message, tour_operator_id, author_id) VALUES (:message, :tour_operator_id, :author_id)");
         $req->execute([
+            ':author_id'=>$review->getAuthor(),
+            ':tour_operator_id'=>$review->getOperatorId(),
             ':message'=>$review->getMessage(),
-            ':tour_operator_id'=>$review->getId(),
-            ':author_id'=>$review->getId(),
 
     ]);
         $review->setId($this->db->lastInsertId());
