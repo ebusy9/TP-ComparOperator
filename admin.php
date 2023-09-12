@@ -1,16 +1,13 @@
 <?php
 
-use class\Manager;
-
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
-
-$dbManager = new Manager($db);
+include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,31 +17,15 @@ $dbManager = new Manager($db);
 
 </head>
 
-          <header>
-
-         <?php var_dump($dbManager->getReviewsByOperator(2)); ?>
-          </header>
-
-
-               <section>
-               <form id="create" method="post" action="process/add_destination.php">
- <input type="text" name="location" id="">
- <input type="text" name="price" id="">
- <input type="submit" value="test">
-</form>
-
-               </section>
-
-
-                    <footer>
-
-
-                    </footer>
-
 <body>
-    
+<div id="operator-list">
 
-</body>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+
+
 </html>

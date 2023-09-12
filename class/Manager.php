@@ -54,7 +54,7 @@ class Manager {
        return $rows;
     }
 
-    public function getAllOperators()
+    public function getAllOperators(): array
     {
         $result = $this->db->query("SELECT * FROM tour_operator");
         $rows = $result->fetchAll();
