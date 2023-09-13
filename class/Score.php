@@ -6,6 +6,7 @@ class Score {
 
     private int $id;
     private int $value;
+    private int $operatorId;
     private int $author;
 
     public function hydrate(array $data)
@@ -47,6 +48,19 @@ class Score {
 
     }
 
+
+    public function getOperatorId(): int
+    {
+        return $this->operatorId;
+    }
+
+
+
+    public function setOperatorId(int $operatorId): void
+    {
+        $this->operatorId = $operatorId;
+
+    }
 
 
     public function getAuthor(): int
