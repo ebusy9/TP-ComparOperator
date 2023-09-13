@@ -6,10 +6,12 @@ class ScoreManager
 {
     private \PDO $db;
 
+
     public function __construct(\PDO $db)
     {
         $this->db = $db;
     }
+
 
     public function getAllScore(): array
     {
@@ -26,6 +28,7 @@ class ScoreManager
         return $scoreObjects;
     }
 
+
     public function getScoreById(int $id): Score
     {
         $req = $this->db->prepare("SELECT * FROM score WHERE id = :id");
@@ -34,10 +37,9 @@ class ScoreManager
         ]);
         $score = $req->fetch();
 
-        $scoreObject = new Score($this->transformDbArrayForHydrate($score));
-
-        return $scoreObject;
+        return new Score($this->transformDbArrayForHydrate($score));
     }
+
 
     public function getScoreByOperatorId(int $id): array
     {
@@ -57,6 +59,7 @@ class ScoreManager
         return $scoreObjects;
     }
 
+
     public function getScoreByAuthorId(int $id): array
     {
         $req = $this->db->prepare("SELECT * FROM score WHERE author_id = :author_id");
@@ -75,6 +78,7 @@ class ScoreManager
         return $scoreObjects;
     }
 
+
     public function createScore(int $value, int $price, int $operatorId, string $authorId): Score
     {
         $id = $this->getRandomIdForNewScore();
@@ -87,10 +91,9 @@ class ScoreManager
             ":author_id" => $authorId,
         ]);
 
-        $score = $this->getScoreById($id);
-
-        return $score;
+        return $this->getScoreById($id);
     }
+
 
     public function updatescore(Score $score): void
     {
@@ -102,6 +105,7 @@ class ScoreManager
             ":author_id" => $score->getAuthor()
         ]);
     }
+
 
     public function deleteScoreById(int $id): void
     {
@@ -136,9 +140,9 @@ class ScoreManager
         return $id;
     }
 
+
     private function transformDbArrayForHydrate(array $data): array
     {
-
         $data['operatorId'] = $data['tour_operator_id'];
         unset($data['tour_operator_id']);
         $data['author'] = $data['author_id'];

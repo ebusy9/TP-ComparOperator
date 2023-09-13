@@ -6,10 +6,12 @@ class DestinationManager
 {
     private \PDO $db;
 
+
     public function __construct(\PDO $db)
     {
         $this->db = $db;
     }
+
 
     public function getAllDestinations(): array
     {
@@ -26,6 +28,7 @@ class DestinationManager
         return $destinationObjects;
     }
 
+
     public function getDestinationById(int $id): Destination
     {
         $req = $this->db->prepare("SELECT * FROM destination WHERE id = :id");
@@ -39,6 +42,7 @@ class DestinationManager
         return $destinationObject;
     }
 
+
     public function getDestinationByLocation(string $location): Destination
     {
         $req = $this->db->prepare("SELECT * FROM destination WHERE location = :location");
@@ -50,6 +54,7 @@ class DestinationManager
 
         return $destinationObject;
     }
+
 
     public function getDestinationsByOperatorId(int $id): array
     {
@@ -69,6 +74,7 @@ class DestinationManager
         return $destinationObjects;
     }
 
+
     public function createDestination(string $location, int $price, int $operatorId, string $img): Destination
     {
         $id = $this->getRandomIdForNewDestination();
@@ -82,10 +88,49 @@ class DestinationManager
             ":img" => $img
         ]);
 
-        $destination = $this->getDestinationById($id);
-
-        return $destination;
+        return $this->getDestinationById($id);
     }
+
+
+    public function updateDestination(Destination $destination): void
+    {
+        $req = $this->db->prepare("UPDATE destination SET location = :location, price = :price, tour_operator_id = :operatorId, img_destination = :img  WHERE id = :id");
+        $req->execute([
+            ":id" => $destination->getId(),
+            ":location" => $destination->getLocation(),
+            ":price" => $destination->getPrice(),
+            ":operatorId" => $destination->getOperatorId(),
+            ":img" => $destination->getImg()
+        ]);
+    }
+
+
+    public function deleteDestinationsById(int $id): void
+    {
+        $req = $this->db->prepare("DELETE FROM destination WHERE tour_operator_id = :tour_operator_id");
+        $req->execute([
+            ":tour_operator_id" => $id
+        ]);
+    }
+
+
+    public function deleteDestinationsByLocation(string $location): void
+    {
+        $req = $this->db->prepare("DELETE FROM destination WHERE location = :location");
+        $req->execute([
+            ":location" => $location
+        ]);
+    }
+
+
+    public function deleteDestinationByOperatorId(int $id): void
+    {
+        $req = $this->db->prepare("DELETE FROM destination WHERE id = :id");
+        $req->execute([
+            ":id" => $id
+        ]);
+    }
+
 
     private function getRandomIdForNewDestination(): int
     {
@@ -112,45 +157,9 @@ class DestinationManager
         return $id;
     }
 
-    public function deleteDestinationsById(int $id): void
-    {
-        $req = $this->db->prepare("DELETE FROM destination WHERE tour_operator_id = :tour_operator_id");
-        $req->execute([
-            ":tour_operator_id" => $id
-        ]);
-    }
-
-    public function deleteDestinationsByLocation(string $location): void
-    {
-        $req = $this->db->prepare("DELETE FROM destination WHERE location = :location");
-        $req->execute([
-            ":location" => $location
-        ]);
-    }
-
-    public function deleteDestinationByOperatorId(int $id): void
-    {
-        $req = $this->db->prepare("DELETE FROM destination WHERE id = :id");
-        $req->execute([
-            ":id" => $id
-        ]);
-    }
-
-    public function updateDestination(Destination $destination): void
-    {
-        $req = $this->db->prepare("UPDATE destination SET location = :location, price = :price, tour_operator_id = :operatorId, img_destination = :img  WHERE id = :id");
-        $req->execute([
-            ":id" => $destination->getId(),
-            ":location" => $destination->getLocation(),
-            ":price" => $destination->getPrice(),
-            ":operatorId" => $destination->getOperatorId(),
-            ":img" => $destination->getImg()
-        ]);
-    }
 
     private function transformDbArrayForHydrate(array $data): array
     {
-
         $data['operatorId'] = $data['tour_operator_id'];
         unset($data['tour_operator_id']);
         $data['img'] = $data['img_destination'];
