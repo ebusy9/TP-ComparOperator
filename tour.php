@@ -43,6 +43,9 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "d
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="admin.php">Page Admin</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.php">Page d'accueil</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -50,47 +53,9 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "d
     </header>
 
 
-    <section class="offers-section" style="text-align: center;">
-      <div class="container-fluid">
-         <div class="row justify-content-center">
-            <div class="col-12 col-md-8">
-              <div class="card" style="margin-top: -15px; background-color: #40514E;">
-                <div class="card-body">
-                    <form class="row g-3">
-                        <div class="col-12 col-md-4">
-                            <input class="form-control form-control-lg" type="text" placeholder="De: Ville, gare, aéroport ou port" aria-label=".form-control-lg example">
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <input class="form-control" type="text" placeholder="Vers: Ville, gare, aéroport ou port" aria-label="default input example">
-                        </div>
-                        <div class="col-6 col-md-2">
-                            <input class="form-control" type="date" placeholder="Date de Départ" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-6 col-md-2">
-                            <input class="form-control" type="date" placeholder="Date de Retour" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-6">
-                            <input class="form-control" type="text" placeholder="Adulte" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-6">
-                            <input class="form-control" type="text" placeholder="Jeune" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button id="btns" type="button" class="btn btn-sm text-light">
-                                   <i class="fas fa-search"></i> Rechercher
-                                      </button>
-                        </div>
 
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-       <p class="font-weight-bold" >
-       <h3>Nos meilleures offres sélectionées pour vous</h3>
+       <p class="font-weight-bold " >
+       <h3>Résultats de Recherche</h3>
       </p>
 
        <div class="container" style="margin-top: auto;">
@@ -110,7 +75,7 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "d
 
               <div class="col-12 d-flex align-items-center justify-content-center">
                                <button id="btns" type="button" class="btn btn-sm text-light">
-                                 Voir Liste
+                                 Voir Opérateur
                                       </button>
                         </div>
               
