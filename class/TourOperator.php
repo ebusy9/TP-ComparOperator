@@ -7,11 +7,11 @@ class TourOperator {
     private int $id;
     private string $name;
     private string $link;
+    private string $img;
     private bool $certificate;
     private array $destinations;
     private array $reviews;
     private array $scores;
-    private string $img;
     
 
     public function hydrate(array $data)
