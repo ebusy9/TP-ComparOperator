@@ -59,17 +59,43 @@ class CertificateManager
 
     public function createCertificate(int $operatorId, string $expireAt, string $signatory): Certificate
     {
-        $data = [
+        $req = $this->db->prepare("INSERT INTO certificate(tour_operator_id, expires_at, price, tour_operator_id, img_destination) VALUES(:operatorId, :expiresAt, :signatory)");
+        $req->execute([
             ":operatorId" => $operatorId,
             ":expiresAt" => $expireAt,
             ":signatory" => $signatory,
-        ];
-        $req = $this->db->prepare("INSERT INTO certificate(tour_operator_id, expires_at, price, tour_operator_id, img_destination) VALUES(:operatorId, :expiresAt, :signatory)");
-        $req->execute($data);
+        ]);
 
-        return new Certificate($data);
+        $certificate = $this->getCertificateByOperatorId($operatorId);
+
+        return $certificate;
     }
 
+    public function deleteCertificateByOperatorId(int $id): void
+    {
+        $req = $this->db->prepare("DELETE FROM certificate WHERE tour_operator_id = :tour_operator_id");
+        $req->execute([
+            ":tour_operator_id" => $id
+        ]);
+    }
+
+    public function deleteCertificateSignatory(string $signatory): void
+    {
+        $req = $this->db->prepare("DELETE FROM certificate WHERE signatory = :signatory");
+        $req->execute([
+            ":signatory" => $signatory
+        ]);
+    }
+
+    public function updateCertificate(Certificate $certificate): void
+    {
+        $req = $this->db->prepare("UPDATE certificate SET expires_at = :expires_at, signatory = :signatory, WHERE tour_operator_id = :tour_operator_id");
+        $req->execute([
+            ":tour_operator_id" => $certificate->getOperatorId(),
+            ":expires_at" => $certificate->getExpiresAt(),
+            ":signatory" => $certificate->getSignatory(),
+        ]);
+    }
 
     private function transformDbArrayForHydrate(array $data): array
     {

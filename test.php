@@ -1,5 +1,6 @@
 <?php
 
+use class\Destination;
 use class\DestinationManager;
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
@@ -13,7 +14,7 @@ var_dump($destination);
 echo "</pre>";
 
 
-$destinations = $manager->getAllDestinations();
+$destinations = $manager->updateDestination(new Destination(["id" => 41748, "location" => "Miami", "price" => 9463, "operatorId" => 2, "img" => "/miami.jpg"]));
 
 echo "<pre>";
 var_dump($destinations);
