@@ -72,18 +72,19 @@ class DestinationManager
     public function createDestination(string $location, int $price, int $operatorId, string $img): Destination
     {
         $id = $this->getRandomIdForNewDestination();
-        $data = [
+
+        $req = $this->db->prepare("INSERT INTO destination(id, location, price, tour_operator_id, img_destination) VALUES(:id, :location, :price, :operatorId, :img)");
+        $req->execute([
             ":id" => $id,
             ":location" => $location,
             ":price" => $price,
             ":operatorId" => $operatorId,
             ":img" => $img
-        ];
+        ]);
 
-        $req = $this->db->prepare("INSERT INTO destination(id, location, price, tour_operator_id, img_destination) VALUES(:id, :location, :price, :operatorId, :img)");
-        $req->execute($data);
+        $destination = $this->getDestinationById($id);
 
-        return new Destination($data);
+        return $destination;
     }
 
     private function getRandomIdForNewDestination(): int
@@ -150,11 +151,11 @@ class DestinationManager
     private function transformDbArrayForHydrate(array $data): array
     {
 
-            $data['operatorId'] = $data['tour_operator_id'];
-            unset($data['tour_operator_id']);
-            $data['img'] = $data['img_destination'];
-            unset($data['img_destination']);
+        $data['operatorId'] = $data['tour_operator_id'];
+        unset($data['tour_operator_id']);
+        $data['img'] = $data['img_destination'];
+        unset($data['img_destination']);
 
-            return $data;
+        return $data;
     }
 }
