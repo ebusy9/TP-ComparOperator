@@ -4,17 +4,18 @@ namespace class;
 
 class Certificate
 {
-
     private int $operatorId;
-    private int $expiresAt;
+    private string $expiresAt;
     private string $signatory;
+
 
     public function __construct(array $data)
     {
         $this->hydrate($data);
     }
 
-    public function hydrate(array $data)
+
+    public function hydrate(array $data): void
     {
         foreach ($data as $key => $value) {
             $method = 'set' . ucfirst($key);
@@ -37,13 +38,13 @@ class Certificate
     }
 
 
-    public function getExpiresAt(): int
+    public function getExpiresAt(): string
     {
         return $this->expiresAt;
     }
 
 
-    public function setExpiresAt(int $expiresAt): void
+    public function setExpiresAt(string $expiresAt): void
     {
         $this->expiresAt = $expiresAt;
     }

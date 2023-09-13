@@ -2,24 +2,29 @@
 
 namespace class;
 
-class Score {
-
+class Score
+{
     private int $id;
     private int $value;
     private int $operatorId;
     private int $author;
 
-    public function hydrate(array $data)
+
+    public function __construct(array $data)
+    {
+        $this->hydrate($data);
+    }
+
+
+    public function hydrate(array $data): void
     {
         foreach ($data as $key => $value) {
             $method = 'set' . ucfirst($key);
-            if (method_exists($this,$method)) {
+            if (method_exists($this, $method)) {
                 $this->$method($value);
             }
         }
     }
-    
-
 
 
     public function getId(): int
@@ -28,12 +33,11 @@ class Score {
     }
 
 
-
     public function setId(int $id): void
     {
         $this->id = $id;
-
     }
+
 
     public function getValue(): int
     {
@@ -41,11 +45,9 @@ class Score {
     }
 
 
-
     public function setValue(int $value): void
     {
         $this->value = $value;
-
     }
 
 
@@ -55,11 +57,9 @@ class Score {
     }
 
 
-
     public function setOperatorId(int $operatorId): void
     {
         $this->operatorId = $operatorId;
-
     }
 
 
@@ -69,10 +69,8 @@ class Score {
     }
 
 
-
     public function setAuthor(int $author): void
     {
         $this->author = $author;
-
     }
 }
