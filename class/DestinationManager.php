@@ -151,9 +151,9 @@ class DestinationManager
     {
 
             $data['operatorId'] = $data['tour_operator_id'];
-            unset($arr['tour_operator_id']);
+            unset($data['tour_operator_id']);
             $data['img'] = $data['img_destination'];
-            unset($arr['img_destination']);
+            unset($data['img_destination']);
 
             return $data;
     }
