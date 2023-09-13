@@ -1,5 +1,6 @@
 <?php
 
+use class\DestinationManager;
 use class\Manager;
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
@@ -10,9 +11,10 @@ if (!isset($_GET['id'])) {
     exit();
 } else {
     $dbManager = new Manager($db);
+    $destinationManager = new DestinationManager($db);
 
     $operator = $dbManager->getOperatorById($_GET['id']);
-    $destinations = $dbManager->getDestinationsByOperatorId($_GET['id']);
+    $destinations = $destinationManager->getAllDestinations();
 }
 
 
@@ -33,17 +35,12 @@ if (!isset($_GET['id'])) {
     <div id="destinations">
         <?php
         foreach ($destinations as $destination) {
-            if (isset($destination['img'])) {
-                $img = $destination['img'];
-            } else {
-                $img = "";
-            }
             echo <<<HTML
-    <div id="id-{$destination['id']}">
-        <h4>{$destination['location']}</h4>
-        <img src="{$img}" alt="no image">
-        <p>Prix : {$destination['price']} €</p>
-        <button onclick="deleteDestination({$destination['id']})">DELETE</button>
+    <div id="id-{$destination->getId()}">
+        <h4>{$destination->getLocation()}</h4>
+        <img src="{$destination->getImg()}" alt="no image">
+        <p>Prix : {$destination->getPrice()} €</p>
+        <button onclick="deleteDestination({$destination->getId()})">DELETE</button>
     </div>
 HTML;
         }
