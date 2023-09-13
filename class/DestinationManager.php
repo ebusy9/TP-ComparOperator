@@ -20,7 +20,7 @@ class DestinationManager
 
         foreach ($destinations as $destination) {
 
-            array_push($destinationObjects, new Destination($destination));
+            array_push($destinationObjects, new Destination($this->transformDbArrayForHydrate($destination)));
         }
 
         return $destinationObjects;
@@ -34,7 +34,7 @@ class DestinationManager
         ]);
         $destination = $req->fetch();
 
-        $destinationObject = new Destination($destination);
+        $destinationObject = new Destination($this->transformDbArrayForHydrate($destination));
 
         return $destinationObject;
     }
@@ -46,7 +46,7 @@ class DestinationManager
             ":location" => $location
         ]);
         $destination = $req->fetch();
-        $destinationObject = new Destination($destination);
+        $destinationObject = new Destination($this->transformDbArrayForHydrate($destination));
 
         return $destinationObject;
     }
@@ -63,7 +63,7 @@ class DestinationManager
 
         foreach ($destinations as $destination) {
 
-            array_push($destinationObjects, new Destination($destination));
+            array_push($destinationObjects, new Destination($this->transformDbArrayForHydrate($destination)));
         }
 
         return $destinationObjects;
@@ -145,5 +145,16 @@ class DestinationManager
             ":operatorId" => $destination->getOperatorId(),
             ":img" => $destination->getImg()
         ]);
+    }
+
+    private function transformDbArrayForHydrate(array $data): array
+    {
+
+            $data['operatorId'] = $data['tour_operator_id'];
+            unset($arr['tour_operator_id']);
+            $data['img'] = $data['img_destination'];
+            unset($arr['img_destination']);
+
+            return $data;
     }
 }
