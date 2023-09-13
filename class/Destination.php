@@ -74,4 +74,17 @@ class Destination {
         $this->OperatorId = $OperatorId;
 
     }
+
+   
+    public function getImg(): string
+    {
+        return $this->img;
+    }
+
+    
+    public function setImg(string $img): void
+    {
+        $this->img = $img;
+
+    }
 }

@@ -3,7 +3,9 @@
     background-image: url(../assets/Bg-img/bg_5-modif.svg);
     background-repeat: no-repeat;
     background-size: cover;
-    
+    background-position: center;
+    min-height: 170px;
+    flex-direction: column;
 }
 
 #btns
@@ -16,5 +18,11 @@
 .offers-section
 {
     background-color:#E4F9F5 ;
+}
+
+.container
+{
+    padding-left: 0px;
+    padding-right: 0;
 }
 
