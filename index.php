@@ -5,11 +5,22 @@ use class\ReviewManager;
 use class\ScoreManager;
 use class\TourOperatorManager;
 use class\CertificateManager;
+use class\Destination;
 
 
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
+
+
+
+$destinationManager = new DestinationManager($db);
+$reviewManager = new ReviewManager($db);
+$scoreManager = new ScoreManager($db);
+$tourOperatorManager = new TourOperatorManager($db);
+$certificateManager = new CertificateManager($db);
+$DestinationData = $destinationManager->getAllDestinations();
+
 
 
 
@@ -50,43 +61,36 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "d
     </header>
 
 
-    <section class="offers-section" style="text-align: center;">
-      <div class="container-fluid">
-         <div class="row justify-content-center">
-            <div class="col-12 col-md-8">
-              <div class="card" style="margin-top: -15px; background-color: #40514E;">
-                <div class="card-body">
-                    <form class="row g-3">
-                        <div class="col-12 col-md-4">
-                            <input class="form-control form-control-lg" type="text" placeholder="De: Ville, gare, aéroport ou port" aria-label=".form-control-lg example">
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <input class="form-control" type="text" placeholder="Vers: Ville, gare, aéroport ou port" aria-label="default input example">
-                        </div>
-                        <div class="col-6 col-md-2">
-                            <input class="form-control" type="date" placeholder="Date de Départ" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-6 col-md-2">
-                            <input class="form-control" type="date" placeholder="Date de Retour" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-6">
-                            <input class="form-control" type="text" placeholder="Adulte" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-6">
-                            <input class="form-control" type="text" placeholder="Jeune" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button id="btns" type="button" class="btn btn-sm text-light">
-                                   <i class="fas fa-search"></i> Rechercher
-                                      </button>
-                        </div>
-
-                    </form>
-                </div>
+    <div class="container" style="margin-top: auto;">
+  <div class="row justify-content-center">
+    <?php foreach ($DestinationData as $destination) { ?>
+      <div class="col-md-8">
+        <div class="card">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <!-- Insérez ici l'image de la destination -->
+              <img src="<?php echo $destination['image_url']; ?>" class="img-fluid rounded-start" alt="...">
             </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title"><?php echo $destination['name']; ?></h5>
+                <p class="card-text"><?php echo $destination['description']; ?></p>
+                <!-- les scores vont être ici -->
+                <p class="card-text"><small class="text-body-secondary"><?php echo $destination['price']; ?></small></p>
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                  <button id="btns" type="button" class="btn btn-sm text-light">
+                    Voir Liste
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+    <?php } ?>
+  </div>
 </div>
+
 
 
        <p class="font-weight-bold" >
