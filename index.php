@@ -86,7 +86,7 @@ $dbManager = new Manager($db);
                             <input class="form-control" type="text" placeholder="Jeune" aria-label=".form-control-sm example">
                         </div>
                         <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button id="btns" type="button" class="btn btn-sm text-light">
+                               <button onclick="window.location.href='tour.php';" id="btns" type="button" class="btn btn-sm text-light">
                                    <i class="fas fa-search"></i> Rechercher
                                       </button>
                         </div>
@@ -121,7 +121,7 @@ $dbManager = new Manager($db);
               <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
 
               <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button id="btns" type="button" class="btn btn-sm text-light">
+                               <button onclick="window.location.href='tour.php';" id="btns" type="button" class="btn btn-sm text-light">
                                  Plus de Détail
                                       </button>
                         </div>
