@@ -13,9 +13,6 @@ class Manager
     }
 
 
-
-
-
     public function getOperatorByDestination(int $id): array
     {
 
