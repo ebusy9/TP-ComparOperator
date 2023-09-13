@@ -5,7 +5,7 @@ namespace class;
 class CertificateManager
 {
     private \PDO $db;
-    
+
     public function __construct(\PDO $db)
     {
         $this->db = $db;
@@ -20,21 +20,21 @@ class CertificateManager
 
         foreach ($certificates as $certificate) {
 
-            array_push($certificateObjects, new Certificate($certificate));
+            array_push($certificateObjects, new Certificate($this->transformDbArrayForHydrate($certificate)));
         }
 
         return $certificateObjects;
     }
 
-    public function getCertificateById(int $id): Certificate
+    public function getCertificateByOperatorId(int $id): Certificate
     {
-        $req = $this->db->prepare("SELECT * FROM certificate WHERE id = :id");
+        $req = $this->db->prepare("SELECT * FROM certificate WHERE tour_operator_id = :tour_operator_id");
         $req->execute([
-            ":id" => $id
+            ":tour_operator_id" => $id
         ]);
         $certificate = $req->fetch();
 
-        $certificateObject = new Certificate($certificate);
+        $certificateObject = new Certificate($this->transformDbArrayForHydrate($certificate));
 
         return $certificateObject;
     }
@@ -51,29 +51,34 @@ class CertificateManager
 
         foreach ($certificates as $certificate) {
 
-            array_push($certificateObjects, new Certificate($certificate));
+            array_push($certificateObjects, new Certificate($this->transformDbArrayForHydrate($certificate)));
         }
 
         return $certificateObjects;
     }
 
-    public function createDestination(string $location, int $price, int $operatorId, string $img): Destination
+    public function createCertificate(int $operatorId, string $expireAt, string $signatory): Certificate
     {
-        $id = $this->getRandomIdForNewDestination();
         $data = [
-            ":id" => $id,
-            ":location" => $location,
-            ":price" => $price,
             ":operatorId" => $operatorId,
-            ":img" => $img
+            ":expiresAt" => $expireAt,
+            ":signatory" => $signatory,
         ];
-
-        $req = $this->db->prepare("INSERT INTO destination(id, location, price, tour_operator_id, img_destination) VALUES(:id, :location, :price, :operatorId, :img)");
+        $req = $this->db->prepare("INSERT INTO certificate(tour_operator_id, expires_at, price, tour_operator_id, img_destination) VALUES(:operatorId, :expiresAt, :signatory)");
         $req->execute($data);
 
-        return new Destination($data);
+        return new Certificate($data);
     }
 
 
+    private function transformDbArrayForHydrate(array $data): array
+    {
 
+        $data['operatorId'] = $data['tour_operator_id'];
+        unset($arr['tour_operator_id']);
+        $data['expiresAt'] = $data['expires_at'];
+        unset($arr['expires_at']);
+
+        return $data;
+    }
 }
