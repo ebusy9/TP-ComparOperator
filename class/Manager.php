@@ -12,13 +12,6 @@ class Manager
         $this->db = $db;
     }
 
-    public function getAllDestinations()
-    {
-        $result = $this->db->query("SELECT * FROM destination");
-        $rows = $result->fetchAll();
-
-        return $rows;
-    }
 
 
 
@@ -104,31 +97,5 @@ class Manager
         return $rows;
     }
 
-    public function getDestinationsByOperatorId(int $id): array
-    {
-        $result = $this->db->prepare("SELECT * FROM destination WHERE tour_operator_id = :tour_operator_id");
-        $result->execute([
-            ":tour_operator_id" => $id
-        ]);
-        $rows = $result->fetchAll();
-        return $rows;
-    }
 
-    public function deleteDestinationById(int $id): void
-    {
-        $result = $this->db->prepare("DELETE FROM destination WHERE id = :id");
-        $result->execute([
-            ":id" => $id
-        ]);
-    }
-
-    public function getDestinationById(int $id): array
-    {
-        $result = $this->db->prepare("SELECT * FROM destination WHERE id = :id");
-        $result->execute([
-            ":id" => $id
-        ]);
-        $rows = $result->fetch();
-        return $rows;
-    }
 }

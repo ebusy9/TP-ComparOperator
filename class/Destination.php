@@ -7,8 +7,12 @@ class Destination {
     private int $id;
     private string $location;
     private int $price;
-    private int $OperatorId;
+    private int $operatorId;
     private string $img;
+
+    public function __construct(array $data) {
+        $this->hydrate($data);
+    }
 
     public function hydrate(array $data)
     {
@@ -19,8 +23,6 @@ class Destination {
             }
         }
     }
-    
-
     
     public function getId(): int
     {
@@ -61,17 +63,16 @@ class Destination {
 
 
     }
-
  
     public function getOperatorId(): int
     {
-        return $this->OperatorId;
+        return $this->operatorId;
     }
 
 
     public function setOperatorId(int $OperatorId): void
     {
-        $this->OperatorId = $OperatorId;
+        $this->operatorId = $OperatorId;
 
     }
 
