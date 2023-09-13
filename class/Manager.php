@@ -113,4 +113,22 @@ class Manager
         $rows = $result->fetchAll();
         return $rows;
     }
+
+    public function deleteDestinationById(int $id): void
+    {
+        $result = $this->db->prepare("DELETE FROM destination WHERE id = :id");
+        $result->execute([
+            ":id" => $id
+        ]);
+    }
+
+    public function getDestinationById(int $id): array
+    {
+        $result = $this->db->prepare("SELECT * FROM destination WHERE id = :id");
+        $result->execute([
+            ":id" => $id
+        ]);
+        $rows = $result->fetch();
+        return $rows;
+    }
 }
