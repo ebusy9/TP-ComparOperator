@@ -2,7 +2,7 @@
 
 namespace class;
 
-class CertificateManager
+class TourOperatorManager
 {
     private \PDO $db;
     
