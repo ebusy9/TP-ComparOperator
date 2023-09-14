@@ -5,7 +5,7 @@ use class\Manager;
 
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
+include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
 $dbManager = new Manager($db);
 $DestinationData = $dbManager->getAllDestinations();
@@ -15,16 +15,18 @@ $ScoreData = $dbManager->getAllScore();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="style/style.css">
     <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
-                
+
     <title>ComparOperator</title>
 
 </head>
+
 <body style=" font-family: 'SF Pro Display', sans-serif;">
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
@@ -51,30 +53,30 @@ $ScoreData = $dbManager->getAllScore();
     </header>
 
 
-  
 
 
-       <p class="font-weight-bold" >
-       <h3>Nos meilleures offres sélectionées pour vous</h3>
-      </p>
 
-       <div class="container" style="margin-top: auto;">
-       <?php foreach ($DestinationData as $destination) {
-        $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
-        $i= 0;
-        $Somme = 0;
-        foreach ($ScoreArray as $Score) {
-            $i++; 
-            $Somme += $Score->getValue();
-        }
+    <p class="font-weight-bold">
+    <h3>Nos meilleures offres sélectionées pour vous</h3>
+    </p>
 
-        if ($Somme>0 && $i>0) {
-            $Score = $Somme/$i;
-        }
-       
+    <div class="container" style="margin-top: auto;">
+        <?php foreach ($DestinationData as $destination) {
+            $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
+            $i = 0;
+            $Somme = 0;
+            foreach ($ScoreArray as $Score) {
+                $i++;
+                $Somme += $Score->getValue();
+            }
+
+            if ($Somme > 0 && $i > 0) {
+               floor($Score = $Somme / $i); 
+            }
 
 
-  echo <<<HTML
+
+            echo <<<HTML
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
@@ -85,8 +87,13 @@ $ScoreData = $dbManager->getAllScore();
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title">{$destination->getLocation()}</h5>
-              <p class="card-text">{$Score}</p>
-              
+              <div class="stars score-{$Score}">
+                 <div class="star"></div>
+                 <div class="star"></div>
+                   <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                     </div>
               <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
 
               <div class="col-12 d-flex align-items-center justify-content-center">
@@ -102,25 +109,25 @@ $ScoreData = $dbManager->getAllScore();
     </div>
   </div>
   HTML;
-}
-?>
-</div>
+        }
+        ?>
+    </div>
 
-<div class="text-center p-4">
+    <div class="text-center p-4">
 
-<h1>Nos Partenaire</h1>
-      
-    <img sizes="(max-width: 600px) 480px, 800px"  src="assets/logo/partenaire_mobile.png" srcset="assets/logo/partenaire.png 480w, assets/logo/partenaire_mobile.png 800w" alt=" " class="img-fluid rounded" style="background-color: #40514E;">
-</div>
+        <h1>Nos Partenaire</h1>
 
-
-</section>
+        <img sizes="(max-width: 600px) 480px, 800px" src="assets/logo/partenaire_mobile.png" srcset="assets/logo/partenaire.png 480w, assets/logo/partenaire_mobile.png 800w" alt=" " class="img-fluid rounded" style="background-color: #40514E;">
+    </div>
 
 
+    </section>
 
-<div class="footer-basic">
+
+
+    <div class="footer-basic">
         <footer>
-        <div class="social"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-snapchat"></i></a><a href="#"><i class="fa-brands fa-x-twitter"></i></a><a href="#"><i class="fa-brands fa-facebook-f"></i></a></div>
+            <div class="social"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-snapchat"></i></a><a href="#"><i class="fa-brands fa-x-twitter"></i></a><a href="#"><i class="fa-brands fa-facebook-f"></i></a></div>
             <ul class="list-inline">
                 <li class="list-inline-item"><a href="#">Home</a></li>
                 <li class="list-inline-item"><a href="#">Services</a></li>
@@ -136,4 +143,5 @@ $ScoreData = $dbManager->getAllScore();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/82dc073821.js" crossorigin="anonymous"></script>
 </body>
+
 </html>
