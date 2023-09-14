@@ -6,20 +6,17 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
 
 
-$author = 1;
-$operatorId =2; 
 
-$dbManager = new Manager($db);
-$ReviewData = new Review();
 
-$ReviewData->hydrate([
-    "author" => $author,
-    "message" =>$_POST["message"],
-    "operatorId" => $operatorId,
-]);
+if (isset($_POST['pseudo'])){
+    $manager = new Manager($db);
+    $name = ucfirst($_POST['pseudo']);
+    $score = $_POST['score'];
+    $nameDestination = $_POST['nameDestination'];
+    $tourOperatorId = $_POST['tourOperatorId'];
+    $message = $_POST['message'];
+    $manager->CreateReview($name, $score, $tourOperatorId, $message);
+}
+header('Location:../destination.php?name='. $nameDestination);
 
-$dbManager->createReview($ReviewData);
-
-header('Location: ../admin.php');
-exit;
 

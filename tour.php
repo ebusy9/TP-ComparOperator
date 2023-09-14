@@ -178,19 +178,10 @@ if (!isset($_GET['id'])) {
 
       <p class="text">
         <small class="text-body-secondary">
-          {$dbManager->getAllReview()} €
+        
         </small></p>
 
-      <div class="stars score-{$Score}">
-                           
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                        </div>
-      </div>
-    
+   
       <div class="modal-footer">
         <button id="btns" type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
       </div>
