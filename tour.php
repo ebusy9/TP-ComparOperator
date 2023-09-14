@@ -13,25 +13,31 @@ $ScoreData = $dbManager->getAllScore();
 // $OpId = 
 
 if (!isset($_GET['id'])) {
-    header('Location: location.php');
-    exit();
+  header('Location: location.php');
+  exit();
 } else {
-    $manager = new Manager($db);
-    $destination = $manager->getDestinationById($_GET['id']);
-    $destinationLocation = $destination->getLocation();
-    $destinationList = $manager->getDestinationByLocation($destinationLocation);
-    
+  $manager = new Manager($db);
+  $destination = $manager->getDestinationById($_GET['id']);
+  $destinationLocation = $destination->getLocation();
+  $destinationList = $manager->getDestinationByLocation($destinationLocation);
+  
 
-    $operatorIdList = [];
+  $operatorIdList = [];
 
-     foreach ($destinationList as $destination) {
-        array_push($operatorIdList, $destination->getOperatorId());
-     }
+  foreach ($destinationList as $destination) {
+      array_push($operatorIdList, $destination->getOperatorId());
+  }
 
-    foreach ($operatorIdList as $operatorId) {
-       $tourOperator =  $manager->getTourOperatorById($operatorId);
-       
-    } 
+  
+  $reviewsByOpreatorList = [];
+
+  foreach ($operatorIdList as $operatorId) {
+      $tourOperator =  $manager->getTourOperatorById($operatorId);
+
+      $reviews = $manager->getReviewByOperatorId($authorId);
+
+      $reviewsByAuthor[$authorId] = $reviews;
+  }
 }
 
 
@@ -84,9 +90,9 @@ if (!isset($_GET['id'])) {
     <div class="container" style="margin-top: auto;">
     <?php    foreach ($operatorIdList as $operatorId) {
        $tourOperator =  $manager->getTourOperatorById($operatorId);
-        $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
-        $ReviewData = $dbManager->getAllReview();
-
+        $ScoreArray = $manager->getScoreByOperatorId($destination->getOperatorId());
+        $ReviewData = $manager->getAllReview();
+        $authorId = $manager->getAuthorID($destination->getAuthorId());
         $i = 0;
         $Somme = 0;
         foreach ($ScoreArray as $Score) {
@@ -97,6 +103,7 @@ if (!isset($_GET['id'])) {
         if ($Somme > 0 && $i > 0) {
             $Score = floor($Somme / $i); 
         }
+       
 
         echo <<<HTML
 <div class="row justify-content-center">
@@ -136,36 +143,7 @@ if (!isset($_GET['id'])) {
                         </div>
                         
 
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Nouvelle avis</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Auteur</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Avis</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Score</label>
-            <input type="number" name="" id="">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
-      </div>
-    </div>
-  </div>
-</div> -->
+
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   
 <div class="modal-dialog">
