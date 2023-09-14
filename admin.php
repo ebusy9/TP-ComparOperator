@@ -5,8 +5,8 @@ use class\Manager;
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
-$destinationManager = new Manager($db);
-$DestinationData = $destinationManager->createDestination();
+$dbManager = new Manager($db);
+$DestinationData = $dbManager->getAllDestinations();
 
 
 ?>
