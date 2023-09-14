@@ -7,11 +7,10 @@ use class\Destination;
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
 
-$DestinationTo = new Destination($data=array());
 $dbManager = new Manager($db);
-$OpId = $DestinationTo->getOperatorId();
-$TourData = $dbManager->getDestinationsByOperatorId($OpId);
-
+$OperatorData = $dbManager->getDestinationsByOperatorId();
+$ScoreData = $dbManager->getAllScore();
+$OpId = 
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +56,7 @@ $TourData = $dbManager->getDestinationsByOperatorId($OpId);
        <h3>Résultats de Recherche</h3>
       </p>
       <div class="container" style="margin-top: auto;">
-        <?php foreach ($DestinationData as $destination) {
+        <?php foreach ($OperatorData as $destination) {
             $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
             $i = 0;
             $Somme = 0;
@@ -82,7 +81,7 @@ $TourData = $dbManager->getDestinationsByOperatorId($OpId);
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title">{$destination->getLocation()}</h5>
+              <h5 class="card-title">{$destination->getName()}</h5>
               <div class="stars score-{$Score}">
                  <div class="star"></div>
                  <div class="star"></div>
