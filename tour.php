@@ -5,26 +5,51 @@ use class\Destination;
 
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
+include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
 $dbManager = new Manager($db);
-$OperatorData = $dbManager->getDestinationsByOperatorId();
 $ScoreData = $dbManager->getAllScore();
-$OpId = 
+// $OperatorData = $dbManager->getDestinationsByOperatorId();
+// $OpId = 
+
+if (!isset($_GET['id'])) {
+    header('Location: location.php');
+    exit();
+} else {
+    $manager = new Manager($db);
+    $destination = $manager->getDestinationById($_GET['id']);
+    $destinationLocation = $destination->getLocation();
+    $destinationList = $manager->getDestinationByLocation($destinationLocation);
+
+    $operatorIdList = [];
+
+    foreach ($destinationList as $destination) {
+        array_push($operatorIdList, $destination->getOperatorId());
+    }
+
+    foreach ($operatorList as $operatorId) {
+       $tourOperator =  $manager->getTourOperatorById($operatorId);
+
+    } 
+}
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="style/style.css">
     <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
-                
+
     <title>ComparOperator</title>
 
 </head>
+
 <body style=" font-family: 'SF Pro Display', sans-serif;">
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
@@ -52,10 +77,10 @@ $OpId =
 
 
 
-       <p class="font-weight-bold " >
-       <h3>Résultats de Recherche</h3>
-      </p>
-      <div class="container" style="margin-top: auto;">
+    <p class="font-weight-bold ">
+    <h3>Résultats de Recherche</h3>
+    </p>
+    <div class="container" style="margin-top: auto;">
         <?php foreach ($OperatorData as $destination) {
             $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
             $i = 0;
@@ -66,7 +91,7 @@ $OpId =
             }
 
             if ($Somme > 0 && $i > 0) {
-               floor($Score = $Somme / $i); 
+                floor($Score = $Somme / $i);
             }
 
 
@@ -108,19 +133,19 @@ $OpId =
         ?>
     </div>
 
-<div class="text-center p-4">
+    <div class="text-center p-4">
 
-<h1>Nos Partenaire</h1>
-      
-    <img src="assets/logo/partenaire_mobile.png" alt="" class="img-fluid rounded" style="background-color: #40514E;">
-</div>
+        <h1>Nos Partenaire</h1>
 
-
-</section>
+        <img src="assets/logo/partenaire_mobile.png" alt="" class="img-fluid rounded" style="background-color: #40514E;">
+    </div>
 
 
+    </section>
 
-<div class="footer-basic">
+
+
+    <div class="footer-basic">
         <footer>
             <div class="social"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-snapchat"></i></a><a href="#"><i class="fa-brands fa-x-twitter"></i></a><a href="#"><i class="fa-brands fa-facebook-f"></i></a></div>
             <ul class="list-inline">
@@ -133,14 +158,10 @@ $OpId =
             <p class="copyright">Kogey & Evgenii © 2023</p>
         </footer>
     </div>
-<!-- End of .container -->
+    <!-- End of .container -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/82dc073821.js" crossorigin="anonymous"></script>
 </body>
+
 </html>
-
-
-
-
-
