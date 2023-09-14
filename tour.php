@@ -1,10 +1,5 @@
 <?php
 
-use class\DestinationManager;
-use class\ReviewManager;
-use class\ScoreManager;
-use class\TourOperatorManager;
-use class\CertificateManager;
 use class\Manager;
 
 
@@ -12,15 +7,8 @@ use class\Manager;
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
 
-
-
-$destinationManager = new DestinationManager($db);
-$reviewManager = new ReviewManager($db);
-$scoreManager = new ScoreManager($db);
-$tourOperatorManager = new TourOperatorManager($db);
-$certificateManager = new CertificateManager($db);
-$DestinationData = $destinationManager->getAllDestinations();
 $dbManager = new Manager($db);
+$DestinationData = $dbManager->getAllDestinations();
 
 ?>
 

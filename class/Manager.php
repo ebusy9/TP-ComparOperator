@@ -17,12 +17,12 @@ class Manager
     {
         if (isset($data['tour_operator_id'])) {
             $data['operatorId'] = $data['tour_operator_id'];
-            unset($arr['tour_operator_id']);
+            unset($data['tour_operator_id']);
         }
 
         if (isset($data['expires_at'])) {
             $data['expiresAt'] = $data['expires_at'];
-            unset($arr['expires_at']);
+            unset($data['expires_at']);
         }
 
         if (isset($data['img_destination'])) {
