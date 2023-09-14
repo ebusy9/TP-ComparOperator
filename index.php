@@ -11,6 +11,7 @@ $dbManager = new Manager($db);
 $DestinationData = $dbManager->getAllDestinations();
 $ScoreData = $dbManager->getAllScore();
 
+
 ?>
 
 <!DOCTYPE html>
@@ -118,7 +119,13 @@ $ScoreData = $dbManager->getAllScore();
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title">{$destination->getLocation()}</h5>
-              <p class="card-text">{$Score}</p>
+              <div class="stars score-{$Score}">
+                 <div class="star"></div>
+                 <div class="star"></div>
+                   <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                     </div>
               
               <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
 

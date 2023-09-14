@@ -1,0 +1,24 @@
+.stars {
+    width: 270px;
+    display: inline-block;
+    
+    .star {
+      float: left;
+      padding: 10px;
+      font-size: 36px;
+      color: #444;
+      &::before {
+        content: '\f006';
+        font-family: FontAwesome;
+      }
+    }
+    
+    @for $i from 1 through 5 {     
+      &.score-#{$i} .star:nth-child(-n+#{$i})::before {
+        content: '\f005';
+        color: #FD4;
+      }
+    }
+  }
+  
+  

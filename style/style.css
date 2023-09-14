@@ -1,3 +1,39 @@
+.stars {
+  width: 270px;
+  display: inline-block;
+}
+.stars .star {
+  float: left;
+  padding: 10px;
+  font-size: 15px;
+  color: #444;
+}
+.stars .star::before {
+  content: "\f006";
+  font-family: FontAwesome;
+}
+.stars.score-1 .star:nth-child(-n+1)::before {
+  content: "\f005";
+  color: #FD4;
+}
+.stars.score-2 .star:nth-child(-n+2)::before {
+  content: "\f005";
+  color: #FD4;
+}
+.stars.score-3 .star:nth-child(-n+3)::before {
+  content: "\f005";
+  color: #FD4;
+}
+.stars.score-4 .star:nth-child(-n+4)::before {
+  content: "\f005";
+  color: #FD4;
+}
+.stars.score-5 .star:nth-child(-n+5)::before {
+  content: "\f005";
+  color: #FD4;
+}
+
+
 #navbar
 {
     background-image: url(../assets/Bg-img/bg_5-modif.svg);
@@ -91,3 +127,5 @@ h3
     margin-bottom:0;
   }
 
+
+/*# sourceMappingURL=style.css.map */

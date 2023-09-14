@@ -1,14 +1,16 @@
 <?php
 
 use class\Manager;
-
+use class\Destination;
 
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
 
+$DestinationTo = new Destination($data=array());
 $dbManager = new Manager($db);
-$TourData = $dbManager->getAllDestinations();
+$OpId = $DestinationTo->getOperatorId();
+$TourData = $dbManager->getDestinationsByOperatorId($OpId);
 
 ?>
 
@@ -54,10 +56,23 @@ $TourData = $dbManager->getAllDestinations();
        <p class="font-weight-bold " >
        <h3>Résultats de Recherche</h3>
       </p>
-
       <div class="container" style="margin-top: auto;">
-       <?php foreach ($DestinationData as $destination) {
-  echo <<<HTML
+        <?php foreach ($DestinationData as $destination) {
+            $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
+            $i = 0;
+            $Somme = 0;
+            foreach ($ScoreArray as $Score) {
+                $i++;
+                $Somme += $Score->getValue();
+            }
+
+            if ($Somme > 0 && $i > 0) {
+               floor($Score = $Somme / $i); 
+            }
+
+
+
+            echo <<<HTML
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
@@ -68,13 +83,18 @@ $TourData = $dbManager->getAllDestinations();
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title">{$destination->getLocation()}</h5>
-              <p class="card-text"><!-- les score vont être ici --></p>
-              
+              <div class="stars score-{$Score}">
+                 <div class="star"></div>
+                 <div class="star"></div>
+                   <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                     </div>
               <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
 
               <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button id="btns" type="button" class="btn btn-sm text-light">
-                                 Plus de Détail 
+                               <button onclick="window.location.href='tour.php';" id="btns" type="button" class="btn btn-sm text-light">
+                                 Plus de Détail
                                       </button>
                         </div>
               
@@ -85,9 +105,9 @@ $TourData = $dbManager->getAllDestinations();
     </div>
   </div>
   HTML;
-}
-?>
-</div>
+        }
+        ?>
+    </div>
 
 <div class="text-center p-4">
 
