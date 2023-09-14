@@ -23,13 +23,13 @@ if (!isset($_GET['id'])) {
 
     $operatorIdList = [];
 
-    foreach ($destinationList as $destination) {
+     foreach ($destinationList as $destination) {
         array_push($operatorIdList, $destination->getOperatorId());
-    }
+     }
 
-    foreach ($operatorList as $operatorId) {
+    foreach ($operatorIdList as $operatorId) {
        $tourOperator =  $manager->getTourOperatorById($operatorId);
-
+       
     } 
 }
 
@@ -81,57 +81,62 @@ if (!isset($_GET['id'])) {
     <h3>Résultats de Recherche</h3>
     </p>
     <div class="container" style="margin-top: auto;">
-        <?php foreach ($OperatorData as $destination) {
-            $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
-            $i = 0;
-            $Somme = 0;
-            foreach ($ScoreArray as $Score) {
-                $i++;
-                $Somme += $Score->getValue();
-            }
-
-            if ($Somme > 0 && $i > 0) {
-                floor($Score = $Somme / $i);
-            }
-
-
-
-            echo <<<HTML
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="{$destination->getImg()}" class="img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{$destination->getName()}</h5>
-              <div class="stars score-{$Score}">
-                 <div class="star"></div>
-                 <div class="star"></div>
-                   <div class="star"></div>
-                    <div class="star"></div>
-                    <div class="star"></div>
-                     </div>
-              <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
-
-              <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button onclick="window.location.href='tour.php';" id="btns" type="button" class="btn btn-sm text-light">
-                                 Plus de Détail
-                                      </button>
-                        </div>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  HTML;
+    <?php    foreach ($operatorIdList as $operatorId) {
+       $tourOperator =  $manager->getTourOperatorById($operatorId);
+        $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
+        $i = 0;
+        $Somme = 0;
+        foreach ($ScoreArray as $Score) {
+            $i++;
+            $Somme += $Score->getValue();
         }
-        ?>
+
+        if ($Somme > 0 && $i > 0) {
+            $Score = floor($Somme / $i); 
+        }
+
+        echo <<<HTML
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{$tourOperator->getImg()}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{$tourOperator->getName()}</h5>
+                        <div class="stars score-{$Score}">
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                        </div>
+                        <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
+
+                        
+                        <p class="card-text">Emplacement: {$destination->getLocation()}</p>
+                        
+                        
+
+                        <div class="col-12 d-flex align-items-center justify-content-center">
+                            <button onclick="window.location.href='tour.php';" id="btns" type="button" class="btn btn-sm text-light">
+                                Plus de Détail
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+HTML;
+    }
+    ?>
+</div>
+
+
 
     <div class="text-center p-4">
 
