@@ -58,15 +58,19 @@ class Manager
     }
 
 
-    public function getCertificateByOperatorId(int $id): Certificate
+    public function getCertificateByOperatorId(int $id): ?Certificate
     {
         $req = $this->db->prepare("SELECT * FROM certificate WHERE tour_operator_id = :tour_operator_id");
         $req->execute([
             ":tour_operator_id" => $id
         ]);
-        $certificate = $req->fetchAll();
+        $certificate = $req->fetch();
 
-        return new Certificate($certificate = $this->transformDbArrayForHydrate($certificate));
+        if ($certificate !== false) {
+            return new Certificate($certificate = $this->transformDbArrayForHydrate($certificate));
+        } else {
+            return null;
+        }
     }
 
 

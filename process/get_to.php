@@ -10,6 +10,6 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 
 $dbManager = new Manager($db);
 
-$allOperators = $dbManager->getAllOperators();
+$allOperators = $dbManager->getAllTourOperator();
 
 echo json_encode($allOperators);
