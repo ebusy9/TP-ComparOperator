@@ -32,6 +32,18 @@ if (!isset($_GET['id'])) {
 
 <body>
 
+<form id="modification-form">
+        <div class="form-group">
+            <label for="nouvelle-valeur">Nouvelle Tour</label>
+            <input type="text" class="form-control" id="nouvelle-valeur" name="nouvelle-valeur" required>
+        </div>
+        <button onclick="window.location.href='process/add_tour.php';" id="btns" type="button" class="btn btn-sm text-light">
+                                   </i> Ajouter Tour
+                                      </button>
+        
+
+</form>
+
     <div id="destinations">
         <?php
         foreach ($destinations as $destination) {
