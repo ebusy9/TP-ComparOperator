@@ -8,7 +8,7 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "a
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
 
 $dbManager = new Manager($db);
-$DestinationData = $dbManager->getAllDestinations();
+$TourData = $dbManager->getAllDestinations();
 
 ?>
 
