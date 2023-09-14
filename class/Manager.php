@@ -64,9 +64,9 @@ class Manager
         $req->execute([
             ":tour_operator_id" => $id
         ]);
-        $certificate = $req->fetch();
+        $certificate = $req->fetchAll();
 
-        return new Certificate($this->transformDbArrayForHydrate($certificate));
+        return new Certificate($certificate = $this->transformDbArrayForHydrate($certificate));
     }
 
 
@@ -168,16 +168,21 @@ class Manager
     }
 
 
-    public function getDestinationByLocation(string $location): Destination
+    public function getDestinationByLocation(string $location): array
     {
         $req = $this->db->prepare("SELECT * FROM destination WHERE location = :location");
         $req->execute([
             ":location" => $location
         ]);
-        $destination = $req->fetch();
-        $destinationObject = new Destination($this->transformDbArrayForHydrate($destination));
+        $destinations = $req->fetchAll();
 
-        return $destinationObject;
+        $destinationObjects = [];
+
+        foreach ($destinations as $destination) {
+            array_push($destinationObjects, new Destination($this->transformDbArrayForHydrate($destination)));
+        }
+
+        return $destinationObjects;
     }
 
 
@@ -587,7 +592,7 @@ class Manager
             $tourOperator['certificate'] = $this->getCertificateByOperatorId($tourOperator['id']);
             $tourOperator['destinations'] = $this->getDestinationsByOperatorId($tourOperator['id']);
             $tourOperator['reviews'] = $this->getReviewByOperatorId($tourOperator['id']);
-            $tourOperator['scores'] = $this->getScoreByOperatorId($tourOperator['id']);    
+            $tourOperator['scores'] = $this->getScoreByOperatorId($tourOperator['id']);
             array_push($tourOperatorObjects, new TourOperator($this->transformDbArrayForHydrate($tourOperator)));
         }
 
@@ -699,5 +704,6 @@ class Manager
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////END TOUROPERATOR MANAGER////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
 }
