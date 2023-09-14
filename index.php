@@ -123,7 +123,7 @@ $ScoreData = $dbManager->getAllScore();
               <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
 
               <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button onclick="window.location.href='tour.php';" id="btns" type="button" class="btn btn-sm text-light">
+                               <button onclick="window.location.href='destination.php';" id="btns" type="button" class="btn btn-sm text-light">
                                  Plus de Détail
                                       </button>
                         </div>
