@@ -643,6 +643,36 @@ class Manager
     }
 
 
+    public function updateTourOperator(TourOperator $tourOperator): void
+    {
+        $req = $this->db->prepare("UPDATE tour_operator SET name = :name, link = :link, img = :img  WHERE id = :id");
+        $req->execute([
+            ":id" => $tourOperator->getId(),
+            ":name" => $tourOperator->getName(),
+            ":link" => $tourOperator->getLink(),
+            ":img" => $tourOperator->getImg()
+        ]);
+    }
+
+
+    public function deleteTourOperatorById(int $id): void
+    {
+        $req = $this->db->prepare("DELETE FROM tour_operator WHERE id = :id");
+        $req->execute([
+            ":id" => $id
+        ]);
+    }
+
+
+    public function deleteTourOperatorByName(string $name): void
+    {
+        $req = $this->db->prepare("DELETE FROM tour_operator WHERE name = :name");
+        $req->execute([
+            ":name" => $name
+        ]);
+    }
+
+
     private function getRandomIdForNewTourOperator(): int
     {
         try {
@@ -670,6 +700,4 @@ class Manager
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////END TOUROPERATOR MANAGER////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 }
