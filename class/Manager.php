@@ -584,16 +584,51 @@ class Manager
 
         foreach ($tourOperators as $tourOperator) {
 
-            array_push($tourOperatorObjects, new TourOperator($tourOperator));
+            $tourOperator['certificate'] = $this->getCertificateByOperatorId($tourOperator['id']);
+            $tourOperator['destinations'] = $this->getDestinationsByOperatorId($tourOperator['id']);
+            $tourOperator['reviews'] = $this->getReviewByOperatorId($tourOperator['id']);
+            $tourOperator['scores'] = $this->getScoreByOperatorId($tourOperator['id']);    
+            array_push($tourOperatorObjects, new TourOperator($this->transformDbArrayForHydrate($tourOperator)));
         }
 
         return $tourOperatorObjects;
     }
 
 
+    public function getTourOperatorById(int $id): TourOperator
+    {
+        $req = $this->db->prepare("SELECT * FROM tour_operator WHERE id = :id");
+        $req->execute([
+            ":id" => $id
+        ]);
+        $tourOperator = $req->fetch();
+        $tourOperator['certificate'] = $this->getCertificateByOperatorId($tourOperator['id']);
+        $tourOperator['destinations'] = $this->getDestinationsByOperatorId($tourOperator['id']);
+        $tourOperator['reviews'] = $this->getReviewByOperatorId($tourOperator['id']);
+        $tourOperator['scores'] = $this->getScoreByOperatorId($tourOperator['id']);
+
+        return new TourOperator($this->transformDbArrayForHydrate($tourOperator));
+    }
+
+
+    public function getTourOperatorByName(string $name): TourOperator
+    {
+        $req = $this->db->prepare("SELECT * FROM tour_operator WHERE name = :name");
+        $req->execute([
+            ":name" => $name
+        ]);
+        $tourOperator = $req->fetch();
+        $tourOperator['certificate'] = $this->getCertificateByOperatorId($tourOperator['id']);
+        $tourOperator['destinations'] = $this->getDestinationsByOperatorId($tourOperator['id']);
+        $tourOperator['reviews'] = $this->getReviewByOperatorId($tourOperator['id']);
+        $tourOperator['scores'] = $this->getScoreByOperatorId($tourOperator['id']);
+
+        return new TourOperator($this->transformDbArrayForHydrate($tourOperator));
+    }
+
+
     public function createTourOperator(string $name, string $link, string $img): TourOperator
     {
-
         $id = $this->getRandomIdForNewTourOperator();
 
         $req = $this->db->prepare("INSERT INTO tour_operator(id, name, link, img) VALUES (:id, :name, :link, :img)");
@@ -632,7 +667,6 @@ class Manager
 
         return $id;
     }
-
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////END TOUROPERATOR MANAGER////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
