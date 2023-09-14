@@ -325,6 +325,57 @@ class Manager
     }
 
 
+    public function getAuthorId(string $name): int
+    {
+        $req = $this->db->prepare("SELECT * FROM author WHERE name = :name");
+        $req->execute([
+            ":name" => $name
+        ]);
+        $author = $req->fetch();
+
+        if ($author !== false) {
+            return $author['id'];
+        } else {
+            $id = $this->getRandomIdForNewAuthor();
+
+            $req = $this->db->prepare("INSERT INTO author(id, name) VALUES(:id, :name)");
+            $req->execute([
+                ":id" => $id,
+                ":name" => $name
+            ]);
+
+            return $id;
+        }
+    }
+
+
+    private function getRandomIdForNewAuthor(): int
+    {
+        try {
+            $getAllIds = $this->db->prepare('SELECT * FROM author');
+            $getAllIds->execute();
+            $allIds = $getAllIds->fetchAll();
+        } catch (\PDOException $ex) {
+            $_SESSION['ex_Manager_getAllIds'] = $ex;
+        }
+
+        $takenIdList = [];
+
+        foreach ($allIds as $id) {
+            array_push($takenIdList, $id['id']);
+        }
+
+        $id = rand(1, 99999);
+
+        while (in_array($id, $takenIdList, true)) {
+            $id = rand(1, 99999);
+        }
+
+        return $id;
+    }
+
+
+
     public function getReviewByAuthorId(int $id): array
     {
         $req = $this->db->prepare("SELECT * FROM review WHERE author_id = :author_id");
@@ -361,16 +412,17 @@ class Manager
     }
 
 
-    public function createReview(string $message, int $operatorId, int $author): Review
+    public function createReview(string $message, int $operatorId, string $authorName, int $score): Review
     {
-        $id = $this->getRandomIdForNewReview();
+        $authorId = $this->getAuthorId($authorName);
+        $this->createScore($score, $operatorId, $authorId);
 
-        $req = $this->db->prepare("INSERT INTO review(id, message, tour_operator_id, author_id) VALUES (:id, :message, :tour_operator_id, :author_id)");
+        $req = $this->db->prepare("INSERT OR REPLACE INTO review(id, message, tour_operator_id, author_id) VALUES (:id, :message, :tour_operator_id, :author_id)");
         $req->execute([
             ":id" => $id,
             ":message" => $message,
             ":tour_operator_id" => $operatorId,
-            ":author_id" => $author
+            ":author_id" => $authorId
         ]);
 
         return $this->getReviewById($id);
@@ -517,6 +569,13 @@ class Manager
 
     public function createScore(int $value, int $operatorId, string $authorId): Score
     {
+        $scoreArray = $this->getAllScore();
+        foreach ($scoreArray as $score) {
+            if ($score->getAuthorId() === $authorId && $score->getOperatorId() === $operatorId) {
+                $this->updateScore($score);
+                return $score;
+            }
+        }
         $id = $this->getRandomIdForNewScore();
 
         $req = $this->db->prepare("INSERT INTO score(id, value, tour_operator_id, author_id) VALUES(:id, :value, :tour_operator_id, :author_id)");
@@ -531,7 +590,7 @@ class Manager
     }
 
 
-    public function updatescore(Score $score): void
+    public function updateScore(Score $score): void
     {
         $req = $this->db->prepare("UPDATE score SET value = :value, tour_operator_id = :operatorId, author_id = :author_id  WHERE id = :id");
         $req->execute([
@@ -709,5 +768,6 @@ class Manager
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////END TOUROPERATOR MANAGER////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
 
 }

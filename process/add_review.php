@@ -15,7 +15,7 @@ if (isset($_POST['pseudo'])){
     $nameDestination = $_POST['nameDestination'];
     $tourOperatorId = $_POST['tourOperatorId'];
     $message = $_POST['message'];
-    $manager->CreateReview($name, $score, $tourOperatorId, $message);
+    $manager->createReview($name, $score, $tourOperatorId, $message);
 }
 header('Location:../destination.php?name='. $nameDestination);
 
