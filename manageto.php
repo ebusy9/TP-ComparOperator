@@ -11,7 +11,7 @@ if (!isset($_GET['id'])) {
     exit();
 } else {
     $dbManager = new Manager($db);
-    $operator = $dbManager->getOperatorById($_GET['id']);
+    $operator = $dbManager->getTourOperatorById($_GET['id']);
     $destinations = $destinationManager->getAllDestinations();
 }
 

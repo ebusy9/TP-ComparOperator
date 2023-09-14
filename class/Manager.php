@@ -292,7 +292,7 @@ class Manager
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function getAllReview(): array
     {
-        $req = $this->db->query("SELECT * FROM reviews");
+        $req = $this->db->query("SELECT * FROM review");
         $reviews = $req->fetchAll();
 
         $reviewObjects = [];
@@ -307,7 +307,7 @@ class Manager
 
     public function getReviewById(int $id): Review
     {
-        $req = $this->db->query("SELECT * FROM reviews WHERE id = :id");
+        $req = $this->db->prepare("SELECT * FROM review WHERE id = :id");
         $req->execute([
             ":id" => $id
         ]);
@@ -318,7 +318,7 @@ class Manager
 
     public function getReviewByAuthorId(int $id): array
     {
-        $req = $this->db->query("SELECT * FROM reviews WHERE author_id = :author_id");
+        $req = $this->db->prepare("SELECT * FROM review WHERE author_id = :author_id");
         $req->execute([
             ":author_id" => $id
         ]);
@@ -336,9 +336,9 @@ class Manager
 
     public function getReviewByOperatorId(int $id): array
     {
-        $req = $this->db->query("SELECT * FROM reviews WHERE operator_id = :operator_id");
+        $req = $this->db->prepare("SELECT * FROM review WHERE tour_operator_id = :tour_operator_id");
         $req->execute([
-            ":operator_id" => $id
+            ":tour_operator_id" => $id
         ]);
         $reviews = $req->fetchAll();
 
