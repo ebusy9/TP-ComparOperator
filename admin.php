@@ -1,7 +1,13 @@
 <?php
+use class\Manager;
+
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
+
+$destinationManager = new Manager($db);
+$DestinationData = $destinationManager->createDestination();
+
 
 ?>
 
@@ -45,6 +51,17 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "d
               
             </div>
         </div>
+        <form id="create" method="post" action="">
+    <input class="form" type="text" name="name" id="name" required>
+    <div class="btn-group">
+      
+    </div>
+    <button class="btn btn-warning" type="submit">Nouvelle destination</button>
+</form>
+
+  </div>
+
+  
         <div id="operator-list">
 
 </div>
