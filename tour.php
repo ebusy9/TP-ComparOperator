@@ -1,7 +1,7 @@
 <?php
 
 use class\Manager;
-use class\Destination;
+
 
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
@@ -20,16 +20,17 @@ if (!isset($_GET['id'])) {
     $destination = $manager->getDestinationById($_GET['id']);
     $destinationLocation = $destination->getLocation();
     $destinationList = $manager->getDestinationByLocation($destinationLocation);
+    
 
     $operatorIdList = [];
 
-    foreach ($destinationList as $destination) {
+     foreach ($destinationList as $destination) {
         array_push($operatorIdList, $destination->getOperatorId());
-    }
+     }
 
-    foreach ($operatorList as $operatorId) {
+    foreach ($operatorIdList as $operatorId) {
        $tourOperator =  $manager->getTourOperatorById($operatorId);
-
+       
     } 
 }
 
@@ -81,57 +82,135 @@ if (!isset($_GET['id'])) {
     <h3>Résultats de Recherche</h3>
     </p>
     <div class="container" style="margin-top: auto;">
-        <?php foreach ($OperatorData as $destination) {
-            $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
-            $i = 0;
-            $Somme = 0;
-            foreach ($ScoreArray as $Score) {
-                $i++;
-                $Somme += $Score->getValue();
-            }
+    <?php    foreach ($operatorIdList as $operatorId) {
+       $tourOperator =  $manager->getTourOperatorById($operatorId);
+        $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
+        $ReviewData = $dbManager->getAllReview();
 
-            if ($Somme > 0 && $i > 0) {
-                floor($Score = $Somme / $i);
-            }
+        $i = 0;
+        $Somme = 0;
+        foreach ($ScoreArray as $Score) {
+            $i++;
+            $Somme += $Score->getValue();
+        }
 
+        if ($Somme > 0 && $i > 0) {
+            $Score = floor($Somme / $i); 
+        }
 
-
-            echo <<<HTML
-  <div class="row justify-content-center">
+        echo <<<HTML
+<div class="row justify-content-center">
     <div class="col-md-8">
-      <div class="card">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="{$destination->getImg()}" class="img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{$destination->getName()}</h5>
-              <div class="stars score-{$Score}">
-                 <div class="star"></div>
-                 <div class="star"></div>
-                   <div class="star"></div>
-                    <div class="star"></div>
-                    <div class="star"></div>
-                     </div>
-              <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
-
-              <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button onclick="window.location.href='tour.php';" id="btns" type="button" class="btn btn-sm text-light">
-                                 Plus de Détail
-                                      </button>
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{$tourOperator->getImg()}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{$tourOperator->getName()}</h5>
+                        <div class="stars score-{$Score}">
+                            <button id="btns" type="button" class="btn btn-sm text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                               Avis
+                            </button>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
                         </div>
-              
-            </div>
+                        <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
+
+                        
+                        <p class="card-text">Emplacement: {$destination->getLocation()}</p>
+                        
+                        
+
+                        <div class="col-12 d-flex align-items-center justify-content-center">
+                            <button onclick="window.location.href='tour.php';" id="btns" type="button" class="btn btn-sm text-light">
+                                Plus de Détail
+                             </button>
+
+  
+                            <!--<button type="button" class="btn btn-primary btn-sm text-light" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Noter</button> -->
+                        </div>
+                        
+
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nouvelle avis</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Auteur</label>
+            <input type="text" class="form-control" id="recipient-name">
           </div>
-        </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Avis</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Score</label>
+            <input type="number" name="" id="">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>
   </div>
-  HTML;
-        }
-        ?>
+</div> -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Avis</h1>
+        <button id="btns" type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+      <p class="text">
+        <small class="text-body-secondary">
+          {$dbManager->getAllReview()} €
+        </small></p>
+
+      <div class="stars score-{$Score}">
+                           
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                        </div>
+      </div>
+    
+      <div class="modal-footer">
+        <button id="btns" type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
+</div>
+
+               
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+HTML;
+    }
+    ?>
+</div>
+
+
 
     <div class="text-center p-4">
 

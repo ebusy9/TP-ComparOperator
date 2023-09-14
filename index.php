@@ -126,7 +126,7 @@ $ScoreData = $dbManager->getAllScore();
                     <div class="star"></div>
                     <div class="star"></div>
                      </div>
-              
+                     
               <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
 
               <div class="col-12 d-flex align-items-center justify-content-center">
@@ -144,6 +144,8 @@ $ScoreData = $dbManager->getAllScore();
   HTML;
 }
 ?>
+
+
 </div>
 
 <div class="text-center p-4">
