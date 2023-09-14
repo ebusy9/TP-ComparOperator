@@ -113,4 +113,15 @@ class TourOperator
     {
         $this->scores = $scores;
     }
+
+    public function getImg(): string
+    {
+        return $this->img;
+    }
+
+
+    public function setImg(string $img): void
+    {
+        $this->img = $img;
+    }
 }
