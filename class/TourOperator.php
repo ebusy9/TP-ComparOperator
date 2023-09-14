@@ -9,9 +9,9 @@ class TourOperator
     private string $link;
     private string $img;
     private ?Certificate $certificate;
-    private array $destinations;
-    private array $reviews;
-    private array $scores;
+    private mixed $destinations;
+    private ?array $reviews;
+    private ?array $scores;
 
 
     public function __construct(array $data)
@@ -69,7 +69,7 @@ class TourOperator
 
     public function getCertificate(): ?Certificate
     {
-            return $this->certificate;
+        return $this->certificate;
     }
 
 
@@ -79,37 +79,37 @@ class TourOperator
     }
 
 
-    public function getDestinations(): array
+    public function getDestinations(): mixed
     {
         return $this->destinations;
     }
 
 
-    public function setDestinations(array $destinations): void
+    public function setDestinations(mixed $destinations): void
     {
         $this->destinations = $destinations;
     }
 
 
-    public function getReviews(): array
+    public function getReviews(): ?array
     {
         return $this->reviews;
     }
 
 
-    public function setReviews(array $reviews): void
+    public function setReviews(?array $reviews): void
     {
         $this->reviews = $reviews;
     }
 
 
-    public function getScores(): array
+    public function getScores(): ?array
     {
         return $this->scores;
     }
 
 
-    public function setScores(array $scores): void
+    public function setScores(?array $scores): void
     {
         $this->scores = $scores;
     }

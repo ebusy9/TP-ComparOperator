@@ -8,9 +8,7 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "a
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
 $dbManager = new Manager($db);
-$DestinationData = $dbManager->getAllDestinations();
-$ScoreData = $dbManager->getAllScore();
-
+$uniqueDestinationList = $dbManager->getAllUniqueDestinations();
 ?>
 
 <!DOCTYPE html>
@@ -61,43 +59,51 @@ $ScoreData = $dbManager->getAllScore();
     </p>
 
     <div class="container" style="margin-top: auto;">
-        <?php foreach ($DestinationData as $destination) {
-            $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
-            $i = 0;
-            $Somme = 0;
-            foreach ($ScoreArray as $Score) {
-                $i++;
-                $Somme += $Score->getValue();
-            }
-
-            if ($Somme > 0 && $i > 0) {
-               floor($Score = $Somme / $i); 
-            }
-
-
+        <?php foreach ($uniqueDestinationList as $destination) {
 
             echo <<<HTML
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="{$destination->getImg()}" class="img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{$destination->getLocation()}</h5>
-              <div class="stars score-{$Score}">
-                 <div class="star"></div>
-                 <div class="star"></div>
-                   <div class="star"></div>
-                    <div class="star"></div>
-                    <div class="star"></div>
-                     </div>
-              <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                           <div class="card">
+                              <div class="row g-0">
+                                 <div class="col-md-4">
+                                    <img src="{$destination->getImg()}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                            <h5 class="card-title">{$destination->getLocation()}</h5>
+                HTML;
+
+            $scoreList = $dbManager->getScoreByOperatorId($destination->getOperatorId());
+            if ($scoreList !== null) {
+                $i = 0;
+                $somme = 0;
+                foreach ($scoreList as $score) {
+                    $i++;
+                    $somme += $score->getValue();
+                }
+
+                if ($somme > 0 && $i > 0) {
+                    floor($score = $somme / $i);
+                }
+
+                echo <<<HTML
+                        <div class="stars score-{$score}">
+                           <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                            <div class="star"></div>
+                        </div>
+                  HTML;
+            }
+
+            echo <<<HTML
+
+              <p class="card-text"><small class="text-body-secondary">À partir de {$destination->getPrice()} €</small></p>
 
               <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button onclick="window.location.href='tour.php?id={$destination->getId()}';" id="btns" type="button" class="btn btn-sm text-light">
+                               <button onclick="window.location.href='tour.php?locationName={$destination->getLocation()}';" id="btns" type="button" class="btn btn-sm text-light">
                                  Plus de Détail
                                       </button>
                         </div>
