@@ -511,7 +511,7 @@ class Manager
     }
 
 
-    public function createScore(int $value, int $price, int $operatorId, string $authorId): Score
+    public function createScore(int $value, int $operatorId, string $authorId): Score
     {
         $id = $this->getRandomIdForNewScore();
 
