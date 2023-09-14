@@ -8,7 +8,7 @@ class TourOperator
     private string $name;
     private string $link;
     private string $img;
-    private Certificate $certificate;
+    private ?Certificate $certificate;
     private array $destinations;
     private array $reviews;
     private array $scores;
@@ -67,13 +67,13 @@ class TourOperator
     }
 
 
-    public function getCertificate(): Certificate
+    public function getCertificate(): ?Certificate
     {
-        return $this->certificate;
+            return $this->certificate;
     }
 
 
-    public function setCertificate(Certificate $certificate): void
+    public function setCertificate(?Certificate $certificate): void
     {
         $this->certificate = $certificate;
     }
