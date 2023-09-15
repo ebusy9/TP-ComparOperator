@@ -70,7 +70,7 @@ if (!isset($_GET['locationName'])) {
       $destination = $tourOperator->getDestinations(); //objet Destination qui correspond au TourOperator
       $scoreList = $tourOperator->getScores(); //array d'objets Score qui correspondent au TourOperator
       $reviewList = $tourOperator->getReviews();  //array d'objets Review qui correspondent au TourOperator
-
+    }
       echo <<<HTML
             <div class="row justify-content-center">
               <div class="col-md-8">
@@ -123,7 +123,7 @@ if (!isset($_GET['locationName'])) {
                         <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
 
                         
-                        <p class="card-text">Emplacement: {$destination->getLocation()}</p>
+                        <p class="card-text">Destination: {$destination->getLocation()}</p>
                         
                         
 
@@ -136,40 +136,50 @@ if (!isset($_GET['locationName'])) {
                             <!--<button type="button" class="btn btn-primary btn-sm text-light" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Noter</button> -->
                         </div>
                         
+                        HTML;
+                              
+                        foreach ($reviewList as $review) {
+                            $authorId = $review->getAuthor();
+                            $scoreByAuhtor = $manager->getScoreByAuthorId($authorId);
+                            $score = $scoreByAuhtor;
+                            $author = $review->getAuthor();
+                            $message = $review->getMessage();
+                            
+                                 
+                                    echo <<<HTML
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Avis</h1>
+                                                    <button id="btns" type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="text">
+                                                       
+                                                        <small class="text-body-secondary">
+                                                     {$review->getAuthor()}: {$message} 
+                                                        </small>
+                                                    </p>
 
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  
-<div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Avis</h1>
-        <button id="btns" type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-
-      <p class="text">
-        <small class="text-body-secondary">
-        
-        </small></p>
-
-   
-      <div class="modal-footer">
-        <button id="btns" type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-               
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-HTML;
-    }
+                                                    <div class="stars score-{ $score}">
+                                                     <div class="star"></div>
+                                                 <div class="star"></div>
+                                                 <div class="star"></div>
+                                                 <div class="star"></div>
+                                                  <div class="star"></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button id="btns" type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                       
+                            
+                        HTML;
+                            }
+                        
     ?>
   </div>
 
