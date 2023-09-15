@@ -363,7 +363,7 @@ class Manager
                     $thisDestinationPrice = $destination->getPrice();
 
                     if ($currentPrice > $thisDestinationPrice) {
-                        $currentPrice = $uniqueDestinationList[$destination->getLocation()]->setPrice($thisDestinationPrice);
+                        $uniqueDestinationList[$destination->getLocation()] = $destination;
                     }
                 } else {
                     $uniqueDestinationList[$destination->getLocation()] = $destination;
@@ -1075,11 +1075,26 @@ class Manager
 
             foreach ($destinationList as $destination) {
                 $tourOperator = $this->getTourOperatorById($destination->getOperatorId());
-                $tourOperator->setDestinations($destination);
-                array_push($operatorList, $tourOperator);
+
+                if (isset($operatorList[$tourOperator->getName()])) {
+                    $operatorInArray = $operatorList[$tourOperator->getName()];
+                    $destinationObject = $operatorInArray->getDestinations();
+                    $currentPrice = $destinationObject->getPrice();
+                    $newPrice = $destination->getPrice();
+
+                    if ($currentPrice > $newPrice) {
+                        $tourOperator->setDestinations($destination);
+                        $operatorList[$tourOperator->getName()] = $tourOperator;
+                    } else {
+                        $operatorList[$tourOperator->getName()] = $tourOperator;
+                    }
+                } else {
+                    $tourOperator->setDestinations($destination);
+                    $operatorList[$tourOperator->getName()] = $tourOperator;
+                }
             }
 
-            return $operatorList;
+            return array_values($operatorList);
         } else {
             return $destinationList;
         }
