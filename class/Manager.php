@@ -1068,21 +1068,17 @@ class Manager
 
     public function getAllTourOperatorByDestinationLocation(string $location): ?array
     {
-        $destinationList  = $this->getDestinationByLocation($location); //liste [objets Destination]
-
-
+        $destinationList  = $this->getDestinationByLocation($location);
+        
         if ($destinationList !== null) {
-            $destinationsWithLowestPriceList = []; //liste [objets Destination]
-
-
+            $destinationsWithLowestPriceList = [];
 
             foreach ($destinationList as $destination) {
                 $operatorId = $destination->getOperatorId();
-                
+
                 if (isset($destinationsWithLowestPriceList[$operatorId])) {
                     $currentPrice = $destinationsWithLowestPriceList[$operatorId]->getPrice();
                     $potentialPrice = $destination->getPrice();
-
 
                     if ($currentPrice > $potentialPrice) {
                         $destinationsWithLowestPriceList[$operatorId] = $destination;
@@ -1092,22 +1088,16 @@ class Manager
                 }
             }
 
+            $destinationsWithLowestPriceList = array_values($destinationsWithLowestPriceList);
 
+            $operatorList = [];
 
-        //$destinationsWithLowestPriceList contient une [objets Destination] par opérateur avec le meilleur prix
-
-        $destinationsWithLowestPriceList = array_values($destinationsWithLowestPriceList);
-
-        $operatorList = []; //va contenir une liste [objets TourOperator]
-
-        foreach ($destinationsWithLowestPriceList as $destination) {
-            $operator = $this->getTourOperatorById($destination->getId());
-            $_SESSION["R"] = $operator;
-            $operator->setDestinations($destination);
-            array_push($operatorList, $operator);
-        }
-
-
+            foreach ($destinationsWithLowestPriceList as $destination) {
+                $operator = $this->getTourOperatorById($destination->getOperatorId());
+                $_SESSION["R"] = $operator;
+                $operator->setDestinations($destination);
+                array_push($operatorList, $operator);
+            }
 
             return $operatorList;
         } else {
