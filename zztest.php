@@ -12,14 +12,15 @@ $manager = new Manager($db);
 // var_dump($destination);
 // echo "</pre>";
 
+$destinations = $manager->publishOrUpdateReview("test", 1, 3, "test1");
+
 echo "<pre>";
 var_dump($_SESSION);
 echo "</pre>";
 
-// $destinations = $manager->updateDestination(new Destination(["id" => 41748, "location" => "Miami", "price" => 9463, "operatorId" => 2, "img" => "/miami.jpg"]));
 
 echo "<pre>";
-var_dump($manager->getAllTourOperatorByDestinationLocation('tets'));
+var_dump($destinations);
 echo "</pre>";
 
 ?>
