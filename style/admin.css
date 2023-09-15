@@ -1,0 +1,51 @@
+body {
+    font-family: 'Inter', sans-serif !important;
+    color: rgb(222, 226, 230) !important;
+    background-color: rgb(33, 37, 41) !important;
+}
+#sidebar{
+    font-family: 'Inter', sans-serif !important;
+    color: rgb(222, 226, 230) !important;
+    border-right: 1px solid rgb(73, 80, 87) !important;
+}
+
+
+#linkInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+#nameInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+#fileInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(73, 80, 87) !important;
+
+}
+
+
+#modal-header {
+    border-bottom: 1px solid rgb(73, 80, 87) !important;
+}
+
+#modal-footer {
+    border-top: 1px solid rgb(73, 80, 87) !important;
+}
+
+
+
+.form-control::placeholder {
+    color: rgb(73, 80, 87);
+    opacity: 1;
+}
+
+.form-control:-ms-input-placeholder {
+    color: rgb(73, 80, 87);
+}
+
+.form-control::-ms-input-placeholder {
+    color: rgb(73, 80, 87);
+}
