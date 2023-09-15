@@ -121,7 +121,7 @@ if (!isset($_GET['locationName'])) {
 
                         <div class="col-12 d-flex align-items-center justify-content-center">
                             <button onclick="window.location.href='{$tourOperator->getLink()}';" id="btns" type="button" class="btn btn-sm text-light">
-                                Plus de Détail
+                                Voir Tour 
                             </button>
                         </div>
                         </div>
@@ -142,6 +142,9 @@ if (!isset($_GET['locationName'])) {
                 $scoreOp =  floor($scoreByOpAndAuthor->getValue());
                 $authorName = $manager->getAuthorNameById($author);
                 $message = $review->getMessage();
+                
+              
+                
 
                 echo <<<HTML
                 <p class="text">
