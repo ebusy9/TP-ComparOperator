@@ -154,9 +154,7 @@ if (!isset($_GET['locationName'])) {
                                         $message = $review->getMessage();
 
                                         echo <<<HTML
-                                        
-                                             
-                                               
+         
                                         <p class="text">
                                                        
                                             <small class="text-body-secondary">
