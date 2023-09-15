@@ -805,8 +805,8 @@ class Manager
 
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////SCORE MANAGER///////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////SCORE MANAGER//////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function getAllScore(): ?array
     {
@@ -825,6 +825,29 @@ class Manager
             }
 
             return $scoreObjects;
+        } else {
+            return null;
+        }
+    }
+
+
+    public function getScoreByOperatorAndAuthorId(TourOperator $operator, int $authorId): ?Score
+    {
+        $operatorId = $operator->getId();
+
+        try {
+            $req = $this->db->prepare("SELECT * FROM score WHERE tour_operator_id = :tour_operator_id AND author_id = :author_id");
+            $req->execute([
+                "tour_operator_id" => $operatorId,
+                "author_id" => $authorId,
+            ]);
+            $score = $req->fetch();
+        } catch (\PDOException $e) {
+            $_SESSION[__METHOD__] = $e;
+        }
+
+        if ($score !== false) {
+            return new Score($this->transformDbArrayForHydrate($score));
         } else {
             return null;
         }
