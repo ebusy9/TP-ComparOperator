@@ -120,7 +120,7 @@ if (!isset($_GET['locationName'])) {
                         <p class="card-text">Destination: {$destination->getLocation()}</p>
 
                         <div class="col-12 d-flex align-items-center justify-content-center">
-                            <button onclick="window.location.href='tour.php';" id="btns" type="button" class="btn btn-sm text-light">
+                            <button onclick="window.location.href='{$tourOperator->getLink()}';" id="btns" type="button" class="btn btn-sm text-light">
                                 Plus de Détail
                             </button>
                         </div>
