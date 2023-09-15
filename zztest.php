@@ -16,9 +16,23 @@ echo "<pre>";
 var_dump($_SESSION);
 echo "</pre>";
 
-
 // $destinations = $manager->updateDestination(new Destination(["id" => 41748, "location" => "Miami", "price" => 9463, "operatorId" => 2, "img" => "/miami.jpg"]));
 
 echo "<pre>";
 var_dump($manager->getAllTourOperatorByDestinationLocation('tets'));
 echo "</pre>";
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+</head>
+<body>
+
+</body>
+</html>
+

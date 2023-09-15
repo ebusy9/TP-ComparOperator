@@ -75,7 +75,7 @@ $ScoreData = $dbManager->getAllScore();
                             <input class="form-control" type="text" placeholder="Jeune" aria-label=".form-control-sm example">
                         </div>
                         <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button onclick="window.location.href='destination.php';" id="btns" type="button" class="btn btn-sm text-light">
+                               <button onclick="window.location.href='location.php';" id="btns" type="button" class="btn btn-sm text-light">
                                    <i class="fas fa-search"></i> Rechercher
                                       </button>
                         </div>
