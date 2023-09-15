@@ -65,40 +65,59 @@ $tourOperatorList = $dbManager->getAllTourOperator();
                 <button class="btn btn-warning" type="submit">Nouvelle destination</button>
             </form> -->
             <div class="container-fluid">
-                <?php
-                foreach ($tourOperatorList as $tourOperator) {
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Certificate</th>
+                            <th scope="col">Certificate Expiration</th>
+                            <th scope="col">Certificate Issuer</th>
+                            <th scope="col">URL</th>
+                            <th scope="col">Image</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
 
+                        $penIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>';
+                        $trashIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><style>svg{fill:#ffffff}</style><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>';
+                        foreach ($tourOperatorList as $tourOperator) {
 
-                    echo <<<HTML
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="{$tourOperator->getImg()}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">{$tourOperator->getName()}</h5>
+                            echo <<<HTML
+                        </tr>
+                        <td>{$tourOperator->getId()}</td>
+                        <td>{$tourOperator->getName()}</td>
+                        HTML;
+
+                            $certificate = $tourOperator->getCertificate();
+                            if ($certificate !== null) {
+                                $expirationTimestamp = strtotime($certificate->getExpiresAt());
+                                $currentTimestamp = time();
+                            }
+                            if ($certificate === null) {
+                                echo "<td>Basic</td>";
+                                echo "<td>-</td>";
+                                echo "<td>-</td>";
+                            } elseif ($certificate !== null && $expirationTimestamp < $currentTimestamp) {
+                                echo "<td>Basic</td>";
+                                echo "<td>{$certificate->getExpiresAt()}</td>";
+                                echo "<td>{$certificate->getSignatory()}</td>";
+                            } elseif ($certificate !== null && $expirationTimestamp > $currentTimestamp) {
+                                echo "<td>Premium</td>";
+                                echo "<td>{$certificate->getExpiresAt()}</td>";
+                                echo "<td>{$certificate->getSignatory()}</td>";
+                            }
+
+                            echo <<<HTML
+                        <td><a href="{$tourOperator->getLink()}">link</a></td>
+                        <td><a href="{$tourOperator->getImg()}">link</a></td>
+                        <td><a href="/manageto.php?id={$tourOperator->getId()}">{$penIcon}</a> <a href="/process/delete_to.php?id={$tourOperator->getId()}">{$trashIcon}</a></td>
+                    </tr>
 HTML;
-
-                    $certificate = $tourOperator->getCertificate();
-                    if ($certificate !== null) {
-                        $expirationTimestamp = strtotime($certificate->getExpiresAt());
-                        $currentTimestamp = time();
-                    }
-                    if ($certificate === null) {
-                        echo "<p class='card-text'>PREMIUM: non</p>";
-                    } elseif ($certificate !== null && $expirationTimestamp < $currentTimestamp) {
-                        echo "<p class='card-text'>PREMIUM: non (expiré)</p>";
-                    } elseif ($certificate !== null && $expirationTimestamp > $currentTimestamp) {
-                        echo "<p class='card-text'>PREMIUM: oui</p>";
-                        echo "<p class='card-text'>Expires: {$certificate->getExpiresAt()}</p>";
-                        echo "<p class='card-text'>Signatory: {$certificate->getSignatory()}</p>";
-                    }
-
-                    echo <<<HTML
-                            <a href="process/delete_to.php?id={$tourOperator->getId()}" class="btn btn-danger">Supprimer</a>
-                            <a href="manageto.php?id={$tourOperator->getId()}" class="btn btn-warning">Modifier</a>
-                        </div>
-                    </div>
-HTML;
-                }
-                ?>
+                        }
+                        ?>
             </div>
         </div>
     </div>
@@ -109,6 +128,7 @@ HTML;
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/82dc073821.js" crossorigin="anonymous"></script>
     <script src="assets/js/admin.js"></script>
 </body>
 

@@ -8,14 +8,16 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 
 if (isset($_POST['authorName'])) {
     $review = (new Manager($db))->publishOrUpdateReview(htmlspecialchars($_POST['authorName']), $_POST['tourOperatorId'],  $_POST['scoreValue'],  htmlspecialchars($_POST['message']));
+    $currentFile = __FILE__;
     if ($review) {
         header("Location:../location.php?name={$_POST['locationName']}&info=addReviewSuccess");
         die();
     } else {
-        header('Location:../location.php?redirectedFrom=add_review&info=addReviewFailed');
+        header('Location:../location.php?redirectedFrom={$currentFile}&info=addReviewFailed');
         die();
     }
 } else {
-    header('Location:../location.php?redirectedFrom=add_review&info=authorNameIsNotSet');
+    header('Location:../location.php?redirectedFrom={$currentFile}&info=authorNameIsNotSet');
     die();
+    
 }
