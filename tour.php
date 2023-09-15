@@ -70,6 +70,7 @@ if (!isset($_GET['locationName'])) {
       $destination = $tourOperator->getDestinations(); //objet Destination qui correspond au TourOperator
       $scoreList = $tourOperator->getScores(); //array d'objets Score qui correspondent au TourOperator
       $reviewList = $tourOperator->getReviews();  //array d'objets Review qui correspondent au TourOperator
+      
     }
       echo <<<HTML
             <div class="row justify-content-center">
@@ -140,16 +141,18 @@ if (!isset($_GET['locationName'])) {
                               
                         foreach ($reviewList as $review) {
                            
-                            
-                            
-                       
+
+
+            
                             $author = $review->getAuthor();
+                            $scoreByOpAndAuthor = $manager->getScoreByOperatorAndAuthorId($tourOperator, $author);
+                            $score =  $scoreByOpAndAuthor->getValue();
                             $authorName = $manager->getAuthorNameById($author);
                             $message = $review->getMessage();
                             
                                  
                                     echo <<<HTML
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -161,7 +164,7 @@ if (!isset($_GET['locationName'])) {
                                                        
                                                         <small class="text-body-secondary">
                                                     <h3> {$authorName} :</h3> {$message} 
-                                                    <div class="stars score-">
+                                                    <div class="stars score-{$score}">
                                                      <div class="star"></div>
                                                  <div class="star"></div>
                                                  <div class="star"></div>
@@ -171,8 +174,6 @@ if (!isset($_GET['locationName'])) {
                                                         </small>
                                                     </p>
                                                 <div class="modal-footer">
-
-
 
                                                     <button id="btns" type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
                                                 </div>
@@ -186,6 +187,7 @@ if (!isset($_GET['locationName'])) {
                         
     ?>
   </div>
+
 
 
 
