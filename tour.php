@@ -139,10 +139,12 @@ if (!isset($_GET['locationName'])) {
                         HTML;
                               
                         foreach ($reviewList as $review) {
-                            $authorId = $review->getAuthor();
-                            $scoreByAuhtor = $manager->getScoreByAuthorId($authorId);
-                            $score = $scoreByAuhtor;
+                           
+                            
+                            
+                       
                             $author = $review->getAuthor();
+                            $authorName = $manager->getAuthorNameById($author);
                             $message = $review->getMessage();
                             
                                  
@@ -158,18 +160,20 @@ if (!isset($_GET['locationName'])) {
                                                     <p class="text">
                                                        
                                                         <small class="text-body-secondary">
-                                                     {$review->getAuthor()}: {$message} 
-                                                        </small>
-                                                    </p>
-
-                                                    <div class="stars score-{ $score}">
+                                                    <h3> {$authorName} :</h3> {$message} 
+                                                    <div class="stars score-">
                                                      <div class="star"></div>
                                                  <div class="star"></div>
                                                  <div class="star"></div>
                                                  <div class="star"></div>
                                                   <div class="star"></div>
                                                 </div>
+                                                        </small>
+                                                    </p>
                                                 <div class="modal-footer">
+
+
+
                                                     <button id="btns" type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
