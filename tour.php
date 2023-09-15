@@ -13,8 +13,6 @@ if (!isset($_GET['locationName'])) {
   exit();
 } else {
   $manager = new Manager($db);
-  $tourOperatorList = $manager->getAllTourOperatorByDestinationLocation($_GET['locationName']);
-
 }
 ?>
 
@@ -65,10 +63,13 @@ if (!isset($_GET['locationName'])) {
   <div class="container" style="margin-top: auto;">
 
     <?php
-    foreach ($tourOperatorList as $tourOperator) {
-      $reviewData = $manager->getAllReview();
-      $destination = $tourOperator->getDestinations();
+    $tourOperatorList = $manager->getAllTourOperatorByDestinationLocation($_GET['locationName']); //array avvec les objets TourOperator pour la ville
 
+    foreach ($tourOperatorList as $tourOperator) {
+
+      $destination = $tourOperator->getDestinations(); //objet Destination qui correspond au TourOperator
+      $scoreList = $tourOperator->getScores(); //array d'objets Score qui correspondent au TourOperator
+      $reviewList = $tourOperator->getReviews();  //array d'objets Review qui correspondent au TourOperator
 
       echo <<<HTML
             <div class="row justify-content-center">
@@ -80,10 +81,9 @@ if (!isset($_GET['locationName'])) {
                       </div>
                     <div class="col-md-8">
                   <div class="card-body">
-                    <h5 class="card-title">{$_GET['locationName']}</h5>
+                    <h5 class="card-title">{$tourOperator->getName()}</h5>
       HTML;
 
-      $scoreList = $manager->getScoreByOperatorId($tourOperator->getId());
 
       if ($scoreList !== null) {
 
