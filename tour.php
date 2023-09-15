@@ -145,7 +145,7 @@ echo <<<HTML
                                         <button id="btns" type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-    HTML;
+HTML;
                                         foreach ($reviewList as $review) {
                                             $author = $review->getAuthor();
                                         $scoreByOpAndAuthor = $manager->getScoreByOperatorAndAuthorId($tourOperator, $author);
@@ -153,7 +153,7 @@ echo <<<HTML
                                         $authorName = $manager->getAuthorNameById($author);
                                         $message = $review->getMessage();
 
-                                        echo <<<HTML
+echo <<<HTML
                                         <p class="text">
                                                        
                                             <small class="text-body-secondary">
@@ -167,10 +167,18 @@ echo <<<HTML
                                                     <div class="star"></div>
                                                     <div class="star"></div>
                                                 </div>
-                                      
+
+                                                <form method="post" action="process/add_review.php">
+                                             <input class="form-control form-control-lg" type="text"  name="authorName" placeholder="Pseudo" aria-label="Nom">
+                                           <input class="form-control" type="text" placeholder="Avis"  name="message" aria-label="Avis">
+<input class="form-control form-control-sm" type="number"  name="scoreValue" placeholder="Score" aria-label="Score">
+<input  class="form-control form-control-sm" type="hidden"  name="tourOperatorId"  value="{$tourOperator->getId()}" aria-label="OpId">
+<input  class="form-control form-control-sm" type="hidden"  name="locationName"  value="{$destination->getLocation()}" aria-label="location">
+<button class="btn btn-warning" type="submit">Ajouter avis</button>
+    </form>
 
                                                 
-                HTML;
+HTML;
                                             }?>
                                     </div>
                                 </div>
