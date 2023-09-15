@@ -13,13 +13,13 @@ if (isset($_GET['id'])) {
     $review = (new Manager($db))->deleteDestinationByOperatorId($_GET['id']);
     $currentFile = __FILE__;
     if ($review) {
-        header("Location:../location.php?name={$_POST['locationName']}&info=delteTOSuccess");
+        header("Location:../admin.php?name={$_POST['locationName']}&info=delteTOSuccess");
         die();
     } else {
-        header('Location:../location.php?redirectedFrom={$currentFile}&info=delteTOFailed');
+        header('Location:../admin.php?redirectedFrom={$currentFile}&info=delteTOFailed');
         die();
     }
 } else {
-    header('Location:../location.php?redirectedFrom={$currentFile}&info=idIsNotSet');
+    header('Location:../admin.php?redirectedFrom={$currentFile}&info=idIsNotSet');
     die();
 }
