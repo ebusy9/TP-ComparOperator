@@ -45,33 +45,39 @@ class Manager
 
     public function publishOrUpdateReview(string $authorName, int $operatorId, int $scoreValue, string $message): bool
     {
+        $scoreValue = min($scoreValue, 5);
+        $authorName = htmlspecialchars($authorName);
+        $message = htmlspecialchars($message);
+        
         $authorId = $this->getAuthorIdbyNameOrCreateNewAuthor($authorName);
 
         $scoreList = $this->getAllScore();
 
         foreach ($scoreList as $score) {
             if ($score->getAuthor() === $authorId && $score->getOperatorId() === $operatorId) {
-                $score = $this->updateScore($score);
+                $score->setValue($scoreValue);
+                $scoreObjectAfterDb = $this->updateScore($score);
             }
         }
 
-        if (!isset($score)) {
-            $score = $this->createScore($scoreValue, $operatorId, $authorId);
+        if (!isset($scoreObjectAfterDb)) {
+            $scoreObjectAfterDb = $this->createScore($scoreValue, $operatorId, $authorId);
         }
 
         $reviewList = $this->getAllReview();
 
         foreach ($reviewList as $review) {
             if ($review->getAuthor() === $authorId && $review->getOperatorId() === $operatorId) {
-                $review = $this->updateReview($review);
+                $review->setMessage($message);
+                $reviewObjectAfterDb = $this->updateReview($review);
             }
         }
 
-        if (!isset($review)) {
-            $review = $this->createReview($message, $operatorId, $authorId);
+        if (!isset($reviewObjectAfterDb)) {
+            $reviewObjectAfterDb = $this->createReview($message, $operatorId, $authorId);
         }
 
-        if ($authorId !== null && $score !== null && $review !== null) {
+        if ($authorId !== null && $scoreObjectAfterDb !== null && $reviewObjectAfterDb !== null) {
             return true;
         } else {
             return false;
@@ -1069,7 +1075,7 @@ class Manager
     public function getAllTourOperatorByDestinationLocation(string $location): ?array
     {
         $destinationList  = $this->getDestinationByLocation($location);
-        
+
         if ($destinationList !== null) {
             $destinationsWithLowestPriceList = [];
 
