@@ -98,7 +98,6 @@ if (!isset($_GET['locationName'])) {
         if ($somme > 0 && $i > 0) {
           floor($score = $somme / $i);
         }
-       
 
         echo <<<HTML
               <div class="stars score-{$score}">
@@ -137,46 +136,45 @@ if (!isset($_GET['locationName'])) {
                             <!--<button type="button" class="btn btn-primary btn-sm text-light" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Noter</button> -->
                         </div>
                         
-                        HTML;
-                              
-                        foreach ($reviewList as $review) {
-                           
+                        
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Avis</h1>
+                                        <button id="btns" type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+    HTML;
+                                        foreach ($reviewList as $review) {
+                                            $author = $review->getAuthor();
+                                        $scoreByOpAndAuthor = $manager->getScoreByOperatorAndAuthorId($tourOperator, $author);
+                                        $scoreOp =  floor($scoreByOpAndAuthor->getValue());
+                                        $authorName = $manager->getAuthorNameById($author);
+                                        $message = $review->getMessage();
 
-
-            
-                            $author = $review->getAuthor();
-                            $scoreByOpAndAuthor = $manager->getScoreByOperatorAndAuthorId($tourOperator, $author);
-                            $score =  $scoreByOpAndAuthor->getValue();
-                            $authorName = $manager->getAuthorNameById($author);
-                            $message = $review->getMessage();
-                            
-                                 
-                                    echo <<<HTML
-                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Avis</h1>
-                                                    <button id="btns" type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p class="text">
+                                        echo <<<HTML
+         
+                                        <p class="text">
                                                        
-                                                        <small class="text-body-secondary">
-                                                    <h3> {$authorName} :</h3> {$message} 
-                                                    <div class="stars score-{$score}">
-                                                     <div class="star"></div>
-                                                 <div class="star"></div>
-                                                 <div class="star"></div>
-                                                 <div class="star"></div>
-                                                  <div class="star"></div>
+                                            <small class="text-body-secondary">
+                                                <h3> {$authorName} :</h3> {$message}       
+                                            </small>
+                                        </p>
+                                                <div class="stars score-{$scoreOp}">
+                                                    <div class="star"></div>
+                                                    <div class="star"></div>
+                                                    <div class="star"></div>
+                                                    <div class="star"></div>
+                                                    <div class="star"></div>
                                                 </div>
-                                                        </small>
-                                                    </p>
+                                      
+
                                                 <div class="modal-footer">
 
                                                     <button id="btns" type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -191,12 +189,6 @@ if (!isset($_GET['locationName'])) {
 
 
 
-  <div class="text-center p-4">
-
-    <h1>Nos Partenaire</h1>
-
-    <img src="assets/logo/partenaire_mobile.png" alt="" class="img-fluid rounded" style="background-color: #40514E;">
-  </div>
 
 
   </section>
