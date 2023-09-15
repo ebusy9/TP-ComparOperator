@@ -116,7 +116,7 @@ class Manager
             if ($author === null) {
                 return $author;
             } else {
-                return $author['id'];
+                return $id;
             }
         }
     }
@@ -1068,33 +1068,48 @@ class Manager
 
     public function getAllTourOperatorByDestinationLocation(string $location): ?array
     {
-        $destinationList  = $this->getDestinationByLocation($location);
+        $destinationList  = $this->getDestinationByLocation($location); //liste [objets Destination]
+
 
         if ($destinationList !== null) {
-            $operatorList = [];
+            $destinationsWithLowestPriceList = []; //liste [objets Destination]
+
+
 
             foreach ($destinationList as $destination) {
-                $tourOperator = $this->getTourOperatorById($destination->getOperatorId());
+                $operatorId = $destination->getOperatorId();
+                
+                if (isset($destinationsWithLowestPriceList[$operatorId])) {
+                    $currentPrice = $destinationsWithLowestPriceList[$operatorId]->getPrice();
+                    $potentialPrice = $destination->getPrice();
 
-                if (isset($operatorList[$tourOperator->getName()])) {
-                    $operatorInArray = $operatorList[$tourOperator->getName()];
-                    $destinationObject = $operatorInArray->getDestinations();
-                    $currentPrice = $destinationObject->getPrice();
-                    $newPrice = $destination->getPrice();
 
-                    if ($currentPrice > $newPrice) {
-                        $tourOperator->setDestinations($destination);
-                        $operatorList[$tourOperator->getName()] = $tourOperator;
-                    } else {
-                        $operatorList[$tourOperator->getName()] = $tourOperator;
+                    if ($currentPrice > $potentialPrice) {
+                        $destinationsWithLowestPriceList[$operatorId] = $destination;
                     }
                 } else {
-                    $tourOperator->setDestinations($destination);
-                    $operatorList[$tourOperator->getName()] = $tourOperator;
+                    $destinationsWithLowestPriceList[$operatorId] = $destination;
                 }
             }
 
-            return array_values($operatorList);
+
+
+        //$destinationsWithLowestPriceList contient une [objets Destination] par opérateur avec le meilleur prix
+
+        $destinationsWithLowestPriceList = array_values($destinationsWithLowestPriceList);
+
+        $operatorList = []; //va contenir une liste [objets TourOperator]
+
+        foreach ($destinationsWithLowestPriceList as $destination) {
+            $operator = $this->getTourOperatorById($destination->getId());
+            $_SESSION["R"] = $operator;
+            $operator->setDestinations($destination);
+            array_push($operatorList, $operator);
+        }
+
+
+
+            return $operatorList;
         } else {
             return $destinationList;
         }
