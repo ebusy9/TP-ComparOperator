@@ -101,21 +101,21 @@ if (!isset($_GET['locationName'])) {
 
         echo <<<HTML
               <div class="stars score-{$score}">
-                <div class="star"></div>
-                <div class="star"></div>
-                <div class="star"></div>
-                <div class="star"></div>
-                <div class="star"></div>
-              
-          HTML;
-      } else {
-        echo <<<HTML
-              <div>
-                <p>Aucun avis</p>
-              
-          HTML;
-      }
-      echo <<<HTML
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+        
+    HTML;
+} else {
+    echo <<<HTML
+        <div>
+            <p>Aucun avis</p>
+        
+    HTML;
+}
+echo <<<HTML
                         <button id="btns" type="button" class="btn btn-sm text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
                            Avis
                         </button>
@@ -154,7 +154,6 @@ if (!isset($_GET['locationName'])) {
                                         $message = $review->getMessage();
 
                                         echo <<<HTML
-         
                                         <p class="text">
                                                        
                                             <small class="text-body-secondary">
@@ -174,17 +173,15 @@ if (!isset($_GET['locationName'])) {
 
                                                     <button id="btns" type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
                                                 </div>
-
-                                            </div>
-                                        </div>
+                HTML;
+                                            }?>
                                     </div>
-                       
-                            
-                        HTML;
-                            }
-                        
-    ?>
-  </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+            </div>          
+</div>
 
 
 
