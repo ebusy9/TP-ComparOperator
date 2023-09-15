@@ -169,10 +169,7 @@ echo <<<HTML
                                                 </div>
                                       
 
-                                                <div class="modal-footer">
-
-                                                    <button id="btns" type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
-                                                </div>
+                                                
                 HTML;
                                             }?>
                                     </div>
