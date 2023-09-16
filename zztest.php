@@ -12,15 +12,15 @@ $manager = new Manager($db);
 // var_dump($destination);
 // echo "</pre>";
 
-$destinations = $manager->publishOrUpdateReview("test", 1, 3, "test1");
+// $destinations = $manager->publishOrUpdateReview("test", 1, 3, "test1");
+
+// echo "<pre>";
+// var_dump($_SESSION);
+// echo "</pre>";
+
 
 echo "<pre>";
-var_dump($_SESSION);
-echo "</pre>";
-
-
-echo "<pre>";
-var_dump($destinations);
+var_dump("");
 echo "</pre>";
 
 ?>

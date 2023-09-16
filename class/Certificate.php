@@ -4,7 +4,7 @@ namespace class;
 
 class Certificate
 {
-    private int $operatorId;
+    private int $tourOperatorId;
     private string $expiresAt;
     private string $signatory;
 
@@ -18,7 +18,7 @@ class Certificate
     public function hydrate(array $data): void
     {
         foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
+            $method = $this->transformToSetter($key);
             if (method_exists($this, $method)) {
                 $this->$method($value);
             }
@@ -26,15 +26,23 @@ class Certificate
     }
 
 
-    public function getOperatorId(): int
+    private function transformToSetter(string $arrayKey): string
     {
-        return $this->operatorId;
+        $words = explode('_', $arrayKey);
+        $camelCaseName = implode('', array_map('ucfirst', $words));
+        return 'set' . $camelCaseName;
     }
 
 
-    public function setOperatorId(int $operatorId): void
+    public function getTourOperatorId(): int
     {
-        $this->operatorId = $operatorId;
+        return $this->tourOperatorId;
+    }
+
+
+    public function setTourOperatorId(int $tourOperatorId): void
+    {
+        $this->tourOperatorId = $tourOperatorId;
     }
 
 

@@ -6,8 +6,8 @@ class Score
 {
     private int $id;
     private int $value;
-    private int $operatorId;
-    private int $author;
+    private int $tourOperatorId;
+    private int $authorId;
 
 
     public function __construct(array $data)
@@ -19,11 +19,19 @@ class Score
     public function hydrate(array $data): void
     {
         foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
+            $method = $this->transformToSetter($key);
             if (method_exists($this, $method)) {
                 $this->$method($value);
             }
         }
+    }
+
+
+    private function transformToSetter(string $arrayKey): string
+    {
+        $words = explode('_', $arrayKey);
+        $camelCaseName = implode('', array_map('ucfirst', $words));
+        return 'set' . $camelCaseName;
     }
 
 
@@ -51,26 +59,26 @@ class Score
     }
 
 
-    public function getOperatorId(): int
+    public function getTourOperatorId(): int
     {
-        return $this->operatorId;
+        return $this->tourOperatorId;
     }
 
 
-    public function setOperatorId(int $operatorId): void
+    public function setTourOperatorId(int $tourOperatorId): void
     {
-        $this->operatorId = $operatorId;
+        $this->tourOperatorId = $tourOperatorId;
     }
 
 
-    public function getAuthor(): int
+    public function getAuthorId(): int
     {
-        return $this->author;
+        return $this->authorId;
     }
 
 
-    public function setAuthor(int $author): void
+    public function setAuthorId(int $authorId): void
     {
-        $this->author = $author;
+        $this->authorId = $authorId;
     }
 }

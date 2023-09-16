@@ -23,11 +23,19 @@ class TourOperator
     public function hydrate(array $data): void
     {
         foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
+            $method = $this->transformToSetter($key);
             if (method_exists($this, $method)) {
                 $this->$method($value);
             }
         }
+    }
+
+
+    private function transformToSetter(string $arrayKey): string
+    {
+        $words = explode('_', $arrayKey);
+        $camelCaseName = implode('', array_map('ucfirst', $words));
+        return 'set' . $camelCaseName;
     }
 
 

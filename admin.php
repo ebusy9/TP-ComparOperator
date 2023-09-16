@@ -68,7 +68,7 @@ $tourOperatorList = $dbManager->getAllTourOperator();
         <div class="row flex-nowrap">
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark" id="sidebar" style="max-width: 15%;">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
-                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-decoration-none text-reset">
+                    <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-decoration-none text-reset">
                         <span class="fs-5 d-none d-sm-inline">COperator-BO</span>
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
@@ -106,10 +106,10 @@ $tourOperatorList = $dbManager->getAllTourOperator();
                         foreach ($tourOperatorList as $tourOperator) {
 
                             echo <<<HTML
-                        </tr>
-                        <td>{$tourOperator->getId()}</td>
-                        <td>{$tourOperator->getName()}</td>
-                        HTML;
+                                  </tr>
+                                  <td>{$tourOperator->getId()}</td>
+                                  <td>{$tourOperator->getName()}</td>
+                                  HTML;
 
                             $certificate = $tourOperator->getCertificate();
                             if ($certificate !== null) {
@@ -131,20 +131,16 @@ $tourOperatorList = $dbManager->getAllTourOperator();
                             }
 
                             echo <<<HTML
-                        <td><a href="{$tourOperator->getLink()}" class="text-decoration-none">link</a></td>
-                        <td><a href="{$tourOperator->getImg()}" class="text-decoration-none">link</a></td>
-                        <td><a href="/manageto.php?id={$tourOperator->getId()}" style="margin-right: 0.75rem;"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a> <a href="/process/delete_to.php?id={$tourOperator->getId()}"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a></td>
-                    </tr>
-HTML;
+                                   <td><a href="{$tourOperator->getLink()}" class="text-decoration-none">link</a></td>
+                                   <td><a href="{$tourOperator->getImg()}" class="text-decoration-none">link</a></td>
+                                   <td><a href="/manageto.php?id={$tourOperator->getId()}" style="margin-right: 0.75rem;"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a> <a href="/process/delete_to.php?id={$tourOperator->getId()}"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a></td>
+                                </tr>
+                                HTML;
                         }
                         ?>
             </div>
         </div>
     </div>
-
-
-
-
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
