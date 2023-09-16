@@ -1,17 +1,16 @@
 <?php
 
-namespace class;
+namespace Class;
 
 class TourOperator
 {
-    private int $id;
+    private int $tourOperatorId;
     private string $name;
     private string $link;
-    private string $img;
+    private string $tourOperatorImg;
     private ?Certificate $certificate;
-    private mixed $destinations;
-    private ?array $reviews;
-    private ?array $scores;
+    private mixed $offerDestination;
+    private ?array $review;
 
 
     public function __construct(array $data)
@@ -30,6 +29,23 @@ class TourOperator
         }
     }
 
+    
+    public function getCertificateStatus(): string
+    {
+        $certificate = $this->getCertificate();
+        if ($certificate === null) {
+            return "basic";
+        } else {
+            $expirationTimestamp = strtotime($certificate->getExpiresAt());
+            $currentTimestamp = time();
+            if ($expirationTimestamp <= $currentTimestamp) {
+                return "expired";
+            } elseif ($expirationTimestamp > $currentTimestamp) {
+                return "premium";
+            }
+        }
+    }
+
 
     private function transformToSetter(string $arrayKey): string
     {
@@ -39,15 +55,15 @@ class TourOperator
     }
 
 
-    public function getId(): int
+    public function getTourOperatorId(): int
     {
-        return $this->id;
+        return $this->tourOperatorId;
     }
 
 
-    public function setId(int $id): void
+    private function setTourOperatorId(int $tourOperatorId): void
     {
-        $this->id = $id;
+        $this->tourOperatorId = $tourOperatorId;
     }
 
 
@@ -87,49 +103,37 @@ class TourOperator
     }
 
 
-    public function getDestinations(): mixed
+    public function getOfferDestination(): mixed
     {
-        return $this->destinations;
+        return $this->offerDestination;
     }
 
 
-    public function setDestinations(mixed $destinations): void
+    public function setOfferDestination(mixed $offerDestination): void
     {
-        $this->destinations = $destinations;
+        $this->offerDestination = $offerDestination;
     }
 
 
-    public function getReviews(): ?array
+    public function getReview(): ?array
     {
-        return $this->reviews;
+        return $this->review;
     }
 
 
-    public function setReviews(?array $reviews): void
+    public function setReview(?array $review): void
     {
-        $this->reviews = $reviews;
+        $this->review = $review;
+    }
+
+    public function getTourOperatorImg(): string
+    {
+        return $this->tourOperatorImg;
     }
 
 
-    public function getScores(): ?array
+    public function setTourOperatorImg(string $tourOperatorImg): void
     {
-        return $this->scores;
-    }
-
-
-    public function setScores(?array $scores): void
-    {
-        $this->scores = $scores;
-    }
-
-    public function getImg(): string
-    {
-        return $this->img;
-    }
-
-
-    public function setImg(string $img): void
-    {
-        $this->img = $img;
+        $this->tourOperatorImg = $tourOperatorImg;
     }
 }

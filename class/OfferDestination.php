@@ -2,11 +2,12 @@
 
 namespace Class;
 
-class Destination
+class OfferDestination
 {
+    private int $offerDestinationId;
     private int $destinationId;
-    private string $destinationName;
-    private string $destinationImg;
+    private int $price;
+    private int $tourOperatorId;
 
 
     public function __construct(array $data)
@@ -34,38 +35,50 @@ class Destination
     }
 
 
+    public function getOfferDestinationId(): int
+    {
+        return $this->offerDestinationId;
+    }
+
+
+    private function setOfferDestinationId(int $offerDestinationId): void
+    {
+        $this->offerDestinationId = $offerDestinationId;
+    }
+
+
     public function getDestinationId(): int
     {
         return $this->destinationId;
     }
 
 
-    private function setDestinationId(int $destinationId)
+    public function setDestinationId(int $destinationId): void
     {
         $this->destinationId = $destinationId;
     }
 
 
-    public function getDestinationName(): string
+    public function getPrice(): int
     {
-        return ucwords($this->destinationName);
+        return $this->price;
     }
 
 
-    public function setDestinationName(string $destinationName)
+    public function setPrice(int $price): void
     {
-        $this->destinationName = $destinationName;
+        $this->price = $price;
     }
 
 
-    public function getDestinationImg(): string
+    public function getTourOperatorId(): int
     {
-        return $this->destinationImg;
+        return $this->tourOperatorId;
     }
 
 
-    public function setDestinationImg(string $destinationImg)
+    public function setTourOperatorId(int $tourOperatorId): void
     {
-        $this->destinationImg = $destinationImg;
+        $this->tourOperatorId = $tourOperatorId;
     }
 }

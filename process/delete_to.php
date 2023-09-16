@@ -8,9 +8,9 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 $manager = new Manager($db);
 
 if (isset($_GET['id'])) {
-    $review = (new Manager($db))->deleteTourOperatorById($_GET['id']);
+    $result = (new Manager($db))->deleteTourOperatorById($_GET['id']);
     $currentFile = __FILE__;
-    if ($review) {
+    if ($result) {
         header("Location:../admin.php?name={$currentFile}&info=delteTOSuccess");
         die();
     } else {

@@ -1,6 +1,6 @@
 <?php
 
-use class\Manager;
+use Class\Manager\Manager;
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
@@ -14,14 +14,21 @@ $manager = new Manager($db);
 
 // $destinations = $manager->publishOrUpdateReview("test", 1, 3, "test1");
 
-// echo "<pre>";
-// var_dump($_SESSION);
-// echo "</pre>";
-
 
 echo "<pre>";
-var_dump("");
+// var_dump($certificate = $manager->createCertificate(55079, date('Y-m-d H:i:s'), "Jenya"));
+
+
+
+var_dump($to = $manager->readTourOperatorAll());
 echo "</pre>";
+
+echo "<pre>";
+var_dump($_SESSION);
+echo "</pre>";
+
+
+
 
 ?>
 

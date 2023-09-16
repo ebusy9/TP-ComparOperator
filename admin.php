@@ -6,8 +6,8 @@ use class\Manager;
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
-$dbManager = new Manager($db);
-$tourOperatorList = $dbManager->getAllTourOperator();
+$manager = new Manager($db);
+$tourOperatorList = $manager->readTourOperatorAll();
 
 
 ?>
@@ -107,10 +107,11 @@ $tourOperatorList = $dbManager->getAllTourOperator();
 
                             echo <<<HTML
                                   </tr>
-                                  <td>{$tourOperator->getId()}</td>
+                                  <td>{$tourOperator->getTourOperatorId()}</td>
                                   <td>{$tourOperator->getName()}</td>
                                   HTML;
 
+                                  $tourOperator->setCertificate(null);
                             $certificate = $tourOperator->getCertificate();
                             if ($certificate !== null) {
                                 $expirationTimestamp = strtotime($certificate->getExpiresAt());
@@ -132,8 +133,8 @@ $tourOperatorList = $dbManager->getAllTourOperator();
 
                             echo <<<HTML
                                    <td><a href="{$tourOperator->getLink()}" class="text-decoration-none">link</a></td>
-                                   <td><a href="{$tourOperator->getImg()}" class="text-decoration-none">link</a></td>
-                                   <td><a href="/manageto.php?id={$tourOperator->getId()}" style="margin-right: 0.75rem;"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a> <a href="/process/delete_to.php?id={$tourOperator->getId()}"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a></td>
+                                   <td><a href="{$tourOperator->getTourOperatorImg()}" class="text-decoration-none">link</a></td>
+                                   <td><a href="/manageto.php?id={$tourOperator->getTourOperatorId()}" style="margin-right: 0.75rem;"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a> <a href="/process/delete_to.php?id={$tourOperator->getTourOperatorId()}"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a></td>
                                 </tr>
                                 HTML;
                         }

@@ -1,11 +1,12 @@
 <?php
 
-namespace class;
+namespace Class;
 
 class Review
 {
-    private int $id;
-    private string $message;
+    private int $reviewId;
+    private ?string $message;
+    private int $score;
     private int $tourOperatorId;
     private int $authorId;
 
@@ -35,27 +36,38 @@ class Review
     }
 
 
-    public function getId(): int
+    public function getReviewId(): int
     {
-        return $this->id;
+        return $this->reviewId;
     }
 
 
-    public function setId(int $id): void
+    private function setReviewId(int $reviewId): void
     {
-        $this->id = $id;
+        $this->reviewId = $reviewId;
     }
 
 
-    public function getMessage(): string
+    public function getMessage(): ?string
     {
         return $this->message;
     }
 
 
-    public function setMessage(string $message): void
+    public function setMessage(?string $message): void
     {
         $this->message = $message;
+    }
+
+    public function getScore(): int
+    {
+        return $this->score;
+    }
+
+
+    public function setScore(int $score): void
+    {
+        $this->score = $score;
     }
 
 
