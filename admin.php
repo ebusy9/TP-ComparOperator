@@ -43,15 +43,15 @@ $tourOperatorList = $dbManager->getAllTourOperator();
                         <form action="process/add_to.php" method="post" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="nameInput" class="form-label">Company name</label>
-                                <input type="text" class="form-control bg-dark " name="name" id="nameInput" placeholder="Name">
+                                <input type="text" class="form-control bg-dark " name="name" id="nameInput" placeholder="Name" required>
                             </div>
                             <div class="mb-3">
                                 <label for="linkInput" class="form-label">Website</label>
-                                <input type="url" class="form-control bg-dark" name="link" id="linkInput" placeholder="https://">
+                                <input type="url" class="form-control bg-dark" name="link" id="linkInput" placeholder="https://" required>
                             </div>
                             <div class="mb-3">
                                 <label for="fileInput" class="form-label">Logotype</label>
-                                <input type="file" class="form-control bg-dark" name="img" id="fileInput">
+                                <input type="file" class="form-control bg-dark" name="img" id="fileInput" accept="image/*" required>
                             </div>
                     </div>
                 </div>

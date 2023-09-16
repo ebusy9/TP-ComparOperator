@@ -37,17 +37,19 @@ if (isset($_POST['name'])) {
         ];
         if (isset($phpFileUploadErrors[$errorCode])) {
             $_SESSION['uploadPicture'] = $phpFileUploadErrors[$errorCode];
+            header("Location:../admin.php?name={$currentFile}&info=uploadFailed");
             die();
         } else {
             $_SESSION['uploadPicture'] = "Unknown Error";
+            header("Location:../admin.php?name={$currentFile}&info=uploadFailedUnknownError");
             die();
         }
     }
 
-    $review = $manager->createTourOperator($_POST['name'], $_POST['link'], $imgPath);
+    $tourOperator = $manager->createTourOperator($_POST['name'], $_POST['link'], $imgPath);
 
-    if ($review) {
-        header("Location:../admin.php?name={$_POST['locationName']}&info=createTourOperatorSuccess");
+    if ($tourOperator) {
+        header("Location:../admin.php?name={$currentFile}&info=createTourOperatorSuccess");
         die();
     } else {
         header('Location:../admin.php?redirectedFrom={$currentFile}&info=createTourOperatorFailed');
