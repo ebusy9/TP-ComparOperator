@@ -1,13 +1,13 @@
 <?php
 
-use class\Manager;
+use Class\Manager\Manager;
 
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
 if (isset($_POST['name'])) {
     $manager = new Manager($db);
-    $currentFile = __FILE__;
+    $currentFile = basename($_SERVER['PHP_SELF']);
 
     $name = str_replace(" ", "_", strtolower($_POST['name']));
     $uniqueKey = $manager->getUniqueIdForImgUpload();
@@ -21,7 +21,7 @@ if (isset($_POST['name'])) {
             $imgDestinationPath = "../assets/to_logo/{$name}{$uniqueKey}.{$fileExtension}";
             move_uploaded_file($_FILES['img']['tmp_name'], $imgDestinationPath);
         } else {
-            header('Location:../admin.php?redirectedFrom={$currentFile}&info=fileExtentionNotSupported');
+            header("Location:../admin.php?redirectedFrom={$currentFile}&info=fileExtentionNotSupported");
             die();
         }
     } elseif ($imgUploadError !== UPLOAD_ERR_OK) {
@@ -37,23 +37,25 @@ if (isset($_POST['name'])) {
         ];
         if (isset($phpFileUploadErrors[$errorCode])) {
             $_SESSION['uploadPicture'] = $phpFileUploadErrors[$errorCode];
+            header("Location:../admin.php?name={$currentFile}&info=uploadFailed");
             die();
         } else {
             $_SESSION['uploadPicture'] = "Unknown Error";
+            header("Location:../admin.php?name={$currentFile}&info=uploadFailedUnknownError");
             die();
         }
     }
 
-    $review = $manager->createTourOperator($_POST['name'], $_POST['link'], $imgPath);
+    $tourOperator = $manager->createTourOperator($_POST['name'], $_POST['link'], $imgPath);
 
-    if ($review) {
-        header("Location:../admin.php?name={$_POST['locationName']}&info=createTourOperatorSuccess");
+    if ($tourOperator) {
+        header("Location:../admin.php?name={$currentFile}&info=createTourOperatorSuccess");
         die();
     } else {
-        header('Location:../admin.php?redirectedFrom={$currentFile}&info=createTourOperatorFailed');
+        header("Location:../admin.php?redirectedFrom={$currentFile}&info=createTourOperatorFailed");
         die();
     }
 } else {
-    header('Location:../admin.php?redirectedFrom={$currentFile}&info=nameIsNotSet');
+    header("Location:../admin.php?redirectedFrom={$currentFile}&info=nameIsNotSet");
     die();
 }

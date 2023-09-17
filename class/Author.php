@@ -2,11 +2,11 @@
 
 namespace Class;
 
-class Certificate
+class Author
 {
-    private int $tourOperatorId;
-    private string $expiresAt;
-    private string $signatory;
+    private int $authorId;
+    private string $authorName;
+    private ?array $review;
 
 
     public function __construct(array $data)
@@ -34,38 +34,38 @@ class Certificate
     }
 
 
-    public function getTourOperatorId(): int
+    public function getAuthorId(): int
     {
-        return $this->tourOperatorId;
+        return $this->authorId;
     }
 
 
-    public function setTourOperatorId(int $tourOperatorId): void
+    private function setAuthorId(int $authorId): void
     {
-        $this->tourOperatorId = $tourOperatorId;
+        $this->authorId = $authorId;
     }
 
 
-    public function getExpiresAt(): string
+    public function getAuthorName(): string
     {
-        return $this->expiresAt;
+        return ucwords($this->authorName);
     }
 
 
-    public function setExpiresAt(string $expiresAt): void
+    public function setAuthorName(string $authorName): void
     {
-        $this->expiresAt = $expiresAt;
+        $this->authorName = $authorName;
     }
 
 
-    public function getSignatory(): string
+    public function getReview(): ?array
     {
-        return $this->signatory;
+        return $this->review;
     }
 
 
-    public function setSignatory(string $signatory): void
+    public function setReview(?array $review): void
     {
-        $this->signatory = $signatory;
+        $this->review = $review;
     }
 }

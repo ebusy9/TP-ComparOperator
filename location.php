@@ -1,14 +1,12 @@
 <?php
 
-
-use class\Manager;
-
+use Class\Manager\Manager;
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
-$dbManager = new Manager($db);
-$uniqueDestinationList = $dbManager->getAllUniqueDestinations();
+$manager = new Manager($db);
+$destinations = $manager->readDestinationAll();
 ?>
 
 <!DOCTYPE html>
@@ -59,37 +57,45 @@ $uniqueDestinationList = $dbManager->getAllUniqueDestinations();
     </p>
 
     <div class="container" style="margin-top: auto;">
-        <?php foreach ($uniqueDestinationList as $destination) {
+        <?php foreach ($destinations  as $destination) {
+            $offerDestinationWithLowestPrice = $manager->readOfferDestinationByDestinationIdWithLowestPrice($destination->getDestinationId());
+            if ($offerDestinationWithLowestPrice !== null) {
+                $reviewList = $manager->readReviewByTourOperatorId($offerDestinationWithLowestPrice->getTourOperatorId());
+
+                if ($reviewList !== null) {
+                    $i = 0;
+                    $somme = 0;
+                    foreach ($reviewList as $review) {
+                        $i++;
+                        $somme += $review->getScore();
+                    }
+
+                    if ($somme > 0 && $i > 0) {
+                        floor($score = $somme / $i);
+                    }
+                }
+            }
 
             echo <<<HTML
-                    <div class="row justify-content-center">
+
+                        <div class="row justify-content-center">
                         <div class="col-md-8">
-                           <div class="card">
-                              <div class="row g-0">
-                                 <div class="col-md-4">
-                                    <img src="{$destination->getImg()}" class="img-fluid rounded-start" alt="...">
-                    </div>
+                        <div class="card">
+                        <div class="row g-0">
+                        <div class="col-md-4">
+                        <img src="{$destination->getDestinationImg()}" class="img-fluid rounded-start" alt="...">
+                        </div>
                         <div class="col-md-8">
-                            <div class="card-body">
-                            <h5 class="card-title">{$destination->getLocation()}</h5>
+                        <div class="card-body">
+                        <h5 class="card-title">{$destination->getDestinationName()}</h5>
+
                 HTML;
 
-            $scoreList = $dbManager->getScoreByOperatorId($destination->getOperatorId());
-            if ($scoreList !== null) {
-                $i = 0;
-                $somme = 0;
-                foreach ($scoreList as $score) {
-                    $i++;
-                    $somme += $score->getValue();
-                }
 
-                if ($somme > 0 && $i > 0) {
-                    floor($score = $somme / $i);
-                }
-
+            if (isset($score)) {
                 echo <<<HTML
                         <div class="stars score-{$score}">
-                           <div class="star"></div>
+                            <div class="star"></div>
                             <div class="star"></div>
                             <div class="star"></div>
                             <div class="star"></div>
@@ -98,16 +104,27 @@ $uniqueDestinationList = $dbManager->getAllUniqueDestinations();
                   HTML;
             }
 
+
+            if ($offerDestinationWithLowestPrice !== null) {
+                echo <<<HTML
+                    <p class="card-text"><small class="text-body-secondary">À partir de {$offerDestinationWithLowestPrice->getPrice()} €</small></p>
+                    <div class="col-12 d-flex align-items-center justify-content-center">
+                    <button onclick="window.location.href='tour.php?destinationId={$destination->getDestinationId()}';" id="btns" type="button" class="btn btn-sm text-light">
+                        Plus de Détail
+                    </button>
+                    </div>
+             HTML;
+            } else {
+                echo <<<HTML
+                <p class="card-text"><small class="text-body-secondary">Aucune offre pour le moment</small></p>
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                <button onclick="window.location.href='tour.php?destinationId={$destination->getDestinationId()}';" id="btns" type="button" class="btn btn-sm text-light" disabled>
+                    Plus de Détail
+                </button>
+                </div>                
+              HTML;
+            }
             echo <<<HTML
-
-              <p class="card-text"><small class="text-body-secondary">À partir de {$destination->getPrice()} €</small></p>
-
-              <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button onclick="window.location.href='tour.php?locationName={$destination->getLocation()}';" id="btns" type="button" class="btn btn-sm text-light">
-                                 Plus de Détail
-                                      </button>
-                        </div>
-              
             </div>
           </div>
         </div>
@@ -118,6 +135,7 @@ $uniqueDestinationList = $dbManager->getAllUniqueDestinations();
         }
         ?>
     </div>
+
 
     <div class="text-center p-4">
 

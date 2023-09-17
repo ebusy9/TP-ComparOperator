@@ -1,17 +1,16 @@
 <?php
 
-namespace class;
+namespace Class;
 
 class TourOperator
 {
-    private int $id;
+    private int $tourOperatorId;
     private string $name;
     private string $link;
-    private string $img;
+    private string $tourOperatorImg;
     private ?Certificate $certificate;
-    private mixed $destinations;
-    private ?array $reviews;
-    private ?array $scores;
+    private mixed $offerDestination;
+    private ?array $review;
 
 
     public function __construct(array $data)
@@ -23,23 +22,48 @@ class TourOperator
     public function hydrate(array $data): void
     {
         foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
+            $method = $this->transformToSetter($key);
             if (method_exists($this, $method)) {
                 $this->$method($value);
             }
         }
     }
 
-
-    public function getId(): int
+    
+    public function getCertificateStatus(): string
     {
-        return $this->id;
+        $certificate = $this->getCertificate();
+        if ($certificate === null) {
+            return "basic";
+        } else {
+            $expirationTimestamp = strtotime($certificate->getExpiresAt());
+            $currentTimestamp = time();
+            if ($expirationTimestamp <= $currentTimestamp) {
+                return "expired";
+            } elseif ($expirationTimestamp > $currentTimestamp) {
+                return "premium";
+            }
+        }
     }
 
 
-    public function setId(int $id): void
+    private function transformToSetter(string $arrayKey): string
     {
-        $this->id = $id;
+        $words = explode('_', $arrayKey);
+        $camelCaseName = implode('', array_map('ucfirst', $words));
+        return 'set' . $camelCaseName;
+    }
+
+
+    public function getTourOperatorId(): int
+    {
+        return $this->tourOperatorId;
+    }
+
+
+    private function setTourOperatorId(int $tourOperatorId): void
+    {
+        $this->tourOperatorId = $tourOperatorId;
     }
 
 
@@ -73,55 +97,44 @@ class TourOperator
     }
 
 
+    public function getTourOperatorImg(): string
+    {
+        return $this->tourOperatorImg;
+    }
+
+
+    public function setTourOperatorImg(string $tourOperatorImg): void
+    {
+        $this->tourOperatorImg = $tourOperatorImg;
+    }
+
+
     public function setCertificate(?Certificate $certificate): void
     {
         $this->certificate = $certificate;
     }
 
 
-    public function getDestinations(): mixed
+    public function getOfferDestination(): mixed
     {
-        return $this->destinations;
+        return $this->offerDestination;
     }
 
 
-    public function setDestinations(mixed $destinations): void
+    public function setOfferDestination(mixed $offerDestination): void
     {
-        $this->destinations = $destinations;
+        $this->offerDestination = $offerDestination;
     }
 
 
-    public function getReviews(): ?array
+    public function getReview(): ?array
     {
-        return $this->reviews;
+        return $this->review;
     }
 
 
-    public function setReviews(?array $reviews): void
+    public function setReview(?array $review): void
     {
-        $this->reviews = $reviews;
-    }
-
-
-    public function getScores(): ?array
-    {
-        return $this->scores;
-    }
-
-
-    public function setScores(?array $scores): void
-    {
-        $this->scores = $scores;
-    }
-
-    public function getImg(): string
-    {
-        return $this->img;
-    }
-
-
-    public function setImg(string $img): void
-    {
-        $this->img = $img;
+        $this->review = $review;
     }
 }

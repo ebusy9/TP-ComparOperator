@@ -1,13 +1,14 @@
 <?php
 
-namespace class;
+namespace Class;
 
 class Review
 {
-    private int $id;
-    private string $message;
-    private int $operatorId;
-    private int $author;
+    private int $reviewId;
+    private ?string $message;
+    private int $score;
+    private int $tourOperatorId;
+    private int $authorId;
 
 
     public function __construct(array $data)
@@ -19,7 +20,7 @@ class Review
     public function hydrate(array $data): void
     {
         foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
+            $method = $this->transformToSetter($key);
             if (method_exists($this, $method)) {
                 $this->$method($value);
             }
@@ -27,50 +28,69 @@ class Review
     }
 
 
-    public function getId(): int
+    private function transformToSetter(string $arrayKey): string
     {
-        return $this->id;
+        $words = explode('_', $arrayKey);
+        $camelCaseName = implode('', array_map('ucfirst', $words));
+        return 'set' . $camelCaseName;
     }
 
 
-    public function setId(int $id): void
+    public function getReviewId(): int
     {
-        $this->id = $id;
+        return $this->reviewId;
     }
 
 
-    public function getMessage(): string
+    private function setReviewId(int $reviewId): void
+    {
+        $this->reviewId = $reviewId;
+    }
+
+
+    public function getMessage(): ?string
     {
         return $this->message;
     }
 
 
-    public function setMessage(string $message): void
+    public function setMessage(?string $message): void
     {
         $this->message = $message;
     }
 
-
-    public function getAuthor(): int
+    public function getScore(): int
     {
-        return $this->author;
+        return $this->score;
     }
 
 
-    public function setAuthor(int $author): void
+    public function setScore(int $score): void
     {
-        $this->author = $author;
+        $this->score = $score;
     }
 
 
-    public function getOperatorId(): int
+    public function getAuthorId(): int
     {
-        return $this->operatorId;
+        return $this->authorId;
     }
 
 
-    public function setOperatorId(int $operatorId): void
+    public function setAuthorId(int $authorId): void
     {
-        $this->operatorId = $operatorId;
+        $this->authorId = $authorId;
+    }
+
+
+    public function getTourOperatorId(): int
+    {
+        return $this->tourOperatorId;
+    }
+
+
+    public function setTourOperatorId(int $tourOperatorId): void
+    {
+        $this->tourOperatorId = $tourOperatorId;
     }
 }
