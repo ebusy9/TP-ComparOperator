@@ -13,7 +13,6 @@ if (isset($_POST['tourOperatorId'])) {
 
     $result = $manager->updateCertificate($certificate);
 
-    $currentFile = basename($_SERVER['PHP_SELF']);
     if ($result) {
         header("Location:../admin.php?tourOperatorId={$_POST['tourOperatorId']}&info=updateCertificateSuccess");
         die();

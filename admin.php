@@ -80,7 +80,21 @@ $tourOperatorList = $manager->readTourOperatorAll();
                             <a href="manage_destinations.php" class="nav-link align-middle px-0 text-decoration-none text-reset">
                                 <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline "><i class="fa-solid fa-map-location"></i> Destinations</span>
                             </a>
-                            <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                        </li>
+                        <li class="nav-item">
+                            <a href="manage_offers.php" class="nav-link align-middle px-0 text-decoration-none text-reset">
+                                <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline "><i class="fa-solid fa-coins"></i> Offers</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="manage_reviews.php" class="nav-link align-middle px-0 text-decoration-none text-reset">
+                                <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline "><i class="fa-solid fa-star-half-stroke"></i> Reviews</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="manage_authors.php" class="nav-link align-middle px-0 text-decoration-none text-reset">
+                                <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline "><i class="fa-solid fa-pen-nib"></i> Authors</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -143,8 +157,8 @@ $tourOperatorList = $manager->readTourOperatorAll();
                                         </div>
                                         <!--END MODAL UPDATE TO-->
                                     HTML;
-                                    if ( $certificate ==! null) {
-                                        echo <<<HTML
+                                if ($certificate == !null) {
+                                    echo <<<HTML
                                         <!-- MODAL UPDATE CERTIFICATE-->
                                         <div class="modal fade" id="updateCertificateForm{$certificate->getTourOperatorId()}" tabindex="-1" aria-labelledby="updateCertificateFormLabel{$certificate->getTourOperatorId()}" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
@@ -212,7 +226,7 @@ $tourOperatorList = $manager->readTourOperatorAll();
                                     <!--END CREATE CERTIFICATE-->
                                 HTML;
                                 }
-                                    echo <<<HTML
+                                echo <<<HTML
                                   </tr>
                                   <td>{$tourOperator->getTourOperatorId()}</td>
                                   <td>{$tourOperator->getName()}</td>

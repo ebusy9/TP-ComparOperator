@@ -42,6 +42,56 @@ body {
 
 }
 
+#destinationSelect {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+
+#tourOperatorSelect {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+
+#priceInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+
+
+
+#authorSelect {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+
+#scoreInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+
+#messageInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
 
 
 #modal-header {

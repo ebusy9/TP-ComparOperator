@@ -7,7 +7,6 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 
 if (isset($_GET['id'])) {
     $result = (new Manager($db))->deleteCertificateByTourOperatorId($_GET['id']);
-    $currentFile = basename($_SERVER['PHP_SELF']);
     if ($result) {
         header("Location:../admin.php?name={$currentFile}&info=delteCertificateSuccess");
         die();

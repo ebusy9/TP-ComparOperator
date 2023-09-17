@@ -7,7 +7,6 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 
 if (isset($_POST['tourOperatorId'])) {
     $certificate = (new Manager($db))->createCertificate($_POST['tourOperatorId'], $_POST['expiresAt'],  $_POST['signatory']);
-    $currentFile = basename($_SERVER['PHP_SELF']);
     if ($certificate) {
         header("Location:../admin.php?tourOperatorId={$_POST['tourOperatorId']}&info=addCertificateSuccess");
         die();

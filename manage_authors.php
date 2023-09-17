@@ -6,7 +6,7 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "a
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
 $manager = new Manager($db);
-$destinationList = $manager->readDestinationAll();
+$authorList = $manager->readAuthorAll();
 
 
 ?>
@@ -30,23 +30,19 @@ $destinationList = $manager->readDestinationAll();
 
 <body>
     <!-- Modal -->
-    <div class="modal fade" id="addDestinationForm" tabindex="-1" aria-labelledby="AddTourOperatorFormLabel" aria-hidden="true">
+    <div class="modal fade" id="addAuthorForm" tabindex="-1" aria-labelledby="addAuthorFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark">
                 <div class="modal-header" id="modal-header">
-                    <h1 class="modal-title fs-5" id="addTourOperatorFormLabel">New Destination</h1>
+                    <h1 class="modal-title fs-5" id="addAuthorFormLabel">Add Author</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <form action="process/add_destination.php" method="post" enctype="multipart/form-data">
+                        <form action="process/add_author.php" method="post">
                             <div class="mb-3">
-                                <label for="nameInput" class="form-label">Location</label>
-                                <input type="text" class="form-control bg-dark " name="destinationName" id="nameInput" placeholder="Roanne" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fileInput" class="form-label">Thumbnail</label>
-                                <input type="file" class="form-control bg-dark" name="destinationImg" id="fileInput" accept="image/*" required>
+                                <label for="nameInput" class="form-label">Name</label>
+                                <input type="text" class="form-control bg-dark " name="authorName" id="nameInput" placeholder="Name" required>
                             </div>
                     </div>
                 </div>
@@ -96,43 +92,38 @@ $destinationList = $manager->readDestinationAll();
             </div>
             <div class="container-fluid" style="max-width: 85%;">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addDestinationForm"><i class="fa-solid fa-plus"></i> Add Destination</button>
+                <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addAuthorForm"><i class="fa-solid fa-plus"></i> Add Author</button>
                 <!-- Button trigger modal -->
                 <table class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Image</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        if ($destinationList !== null) {
-                            foreach ($destinationList as $destination) {
+                        if ($authorList !== null) {
+                            foreach ($authorList as $author) {
                                 echo <<<HTML
                                     <!-- Modal -->
-                                    <div class="modal fade" id="updateDestinationForm{$destination->getDestinationId()}" tabindex="-1" aria-labelledby="AddTourOperatorFormLabel" aria-hidden="true">
+                                    <div class="modal fade" id="updateAuthorForm{$author->getAuthorId()}" tabindex="-1" aria-labelledby="updateAuthorForm{$author->getAuthorId()}Label" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content bg-dark">
                                                 <div class="modal-header" id="modal-header">
-                                                    <h1 class="modal-title fs-5" id="updateDestinationForm{$destination->getDestinationId()}Label">Edit Destination</h1>
+                                                    <h1 class="modal-title fs-5" id="updateAuthorForm{$author->getAuthorId()}Label">Edit Author</h1>
                                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="container-fluid">
-                                                        <form action="process/update_destination.php" method="post" enctype="multipart/form-data">
+                                                        <form action="process/update_author.php" method="post">
                                                             <div class="mb-3">
-                                                                <label for="nameInput" class="form-label">Location</label>
-                                                                <input type="text" class="form-control bg-dark " name="destinationName" id="nameInput" placeholder="Roanne" value="{$destination->getDestinationName()}">
+                                                                <label for="nameInput" class="form-label">Name</label>
+                                                                <input type="text" class="form-control bg-dark " name="authorName" id="nameInput" placeholder="Name" value="{$author->getAuthorName()}">
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="fileInput" class="form-label">Thumbnail</label>
-                                                                <input type="file" class="form-control bg-dark" name="destinationImg" id="fileInput" accept="image/*">
-                                                            </div>
-                                                            <input type="hidden" name="destinationId" value="{$destination->getDestinationId()}">
                                                     </div>
+                                                    <input type="hidden" name="authorId" value="{$author->getAuthorId()}">
                                                 </div>
                                                 <div class="modal-footer" id="modal-footer">
                                                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -144,16 +135,15 @@ $destinationList = $manager->readDestinationAll();
                                     </div>
                                     <!-- Modal -->
                                   </tr>
-                                  <td>{$destination->getDestinationId()}</td>
-                                  <td>{$destination->getDestinationName()}</td>
-                                  <td><a href="{$destination->getDestinationImg()}" class="text-decoration-none">link</a></td>
-                                  <td><a href="#updateDestinationForm{$destination->getDestinationId()}" data-bs-toggle="modal" data-bs-target="#updateDestinationForm{$destination->getDestinationId()}" style="margin-right: 0.75rem;"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a> <a href="/process/delete_destination.php?id={$destination->getDestinationId()}"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a></td>
+                                  <td>{$author->getAuthorId()}</td>
+                                  <td>{$author->getAuthorName()}</td>
+                                  <td><a href="#updateAuthorForm{$author->getAuthorId()}" data-bs-toggle="modal" data-bs-target="#updateAuthorForm{$author->getAuthorId()}" style="margin-right: 0.75rem;"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a> <a href="/process/delete_author.php?id={$author->getAuthorId()}"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a></td>
                                 </tr>
                                 HTML;
                             }
                         } else {
                             echo <<<HTML
-                            <p>Destination not found</p>
+                            <p>Author not found</p>
                             HTML;
                         }
                         ?>

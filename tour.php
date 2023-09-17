@@ -137,7 +137,7 @@ if (!isset($_GET['destinationId'])) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                        <form action="process/add_review.php" method="post">
+                        <form action="process/publish_review.php" method="post">
                     <div class="mb-3">
                     <label for="authorName" class="form-label">Nom Prénom</label>
                     <input type="text" class="form-control" name="authorName" id="authorName" placeholder="Jean Michel">
