@@ -23,44 +23,55 @@ class Manager
     }
 
 
-    public function publishOrUpdateReview(string $authorName, int $operatorId, int $scoreValue, string $message): bool
+    public function readOfferDestinationByDestinationIdWithLowestPrice(int $destinationId): ?OfferDestination
     {
-        $scoreValue = min($scoreValue, 5);
+        $offerDestinationList = $this->readOfferDestinationByDestinationId($destinationId);
+
+        if ($offerDestinationList !== null) {
+            $offerDestinationWithLowestPrice = $offerDestinationList[0];
+            foreach ($offerDestinationList as $offerDestination) {
+                $currentPrice = $offerDestinationWithLowestPrice->getPrice();
+                $newPrice = $offerDestination->getPrice();
+                if ($currentPrice > $newPrice) {
+                    $offerDestinationWithLowestPrice = $offerDestination;
+                }
+            }
+        } else {
+            return null;
+        }
+        return $offerDestinationWithLowestPrice;
+    }
+
+
+    public function publishReview(string $authorName, int $tourOperatorId, int $score, string $message): ?Review
+    {
+        $score = min($score, 5);
         $authorName = htmlspecialchars($authorName);
         $message = htmlspecialchars($message);
 
-        $authorId = $this->getAuthorIdbyNameOrCreateNewAuthor($authorName);
+        $author = $this->readAuthorByName($authorName);
 
-        $scoreList = $this->getAllScore();
-
-        foreach ($scoreList as $score) {
-            if ($score->getAuthor() === $authorId && $score->getOperatorId() === $operatorId) {
-                $score->setValue($scoreValue);
-                $scoreObjectAfterDb = $this->updateScore($score);
-            }
+        if ($author === null) {
+            $author = $this->createAuthor($authorName);
         }
 
-        if (!isset($scoreObjectAfterDb)) {
-            $scoreObjectAfterDb = $this->createScore($scoreValue, $operatorId, $authorId);
+        $sql = "SELECT * FROM review WHERE author_id = :author_id AND tour_operator_id = :tour_operator_id";
+
+        try {
+            $req = $this->db->prepare($sql);
+            $req->execute([
+                ":author_id" => $author->getAuthorId(),
+                ":tour_operator_id" => $tourOperatorId
+            ]);
+            $review = $req->fetch();
+        } catch (\PDOException $e) {
+            $_SESSION[__METHOD__] = $e;
         }
 
-        $reviewList = $this->getAllReview();
-
-        foreach ($reviewList as $review) {
-            if ($review->getAuthor() === $authorId && $review->getOperatorId() === $operatorId) {
-                $review->setMessage($message);
-                $reviewObjectAfterDb = $this->updateReview($review);
-            }
-        }
-
-        if (!isset($reviewObjectAfterDb)) {
-            $reviewObjectAfterDb = $this->createReview($message, $operatorId, $authorId);
-        }
-
-        if ($authorId !== null && $scoreObjectAfterDb !== null && $reviewObjectAfterDb !== null) {
-            return true;
+        if ($review === false) {
+            return $this->createReview($message, $score, $tourOperatorId, $author->getAuthorId());
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -316,7 +327,6 @@ class Manager
                         foreach ($arrayFromDb as $entry) {
                             $entry["review"] = $this->readReviewByAuthorId($entry["author_id"]);
                             array_push($objects, new Author($entry));
-
                         }
                         return $objects;
                     case 'certificate':

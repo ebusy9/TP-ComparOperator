@@ -1,7 +1,6 @@
 <?php
 
-use class\DestinationManager;
-use class\Manager;
+use Class\Manager\Manager;
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
@@ -11,7 +10,7 @@ if (!isset($_GET['id'])) {
     exit();
 } else {
     $dbManager = new Manager($db);
-    $operator = $dbManager->getTourOperatorById($_GET['id']);
+    $operator = $dbManager->readTourOperatorById($_GET['id']);
     $destinations = $destinationManager->getAllDestinations();
 }
 

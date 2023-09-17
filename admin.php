@@ -1,7 +1,6 @@
 <?php
 
-use class\Manager;
-
+use Class\Manager\Manager;
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
@@ -111,7 +110,6 @@ $tourOperatorList = $manager->readTourOperatorAll();
                                   <td>{$tourOperator->getName()}</td>
                                   HTML;
 
-                                  $tourOperator->setCertificate(null);
                             $certificate = $tourOperator->getCertificate();
                             if ($certificate !== null) {
                                 $expirationTimestamp = strtotime($certificate->getExpiresAt());

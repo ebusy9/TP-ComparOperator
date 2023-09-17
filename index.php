@@ -1,31 +1,30 @@
 <?php
 
-
-use class\Manager;
-
+use Class\Manager\Manager;
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php"; 
+include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
-$dbManager = new Manager($db);
-$DestinationData = $dbManager->getAllDestinations();
-$ScoreData = $dbManager->getAllScore();
+$manager = new Manager($db);
+$offerDestinationList = $manager->readOfferDestinationAll();
 
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="style/style.css">
     <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
-                
+
     <title>ComparOperator</title>
 
 </head>
+
 <body style=" font-family: 'SF Pro Display', sans-serif;">
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
@@ -50,84 +49,91 @@ $ScoreData = $dbManager->getAllScore();
 
 
     <section class="offers-section" style="text-align: center;">
-      <div class="container-fluid">
-         <div class="row justify-content-center">
-            <div class="col-12 col-md-8">
-              <div class="card" style="margin-top: -15px; background-color: #40514E;">
-                <div class="card-body">
-                    <form class="row g-3">
-                        <div class="col-12 col-md-4">
-                            <input class="form-control form-control-lg" type="text" placeholder="De: Ville, gare, aéroport ou port" aria-label=".form-control-lg example">
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <input class="form-control" type="text" placeholder="Vers: Ville, gare, aéroport ou port" aria-label="default input example">
-                        </div>
-                        <div class="col-6 col-md-2">
-                            <input class="form-control" type="date" placeholder="Date de Départ" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-6 col-md-2">
-                            <input class="form-control" type="date" placeholder="Date de Retour" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-6">
-                            <input class="form-control" type="text" placeholder="Adulte" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-6">
-                            <input class="form-control" type="text" placeholder="Jeune" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="col-12 d-flex align-items-center justify-content-center">
-                               <button onclick="window.location.href='location.php';" id="btns" type="button" class="btn btn-sm text-light">
-                                   <i class="fas fa-search"></i> Rechercher
-                                      </button>
-                        </div>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <div class="card" style="margin-top: -15px; background-color: #40514E;">
+                        <div class="card-body">
+                            <form class="row g-3">
+                                <div class="col-12 col-md-4">
+                                    <input class="form-control form-control-lg" type="text" placeholder="De: Ville, gare, aéroport ou port" aria-label=".form-control-lg example">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <input class="form-control" type="text" placeholder="Vers: Ville, gare, aéroport ou port" aria-label="default input example">
+                                </div>
+                                <div class="col-6 col-md-2">
+                                    <input class="form-control" type="date" placeholder="Date de Départ" aria-label=".form-control-sm example">
+                                </div>
+                                <div class="col-6 col-md-2">
+                                    <input class="form-control" type="date" placeholder="Date de Retour" aria-label=".form-control-sm example">
+                                </div>
+                                <div class="col-6">
+                                    <input class="form-control" type="text" placeholder="Adulte" aria-label=".form-control-sm example">
+                                </div>
+                                <div class="col-6">
+                                    <input class="form-control" type="text" placeholder="Jeune" aria-label=".form-control-sm example">
+                                </div>
+                                <div class="col-12 d-flex align-items-center justify-content-center">
+                                    <button onclick="window.location.href='location.php';" id="btns" type="button" class="btn btn-sm text-light">
+                                        <i class="fas fa-search"></i> Rechercher
+                                    </button>
+                                </div>
 
-                    </form>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
 
-       <p class="font-weight-bold" >
-       <h3>Nos meilleures offres sélectionées pour vous</h3>
-      </p>
+        <p class="font-weight-bold">
+        <h3>Nos meilleures offres sélectionées pour vous</h3>
+        </p>
 
-       <div class="container" style="margin-top: auto;">
-       <?php foreach ($DestinationData as $destination) {
-        $ScoreArray = $dbManager->getScoreByOperatorId($destination->getOperatorId());
-        $i= 0;
-        $Somme = 0;
-        foreach ($ScoreArray as $Score) {
-            $i++; 
-            $Somme += $Score->getValue();
-        }
+        <div class="container" style="margin-top: auto;">
+            <?php foreach ($offerDestinationList as $offerDestination) {
+                $reviewArray = $manager->readReviewByTourOperatorId($offerDestination->getTourOperatorId());
+                $destination = $manager->readDestinationById($offerDestination->getDestinationId());
+                $i = 0;
+                $somme = 0;
+                foreach ($reviewArray as $review) {
+                    $i++;
+                    $somme += $review->getScore();
+                }
 
-        if ($Somme>0 && $i>0) {
-            $Score = $Somme/$i;
-        }
-       
+                if ($somme > 0 && $i > 0) {
+                    floor($score = $somme / $i);
+                }
 
 
-  echo <<<HTML
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="{$destination->getImg()}" class="img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{$destination->getLocation()}</h5>
-              <div class="stars score-{$Score}">
-                 <div class="star"></div>
-                 <div class="star"></div>
-                   <div class="star"></div>
-                    <div class="star"></div>
-                    <div class="star"></div>
-                     </div>
+                echo <<<HTML
+                        <div class="row justify-content-center">
+                        <div class="col-md-8">
+                        <div class="card">
+                        <div class="row g-0">
+                        <div class="col-md-4">
+                        <img src="{$destination->getDestinationImg()}" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                        <div class="card-body">
+                        <h5 class="card-title">{$destination->getDestinationName()}</h5>
+              HTML;
+                if (isset($score)) {
+                    echo <<<HTML
+                    <div class="stars score-{$score}">
+                        <div class="star"></div>
+                        <div class="star"></div>
+                        <div class="star"></div>
+                        <div class="star"></div>
+                        <div class="star"></div>
+                    </div>
+               HTML;
+                }
+                echo <<<HTML
+
                      
-              <p class="card-text"><small class="text-body-secondary">{$destination->getPrice()} €</small></p>
+              <p class="card-text"><small class="text-body-secondary">{$offerDestination->getPrice()} €</small></p>
 
               <div class="col-12 d-flex align-items-center justify-content-center">
                                <button onclick="window.location.href='location.php';" id="btns" type="button" class="btn btn-sm text-light">
@@ -142,27 +148,27 @@ $ScoreData = $dbManager->getAllScore();
     </div>
   </div>
   HTML;
-}
-?>
+            }
+            ?>
 
 
-</div>
+        </div>
 
-<div class="text-center p-4">
+        <div class="text-center p-4">
 
-<h1>Nos Partenaire</h1>
-      
-    <img sizes="(max-width: 600px) 480px, 800px"  src="assets/logo/partenaire_mobile.png" srcset="assets/logo/partenaire.png 480w, assets/logo/partenaire_mobile.png 800w" alt=" " class="img-fluid rounded" style="background-color: #40514E;">
-</div>
+            <h1>Nos Partenaire</h1>
 
-
-</section>
+            <img sizes="(max-width: 600px) 480px, 800px" src="assets/logo/partenaire_mobile.png" srcset="assets/logo/partenaire.png 480w, assets/logo/partenaire_mobile.png 800w" alt=" " class="img-fluid rounded" style="background-color: #40514E;">
+        </div>
 
 
+    </section>
 
-<div class="footer-basic">
+
+
+    <div class="footer-basic">
         <footer>
-        <div class="social"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-snapchat"></i></a><a href="#"><i class="fa-brands fa-x-twitter"></i></a><a href="#"><i class="fa-brands fa-facebook-f"></i></a></div>
+            <div class="social"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-snapchat"></i></a><a href="#"><i class="fa-brands fa-x-twitter"></i></a><a href="#"><i class="fa-brands fa-facebook-f"></i></a></div>
             <ul class="list-inline">
                 <li class="list-inline-item"><a href="#">Home</a></li>
                 <li class="list-inline-item"><a href="#">Services</a></li>
@@ -178,4 +184,5 @@ $ScoreData = $dbManager->getAllScore();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/82dc073821.js" crossorigin="anonymous"></script>
 </body>
+
 </html>
