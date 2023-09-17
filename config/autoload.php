@@ -15,6 +15,8 @@ function chargerClasse($classname)
 }
 spl_autoload_register('chargerClasse');
 
+session_set_cookie_params(time() + 86400 * 365, "/", null, true, true);
+
 session_start();
 
 date_default_timezone_set('Europe/Paris');

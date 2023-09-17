@@ -23,6 +23,59 @@ class Manager
     }
 
 
+    public function validateLogin(string $login): ?string
+    {
+        if (empty($login)) {
+            return "Login is required.";
+        } elseif (!preg_match('/^[a-zA-Z0-9]{6,15}$/', $login)) {
+            return "The login does not meet the requirements!";
+        }
+        return null;
+    }
+
+
+    public function validatePassword(string $password, string $confirmPassword): ?string
+    {
+        if (empty($password)) {
+            return "Password is required.";
+        } elseif (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])(?=.*[^0-9A-Za-z])[0-9A-Za-z!@#$%]{6,15}$/', $password)) {
+            return 'The password does not meet the requirements!';
+        } elseif ($password !== $confirmPassword) {
+            return "Password confirmation does not match!";
+        }
+        return null;
+    }
+
+
+    public function validateUsername(string $username, string $login): ?string
+    {
+        if (empty($username)) {
+            return "Username is required.";
+        } elseif (!preg_match('/^[a-zA-Z0-9\s]{2,15}$/', $username)) {
+            return "The username does not meet the requirements!";
+        } elseif (strtolower($username) === $login) {
+            return "The username must be different from the login!";
+        }
+        return null;
+    }
+
+
+    public function userSignup(string $username, string $login, string $password): ?User
+    {
+        $username = htmlspecialchars(strtolower($username));
+        $login = htmlspecialchars(strtolower($login));
+
+        $usernameTaken = $this->readUserByUsername($username);
+        $loginTaken = $this->readUserByLogin($login);
+
+        if ($usernameTaken === null && $loginTaken === null) {
+            return $this->createUser($login, $password, $username);
+        } else {
+            return null;
+        }
+    }
+
+
     public function readOfferDestinationByDestinationIdWithLowestPrice(int $destinationId): ?OfferDestination
     {
         $offerDestinationList = $this->readOfferDestinationByDestinationId($destinationId);
