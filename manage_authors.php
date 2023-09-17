@@ -5,6 +5,12 @@ use Class\Manager\Manager;
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
+
+if (!isset($_SESSION['userId'])) {
+	header('Location: login.php?err=userNotLoggedIn');
+	exit();
+}
+
 $manager = new Manager($db);
 $authorList = $manager->readAuthorAll();
 
@@ -23,7 +29,7 @@ $authorList = $manager->readAuthorAll();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style/admin.css">
-    <title>ComparOperator</title>
+    <title>COperator BO</title>
 </head>
 
 

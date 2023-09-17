@@ -46,9 +46,9 @@ trait UserManager
     {
         return $this->dbInsert($this->tableUser, [
             ":user_id" => $this->getRandomIdForNewDbEntry($this->tableUser), 
-            ":login" => htmlspecialchars(strtolower($login)), 
+            ":login" => $login, 
             ":password" => password_hash($password, PASSWORD_DEFAULT), 
-            ":username" => htmlspecialchars(strtolower($username)),
+            ":username" => $username,
             ":registration_date" => date('Y-m-d H:i:s')
         ]);
     }
