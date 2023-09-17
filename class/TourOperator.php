@@ -97,6 +97,18 @@ class TourOperator
     }
 
 
+    public function getTourOperatorImg(): string
+    {
+        return $this->tourOperatorImg;
+    }
+
+
+    public function setTourOperatorImg(string $tourOperatorImg): void
+    {
+        $this->tourOperatorImg = $tourOperatorImg;
+    }
+
+
     public function setCertificate(?Certificate $certificate): void
     {
         $this->certificate = $certificate;
@@ -124,16 +136,5 @@ class TourOperator
     public function setReview(?array $review): void
     {
         $this->review = $review;
-    }
-
-    public function getTourOperatorImg(): string
-    {
-        return $this->tourOperatorImg;
-    }
-
-
-    public function setTourOperatorImg(string $tourOperatorImg): void
-    {
-        $this->tourOperatorImg = $tourOperatorImg;
     }
 }

@@ -3,7 +3,8 @@ body {
     color: rgb(222, 226, 230) !important;
     background-color: rgb(33, 37, 41) !important;
 }
-#sidebar{
+
+#sidebar {
     font-family: 'Inter', sans-serif !important;
     color: rgb(222, 226, 230) !important;
     border-right: 1px solid rgb(73, 80, 87) !important;
@@ -15,16 +16,32 @@ body {
     color: rgb(222, 226, 230) !important;
 
 }
+
 #nameInput {
     border-color: rgb(73, 80, 87);
     color: rgb(222, 226, 230) !important;
 
 }
+
 #fileInput {
     border-color: rgb(73, 80, 87);
     color: rgb(73, 80, 87) !important;
 
 }
+
+#expiresAtInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+
+
+#signatoryInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+
 
 
 #modal-header {

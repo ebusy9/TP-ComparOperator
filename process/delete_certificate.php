@@ -6,15 +6,13 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
 if (isset($_GET['id'])) {
-    $imgPathForUnlink = "../" . ((new Manager($db))->readTourOperatorById($_GET['id']))->getTourOperatorImg();
-    $result = (new Manager($db))->deleteTourOperatorById($_GET['id']);
+    $result = (new Manager($db))->deleteCertificateByTourOperatorId($_GET['id']);
     $currentFile = basename($_SERVER['PHP_SELF']);
     if ($result) {
-        unlink($imgPathForUnlink);
-        header("Location:../admin.php?name={$currentFile}&info=delteTOSuccess");
+        header("Location:../admin.php?name={$currentFile}&info=delteCertificateSuccess");
         die();
     } else {
-        header("Location:../admin.php?redirectedFrom={$currentFile}&info=delteTOFailed");
+        header("Location:../admin.php?redirectedFrom={$currentFile}&info=delteCertificateFailed");
         die();
     }
 } else {

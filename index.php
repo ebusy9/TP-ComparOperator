@@ -92,22 +92,26 @@ $offerDestinationList = $manager->readOfferDestinationAll();
         </p>
 
         <div class="container" style="margin-top: auto;">
-            <?php foreach ($offerDestinationList as $offerDestination) {
-                $reviewArray = $manager->readReviewByTourOperatorId($offerDestination->getTourOperatorId());
-                $destination = $manager->readDestinationById($offerDestination->getDestinationId());
-                $i = 0;
-                $somme = 0;
-                foreach ($reviewArray as $review) {
-                    $i++;
-                    $somme += $review->getScore();
-                }
+            <?php
+            if ($offerDestinationList === null) {
+                echo "<p>Aucun résultat</p>";
+            } else {
+                foreach ($offerDestinationList as $offerDestination) {
+                    $reviewArray = $manager->readReviewByTourOperatorId($offerDestination->getTourOperatorId());
+                    $destination = $manager->readDestinationById($offerDestination->getDestinationId());
+                    $i = 0;
+                    $somme = 0;
+                    foreach ($reviewArray as $review) {
+                        $i++;
+                        $somme += $review->getScore();
+                    }
 
-                if ($somme > 0 && $i > 0) {
-                    floor($score = $somme / $i);
-                }
+                    if ($somme > 0 && $i > 0) {
+                        floor($score = $somme / $i);
+                    }
 
 
-                echo <<<HTML
+                    echo <<<HTML
                         <div class="row justify-content-center">
                         <div class="col-md-8">
                         <div class="card">
@@ -119,8 +123,8 @@ $offerDestinationList = $manager->readOfferDestinationAll();
                         <div class="card-body">
                         <h5 class="card-title">{$destination->getDestinationName()}</h5>
               HTML;
-                if (isset($score)) {
-                    echo <<<HTML
+                    if (isset($score)) {
+                        echo <<<HTML
                     <div class="stars score-{$score}">
                         <div class="star"></div>
                         <div class="star"></div>
@@ -129,8 +133,8 @@ $offerDestinationList = $manager->readOfferDestinationAll();
                         <div class="star"></div>
                     </div>
                HTML;
-                }
-                echo <<<HTML
+                    }
+                    echo <<<HTML
 
                      
               <p class="card-text"><small class="text-body-secondary">{$offerDestination->getPrice()} €</small></p>
@@ -148,6 +152,7 @@ $offerDestinationList = $manager->readOfferDestinationAll();
     </div>
   </div>
   HTML;
+                }
             }
             ?>
 

@@ -27,11 +27,11 @@ trait CertificateManager
     }
 
 
-    public function createCertificate(int $tourOperatorId, string $expireAt, string $signatory): ?Certificate
+    public function createCertificate(int $tourOperatorId, string $expiresAt, string $signatory): ?Certificate
     {
         return $this->dbInsert($this->tableCertificate, [
             ":tour_operator_id" => $tourOperatorId,
-            ":expires_at" => $expireAt,
+            ":expires_at" => $expiresAt,
             ":signatory" => $signatory
         ]);
     }
