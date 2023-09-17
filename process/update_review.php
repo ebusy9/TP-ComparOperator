@@ -5,8 +5,10 @@ use Class\Manager\Manager;
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
+$manager = new Manager($db);
+$manager->verifyLoginStatus();
+
 if (isset($_POST['reviewId'])) {
-    $manager = new Manager($db);
     $review = $manager->readReviewById($_POST['reviewId']);
     $review->setAuthorId($_POST['authorId']);
     $review->setTourOperatorId($_POST['tourOperatorId']);

@@ -42,27 +42,39 @@ trait UserManager
     }
 
 
-    public function createUser(string $login, string $password, string $username): ?User
+    public function createUser(string $login, string $password, string $username, bool $isAdmin = false): ?User
     {
+        if ($isAdmin) {
+            $isAdmin = 1;
+        } else {
+            $isAdmin = 0;
+        }
+        
         return $this->dbInsert($this->tableUser, [
             ":user_id" => $this->getRandomIdForNewDbEntry($this->tableUser), 
             ":login" => $login, 
             ":password" => password_hash($password, PASSWORD_DEFAULT), 
             ":username" => $username,
-            ":registration_date" => date('Y-m-d H:i:s')
+            ":registration_date" => date('Y-m-d H:i:s'),
+            ":is_admin" => $isAdmin
         ]);
     }
 
 
     public function updateUser(User $user): ?User
     {
+        if ($user->getIsAdmin()) {
+            $isAdmin = 1;
+        } else {
+            $isAdmin = 0;
+        }
         return $this->dbUpdate($this->tableUser, "user_id", [
             ":user_id" => $user->getUserId(), 
             ":login" => htmlspecialchars(strtolower($user->getLogin())), 
             ":password" => $user->getPassword(), 
             ":username" => htmlspecialchars(strtolower($user->getUsername())),
             ":registration_date" => $user->getRegistrationDate(),
-            ":is_admin" => $user->getIsAdmin()
+            ":is_admin" => $isAdmin
         ]);
     }
 

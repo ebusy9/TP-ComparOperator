@@ -9,15 +9,15 @@ $manager = new Manager($db);
 $manager->verifyLoginStatus();
 
 if (isset($_GET['id'])) {
-    $result = $manager->deleteCertificateByTourOperatorId($_GET['id']);
+    $result = $manager->deleteUserById($_GET['id']);
     if ($result) {
-        header("Location:../admin.php?name={$currentFile}&info=delteCertificateSuccess");
+        header("Location:../manage_users.php?userId={$_GET['id']}&info=delteUserSuccess");
         die();
     } else {
-        header("Location:../admin.php?redirectedFrom={$currentFile}&info=delteCertificateFailed");
+        header("Location:../manage_users.php?userId={$_GET['id']}&info=delteUserFailed");
         die();
     }
 } else {
-    header("Location:../admin.php?redirectedFrom={$currentFile}&info=idIsNotSet");
+    header("Location:../manage_users.php?redirectedFrom={$currentFile}&info=idIsNotSet");
     die();
 }

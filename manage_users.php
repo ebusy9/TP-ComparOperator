@@ -7,7 +7,7 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "d
 
 $manager = new Manager($db);
 $manager->verifyLoginStatus();
-$destinationList = $manager->readDestinationAll();
+$userList = $manager->readUserAll();
 
 
 ?>
@@ -31,25 +31,38 @@ $destinationList = $manager->readDestinationAll();
 
 <body>
     <!-- Modal -->
-    <div class="modal fade" id="addDestinationForm" tabindex="-1" aria-labelledby="AddTourOperatorFormLabel" aria-hidden="true">
+    <div class="modal fade" id="addUserForm" tabindex="-1" aria-labelledby="addUserFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark">
                 <div class="modal-header" id="modal-header">
-                    <h1 class="modal-title fs-5" id="addTourOperatorFormLabel">New Destination</h1>
+                    <h1 class="modal-title fs-5" id="addUserFormLabel">New User</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <form action="process/add_destination.php" method="post" enctype="multipart/form-data">
+                        <form action="process/add_user.php" method="post">
                             <div class="mb-3">
-                                <label for="nameInput" class="form-label">Location</label>
-                                <input type="text" class="form-control bg-dark " name="destinationName" id="nameInput" placeholder="Roanne" required>
+                                <label for="userNameInput" class="form-label">Username</label>
+                                <input type="text" class="form-control bg-dark " name="username" id="userNameInput" placeholder="Username" required>
                             </div>
                             <div class="mb-3">
-                                <label for="fileInput" class="form-label">Thumbnail</label>
-                                <input type="file" class="form-control bg-dark" name="destinationImg" id="fileInput" accept="image/*" required>
+                                <label for="loginInput" class="form-label">Login</label>
+                                <input type="text" class="form-control bg-dark " name="login" id="loginInput" placeholder="Login" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordInput" class="form-label">Password</label>
+                                <input type="password" class="form-control bg-dark " name="password" id="passwordInput" placeholder="Passwor" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="statusSelect" class="form-label">Status</label>
+                                <select type="text" class="form-control bg-dark " name="isAdmin" id="statusSelect" required>
+                                    <option selected style="color: grey;">Select status...</option>
+                                    <option value="0">User</option>
+                                    <option value="1">Admin</option>
+                                </select>
                             </div>
                     </div>
+                    <input type="hidden" name="userId" value="{$user->getUserId()}">
                 </div>
                 <div class="modal-footer" id="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -102,43 +115,68 @@ $destinationList = $manager->readDestinationAll();
             </div>
             <div class="container-fluid" style="max-width: 85%;">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addDestinationForm"><i class="fa-solid fa-plus"></i> Add Destination</button>
+                <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addUserForm"><i class="fa-solid fa-plus"></i> Add User</button>
                 <!-- Button trigger modal -->
                 <table class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Image</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Login</th>
+                            <th scope="col">Registration Date</th>
+                            <th scope="col">Status</th>
+
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        if ($destinationList !== null) {
-                            foreach ($destinationList as $destination) {
+                        if ($userList !== null) {
+                            foreach ($userList as $user) {
+                                $date = date('d/m/Y H:i:s', strtotime($user->getRegistrationDate()));
+                                if ($user->getIsAdmin() === false) {
+                                    $status = "User";
+                                } else {
+                                    $status = "Admin";
+                                }
+
                                 echo <<<HTML
                                     <!-- Modal -->
-                                    <div class="modal fade" id="updateDestinationForm{$destination->getDestinationId()}" tabindex="-1" aria-labelledby="AddTourOperatorFormLabel" aria-hidden="true">
+                                    <div class="modal fade" id="updateUserForm{$user->getUserId()}" tabindex="-1" aria-labelledby="updateUserForm{$user->getUserId()}Label" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content bg-dark">
                                                 <div class="modal-header" id="modal-header">
-                                                    <h1 class="modal-title fs-5" id="updateDestinationForm{$destination->getDestinationId()}Label">Edit Destination</h1>
+                                                    <h1 class="modal-title fs-5" id="updateUserForm{$user->getUserId()}Label">Edit User</h1>
                                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="container-fluid">
-                                                        <form action="process/update_destination.php" method="post" enctype="multipart/form-data">
+                                                        <form action="process/update_user.php" method="post">
                                                             <div class="mb-3">
-                                                                <label for="nameInput" class="form-label">Location</label>
-                                                                <input type="text" class="form-control bg-dark " name="destinationName" id="nameInput" placeholder="Roanne" value="{$destination->getDestinationName()}">
+                                                                <label for="userNameInput" class="form-label">Username</label>
+                                                                <input type="text" class="form-control bg-dark " name="username" id="userNameInput" placeholder="Username" value="{$user->getUsername()}">
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="fileInput" class="form-label">Thumbnail</label>
-                                                                <input type="file" class="form-control bg-dark" name="destinationImg" id="fileInput" accept="image/*">
+                                                                <label for="statusSelect" class="form-label">Status</label>
+                                                                <select type="text" class="form-control bg-dark " name="isAdmin" id="statusSelect">
+
+                                    HTML;
+                                if ($status === "User") {
+                                    echo <<<HTML
+                                                                <option selected value="0">User</option>
+                                                                <option value="1">Admin</option>
+                                    HTML;
+                                } else {
+                                    echo <<<HTML
+                                                                <option value="0">User</option>
+                                                                <option selected value="1">Admin</option>
+                                    HTML;
+                                }
+                                echo <<<HTML
+                                                                </select>
                                                             </div>
-                                                            <input type="hidden" name="destinationId" value="{$destination->getDestinationId()}">
-                                                    </div>
+                                                        </div>
+                                                    <input type="hidden" name="userId" value="{$user->getUserId()}">
                                                 </div>
                                                 <div class="modal-footer" id="modal-footer">
                                                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -150,16 +188,18 @@ $destinationList = $manager->readDestinationAll();
                                     </div>
                                     <!-- Modal -->
                                   </tr>
-                                  <td>{$destination->getDestinationId()}</td>
-                                  <td>{$destination->getDestinationName()}</td>
-                                  <td><a href="{$destination->getDestinationImg()}" class="text-decoration-none">link</a></td>
-                                  <td><a href="#updateDestinationForm{$destination->getDestinationId()}" data-bs-toggle="modal" data-bs-target="#updateDestinationForm{$destination->getDestinationId()}" style="margin-right: 0.75rem;"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a> <a href="/process/delete_destination.php?id={$destination->getDestinationId()}"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a></td>
+                                  <td>{$user->getUserId()}</td>
+                                  <td>{$user->getUsername()}</td>
+                                  <td>{$user->getLogin()}</td>
+                                  <td>{$date}</td>
+                                  <td>{$status}</td>
+                                  <td><a href="#updateUserForm{$user->getUserId()}" data-bs-toggle="modal" data-bs-target="#updateUserForm{$user->getUserId()}" style="margin-right: 0.75rem;"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a> <a href="/process/delete_user.php?id={$user->getUserId()}"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a></td>
                                 </tr>
                                 HTML;
                             }
                         } else {
                             echo <<<HTML
-                            <p>Destination not found</p>
+                            <p>Author not found</p>
                             HTML;
                         }
                         ?>

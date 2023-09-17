@@ -5,8 +5,11 @@ use Class\Manager\Manager;
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
+$manager = new Manager($db);
+$manager->verifyLoginStatus();
+
 if (isset($_POST['authorName'])) {
-    $author = (new Manager($db))->createAuthor($_POST['authorName']);
+    $author = $manager->createAuthor($_POST['authorName']);
     if ($author) {
         header("Location:../manage_authors.php?authorName={$_POST['authorName']}&info=addAuthorSuccess");
         die();

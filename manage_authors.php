@@ -9,6 +9,12 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "d
 if (!isset($_SESSION['userId'])) {
 	header('Location: login.php?err=userNotLoggedIn');
 	exit();
+} else {
+    $manager = new Manager($db);
+    if (((new Manager($db))->readUserById($_SESSION['userId']))->getIsAdmin() === false) {
+        header('Location: index.php?err=userIsNotAdmin');
+        exit();
+    }
 }
 
 $manager = new Manager($db);
@@ -40,7 +46,7 @@ $authorList = $manager->readAuthorAll();
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark">
                 <div class="modal-header" id="modal-header">
-                    <h1 class="modal-title fs-5" id="addAuthorFormLabel">Add Author</h1>
+                    <h1 class="modal-title fs-5" id="addAuthorFormLabel">New Author</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -91,6 +97,11 @@ $authorList = $manager->readAuthorAll();
                         <li class="nav-item">
                             <a href="manage_authors.php" class="nav-link align-middle px-0 text-decoration-none text-reset">
                                 <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline "><i class="fa-solid fa-pen-nib"></i> Authors</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="manage_users.php" class="nav-link align-middle px-0 text-decoration-none text-reset">
+                                <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline "><i class="fa-solid fa-user"></i> Users</span>
                             </a>
                         </li>
                     </ul>
