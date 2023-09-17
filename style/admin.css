@@ -60,7 +60,29 @@ body {
 
 }
 
+#userNameInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
 
+}
+
+#statusSelect {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+
+#passwordInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
+
+#loginInput {
+    border-color: rgb(73, 80, 87);
+    color: rgb(222, 226, 230) !important;
+
+}
 
 #authorSelect {
     border-color: rgb(73, 80, 87);

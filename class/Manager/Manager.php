@@ -23,6 +23,20 @@ class Manager
     }
 
 
+    public function verifyLoginStatus(): void
+    {
+        if (!isset($_SESSION['userId'])) {
+            header('Location: login.php?err=userNotLoggedIn');
+            exit();
+        } else {
+            if (($this->readUserById($_SESSION['userId']))->getIsAdmin() === false) {
+                header('Location: index.php?err=userIsNotAdmin');
+                exit();
+            }
+        }
+    }
+
+    
     public function validateLogin(string $login): ?string
     {
         if (empty($login)) {

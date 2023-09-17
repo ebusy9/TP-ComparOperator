@@ -34,14 +34,14 @@ class TourOperator
     {
         $certificate = $this->getCertificate();
         if ($certificate === null) {
-            return "basic";
+            return "None";
         } else {
             $expirationTimestamp = strtotime($certificate->getExpiresAt());
             $currentTimestamp = time();
             if ($expirationTimestamp <= $currentTimestamp) {
-                return "expired";
+                return "Expired";
             } elseif ($expirationTimestamp > $currentTimestamp) {
-                return "premium";
+                return "Premium";
             }
         }
     }

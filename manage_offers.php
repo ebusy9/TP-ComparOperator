@@ -6,12 +6,8 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "a
 include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
 
-if (!isset($_SESSION['userId'])) {
-	header('Location: login.php?err=userNotLoggedIn');
-	exit();
-}
-
 $manager = new Manager($db);
+$manager->verifyLoginStatus();
 $offerDestinationList = $manager->readOfferDestinationAll();
 $tourOperatorList = $manager->readTourOperatorAll();
 $destinationList = $manager->readDestinationAll();
@@ -114,6 +110,11 @@ $destinationList = $manager->readDestinationAll();
                         <li class="nav-item">
                             <a href="manage_authors.php" class="nav-link align-middle px-0 text-decoration-none text-reset">
                                 <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline "><i class="fa-solid fa-pen-nib"></i> Authors</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="manage_users.php" class="nav-link align-middle px-0 text-decoration-none text-reset">
+                                <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline "><i class="fa-solid fa-user"></i> Users</span>
                             </a>
                         </li>
                     </ul>

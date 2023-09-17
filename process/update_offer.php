@@ -5,8 +5,10 @@ use Class\Manager\Manager;
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
+$manager = new Manager($db);
+$manager->verifyLoginStatus();
+
 if (isset($_POST['offerDestinationId'])) {
-    $manager = new Manager($db);
     $offerDestination = $manager->readOfferDestinationById($_POST['offerDestinationId']);
     $offerDestination->setPrice($_POST['price']);
     $offerDestination->setTourOperatorId($_POST['tourOperatorId']);
