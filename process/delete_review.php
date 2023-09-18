@@ -12,10 +12,10 @@ $currentFile = basename($_SERVER['PHP_SELF']);
 if (isset($_GET['id'])) {
     $result = $manager->deleteReviewById($_GET['id']);
     if ($result) {
-        header("Location:../manage_reviews.php?authorId={$_POST['authorId']}&info=deleteReviewSuccess");
+        header("Location:../manage_reviews.php?id={$_GET['id']}&info=deleteReviewSuccess");
         die();
     } else {
-        header("Location:../manage_reviews.php?authorId={$_POST['authorId']}&info=deleteReviewFailed");
+        header("Location:../manage_reviews.php?id={$_GET['id']}&info=deleteReviewFailed");
         die();
     }
 } else {
