@@ -59,22 +59,6 @@ $destinations = $manager->readDestinationAll();
     <div class="container" style="margin-top: auto;">
         <?php foreach ($destinations  as $destination) {
             $offerDestinationWithLowestPrice = $manager->readOfferDestinationByDestinationIdWithLowestPrice($destination->getDestinationId());
-            if ($offerDestinationWithLowestPrice !== null) {
-                $reviewList = $manager->readReviewByTourOperatorId($offerDestinationWithLowestPrice->getTourOperatorId());
-
-                if ($reviewList !== null) {
-                    $i = 0;
-                    $somme = 0;
-                    foreach ($reviewList as $review) {
-                        $i++;
-                        $somme += $review->getScore();
-                    }
-
-                    if ($somme > 0 && $i > 0) {
-                        floor($score = $somme / $i);
-                    }
-                }
-            }
 
             echo <<<HTML
 
@@ -90,20 +74,6 @@ $destinations = $manager->readDestinationAll();
                         <h5 class="card-title">{$destination->getDestinationName()}</h5>
 
                 HTML;
-
-
-            if (isset($score)) {
-                echo <<<HTML
-                        <div class="stars score-{$score}">
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                        </div>
-                  HTML;
-            }
-
 
             if ($offerDestinationWithLowestPrice !== null) {
                 echo <<<HTML
@@ -135,17 +105,6 @@ $destinations = $manager->readDestinationAll();
         }
         ?>
     </div>
-
-
-    <div class="text-center p-4">
-
-        <h1>Nos Partenaire</h1>
-
-        <img sizes="(max-width: 600px) 480px, 800px" src="assets/logo/partenaire_mobile.png" srcset="assets/logo/partenaire.png 480w, assets/logo/partenaire_mobile.png 800w" alt=" " class="img-fluid rounded" style="background-color: #40514E;">
-    </div>
-
-
-    </section>
 
 
 
