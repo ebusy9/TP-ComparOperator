@@ -7,6 +7,7 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 
 $manager = new Manager($db);
 $manager->verifyLoginStatus();
+$currentFile = basename($_SERVER['PHP_SELF']);
 
 if (isset($_POST['authorId'])) {
     $review = $manager->createReview($_POST['message'], $_POST['score'], $_POST['tourOperatorId'], $_POST['authorId']);
