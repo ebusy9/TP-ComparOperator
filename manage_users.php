@@ -114,9 +114,12 @@ $userList = $manager->readUserAll();
                 </div>
             </div>
             <div class="container-fluid" style="max-width: 85%;">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addUserForm"><i class="fa-solid fa-plus"></i> Add User</button>
-                <!-- Button trigger modal -->
+                <div class="d-flex justify-content-between">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addUserForm"><i class="fa-solid fa-plus"></i> Add User</button>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-danger mb-3 mt-3" onclick="window.location.href='process/user_logout.php'"><i class="fa-solid fa-right-from-bracket"></i>Log out</button>
+                </div>
                 <table class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>

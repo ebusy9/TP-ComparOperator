@@ -118,11 +118,17 @@ if (!isset($_GET['destinationId'])) {
                         <p class="card-text"><small class="text-body-secondary">{$offerDestination->getPrice()} €</small></p>
                         <p class="card-text mb-0">Destination: {$destination->getDestinationName()}</p>
 
-                        <div class="col-12 d-flex align-items-center justify-content-center">
-                            <button onclick="window.location.href='{$tourOperator->getLink()}';" id="btns" type="button" class="btn btn-sm text-light mb-3">
-                                Voir Tour 
-                            </button>
-                        </div>
+                HTML;
+                if ($tourOperator->getCertificateStatus() === "Premium") {
+                    echo <<<HTML
+                            <div class="col-12 d-flex align-items-center justify-content-center">
+                                <button onclick="window.location.href='{$tourOperator->getLink()}';" id="btns" type="button" class="btn btn-sm text-light mb-3">
+                                    Voir Tour 
+                                </button>
+                            </div>
+                        HTML;
+                }
+                echo <<<HTML
                         </div>
                         </div>  
                         </div>

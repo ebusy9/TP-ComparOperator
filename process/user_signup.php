@@ -28,8 +28,8 @@ if ($loginErr || $passwordErr || $usernameErr) {
 } elseif (isset($login) && isset($password) && isset($username)) {
     $user = $manager->userSignup($username, $login, $password);
 
-    $_SESSION['userId'] = $fetchGetIdForLogIn['id'];
-    $_SESSION['username'] = $fetchGetIdForLogIn['username'];
+    $_SESSION['userId'] = $user->getUserId();
+    $_SESSION['username'] = $user->getUsername();
     header("Location: ../index.php");
     exit();
 } else {
