@@ -51,7 +51,9 @@ if (isset($_POST['destinationId'])) {
         }
         $destination = $manager->readDestinationById($_POST['destinationId']);
         $imgPathForUnlink = "../" . $destination->getDestinationImg();
-        unlink($imgPathForUnlink);
+        if (file_exists($imgPathForUnlink)) {
+            unlink($imgPathForUnlink);
+        }
         $destination->setDestinationImg($imgPath);
         $destination->setDestinationName($_POST['destinationName']);
     } else {

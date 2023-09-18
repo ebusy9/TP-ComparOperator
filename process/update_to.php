@@ -51,7 +51,9 @@ if (isset($_POST['tourOperatorId'])) {
         }
         $tourOperator = $manager->readTourOperatorById($_POST['tourOperatorId']);
         $imgPathForUnlink = "../" . $tourOperator->getTourOperatorImg();
-        unlink($imgPathForUnlink);
+        if (file_exists($imgPathForUnlink)) {
+            unlink($imgPathForUnlink);
+        }
         $tourOperator->setTourOperatorImg($imgPath);
         $tourOperator->setName($_POST['name']);
         $tourOperator->setLink($_POST['link']);
