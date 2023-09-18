@@ -7,8 +7,8 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "d
 
 
 if (!isset($_SESSION['userId'])) {
-	header('Location: login.php?err=userNotLoggedIn');
-	exit();
+    header('Location: login.php?err=userNotLoggedIn');
+    exit();
 } else {
     $manager = new Manager($db);
     if (((new Manager($db))->readUserById($_SESSION['userId']))->getIsAdmin() === false) {
@@ -108,9 +108,12 @@ $authorList = $manager->readAuthorAll();
                 </div>
             </div>
             <div class="container-fluid" style="max-width: 85%;">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addAuthorForm"><i class="fa-solid fa-plus"></i> Add Author</button>
-                <!-- Button trigger modal -->
+                <div class="d-flex justify-content-between">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addAuthorForm"><i class="fa-solid fa-plus"></i> Add Author</button>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-danger mb-3 mt-3" onclick="window.location.href='process/user_logout.php'"><i class="fa-solid fa-right-from-bracket"></i>Log out</button>
+                </div>
                 <table class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>

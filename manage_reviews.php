@@ -125,9 +125,12 @@ $tourOperatorList = $manager->readTourOperatorAll();
                 </div>
             </div>
             <div class="container-fluid" style="max-width: 85%;">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addReviewForm"><i class="fa-solid fa-plus"></i> Add Review</button>
-                <!-- Button trigger modal -->
+                <div class="d-flex justify-content-between">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addReviewForm"><i class="fa-solid fa-plus"></i> Add Review</button>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-danger mb-3 mt-3" onclick="window.location.href='process/user_logout.php'"><i class="fa-solid fa-right-from-bracket"></i>Log out</button>
+                </div>
                 <table class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>
@@ -163,9 +166,9 @@ $tourOperatorList = $manager->readTourOperatorAll();
                                                                 <option selected style="color: grey;" value="{$author->getAuthorId()}">{$author->getAuthorName()}</option>
                                     HTML;
 
-                                                                foreach ($authorList as $oneAuthor) {
-                                                                    echo "<option value='{$oneAuthor->getAuthorId()}'>{$oneAuthor->getAuthorName()}</option>";
-                                                                }
+                                foreach ($authorList as $oneAuthor) {
+                                    echo "<option value='{$oneAuthor->getAuthorId()}'>{$oneAuthor->getAuthorName()}</option>";
+                                }
                                 echo <<<HTML
 
                                                             </select>
@@ -176,9 +179,9 @@ $tourOperatorList = $manager->readTourOperatorAll();
                                                             <option selected style="color: grey;" value="{$tourOperator->getTourOperatorId()}">{$tourOperator->getName()}</option>
                                     HTML;
 
-                                                                foreach ($tourOperatorList as $tourOperatorOne) {
-                                                                    echo "<option value='{$tourOperatorOne->getTourOperatorId()}'>{$tourOperatorOne->getName()}</option>";
-                                                                }
+                                foreach ($tourOperatorList as $tourOperatorOne) {
+                                    echo "<option value='{$tourOperatorOne->getTourOperatorId()}'>{$tourOperatorOne->getName()}</option>";
+                                }
                                 echo <<<HTML
 
                                                             </select>
