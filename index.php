@@ -101,6 +101,7 @@ $offerDestinationList = $manager->readOfferDestinationAll();
                     $destination = $manager->readDestinationById($offerDestination->getDestinationId());
                     $i = 0;
                     $somme = 0;
+                    
                     foreach ($reviewArray as $review) {
                         $i++;
                         $somme += $review->getScore();

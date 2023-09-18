@@ -5,9 +5,11 @@ use Class\Manager\Manager;
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "autoload.php";
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "db.php";
 
+$manager = new Manager($db);
+$manager->verifyLoginStatus();
+$currentFile = basename($_SERVER['PHP_SELF']);
+
 if (isset($_POST['userId'])) {
-    $manager = new Manager($db);
-    $manager->verifyLoginStatus();
     $user = $manager->readUserById($_POST['userId']);
     $user->setIsAdmin($_POST['isAdmin']);
     $user->setUsername($_POST['username']);

@@ -7,9 +7,9 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 
 $manager = new Manager($db);
 $manager->verifyLoginStatus();
+$currentFile = basename($_SERVER['PHP_SELF']);
 
 if (isset($_POST['tourOperatorId'])) {
-    $currentFile = basename($_SERVER['PHP_SELF']);
 
     if ($_FILES['img']["error"] !== 4) {
 

@@ -7,11 +7,11 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 
 $manager = new Manager($db);
 $manager->verifyLoginStatus();
+$currentFile = basename($_SERVER['PHP_SELF']);
 
 if (isset($_GET['id'])) {
     $imgPathForUnlink = "../" . ($manager->readTourOperatorById($_GET['id']))->getTourOperatorImg();
     $result = $manager->deleteTourOperatorById($_GET['id']);
-    $currentFile = basename($_SERVER['PHP_SELF']);
     if ($result) {
         unlink($imgPathForUnlink);
         header("Location:../admin.php?name={$currentFile}&info=delteTOSuccess");

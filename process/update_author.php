@@ -7,10 +7,10 @@ include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPAR
 
 $manager = new Manager($db);
 $manager->verifyLoginStatus();
+$currentFile = basename($_SERVER['PHP_SELF']);
 
 if (isset($_POST['authorId'])) {
     $author = $manager->readAuthorById($_POST['authorId']);
-    $author->setAuthorName($_POST['authorName']);
 
     $result = $manager->updateAuthor($author);
 

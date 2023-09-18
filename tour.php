@@ -76,9 +76,9 @@ if (!isset($_GET['destinationId'])) {
                             <div class="col-md-4">
                                 <img src="{$tourOperator->getTourOperatorImg()}" class="img-fluid rounded-start" alt="...">
                             </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">{$tourOperator->getName()}</h5>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{$tourOperator->getName()}</h5>
             HTML;
 
             if ($reviewList !== null) {
@@ -114,9 +114,9 @@ if (!isset($_GET['destinationId'])) {
                         <button id="btns" type="button" class="btn btn-sm text-light" data-bs-toggle="modal" data-bs-target="#exampleModal{$offerDestination->getOfferDestinationId()}">
                         Avis
                         </button>
-                        </div>
-                        <p class="card-text"><small class="text-body-secondary">{$offerDestination->getPrice()} €</small></p>
-                        <p class="card-text mb-0">Destination: {$destination->getDestinationName()}</p>
+                    </div>
+                    <p class="card-text"><small class="text-body-secondary">{$offerDestination->getPrice()} €</small></p>
+                    <p class="card-text mb-0">Destination: {$destination->getDestinationName()}</p>
 
                 HTML;
                 if ($tourOperator->getCertificateStatus() === "Premium") {
