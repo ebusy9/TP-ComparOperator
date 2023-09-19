@@ -25,7 +25,7 @@ $offerDestinationList = $manager->readOfferDestinationAll();
 
 </head>
 
-<body style=" font-family: 'SF Pro Display', sans-serif;">
+<body class="d-flex flex-column min-vh-100" style=" font-family: 'SF Pro Display', sans-serif;">
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
             <div class="container-fluid">
@@ -102,6 +102,7 @@ $offerDestinationList = $manager->readOfferDestinationAll();
                     $i = 0;
                     $somme = 0;
                     
+                    if ($reviewArray !== null) {
                     foreach ($reviewArray as $review) {
                         $i++;
                         $somme += $review->getScore();
@@ -110,6 +111,8 @@ $offerDestinationList = $manager->readOfferDestinationAll();
                     if ($somme > 0 && $i > 0) {
                         floor($score = $somme / $i);
                     }
+                }
+
 
 
                     echo <<<HTML
@@ -164,7 +167,7 @@ $offerDestinationList = $manager->readOfferDestinationAll();
 
             <h1>Nos Partenaire</h1>
 
-            <img sizes="(max-width: 600px) 480px, 800px" src="assets/logo/partenaire_mobile.png" srcset="assets/logo/partenaire.png 480w, assets/logo/partenaire_mobile.png 800w" alt=" " class="img-fluid rounded" style="background-color: #40514E;">
+            <img sizes="(max-width: 480px) 120px, 200px" srcset="assets/logo/partenaire.png 120w, assets/logo/partenaire_mobile.png 200w" alt=" " class="img-fluid rounded" style="background-color: #40514E;">
         </div>
 
 
@@ -172,8 +175,8 @@ $offerDestinationList = $manager->readOfferDestinationAll();
 
 
 
-    <div class="footer-basic">
-        <footer>
+    <div class="footer-basic" >
+        <footer class="mt-auto">
             <div class="social"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-snapchat"></i></a><a href="#"><i class="fa-brands fa-x-twitter"></i></a><a href="#"><i class="fa-brands fa-facebook-f"></i></a></div>
             <ul class="list-inline">
                 <li class="list-inline-item"><a href="#">Home</a></li>

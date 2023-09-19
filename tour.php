@@ -29,7 +29,7 @@ if (!isset($_GET['destinationId'])) {
 
 </head>
 
-<body style=" font-family: 'SF Pro Display', sans-serif;">
+<body class="d-flex flex-column min-vh-100" style=" font-family: 'SF Pro Display', sans-serif;">
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
             <div class="container-fluid">
@@ -119,16 +119,16 @@ if (!isset($_GET['destinationId'])) {
                     <p class="card-text mb-0">Destination: {$destination->getDestinationName()}</p>
 
                 HTML;
-                if ($tourOperator->getCertificateStatus() === "Premium") {
-                    echo <<<HTML
+            if ($tourOperator->getCertificateStatus() === "Premium") {
+                echo <<<HTML
                             <div class="col-12 d-flex align-items-center justify-content-center">
                                 <button onclick="window.location.href='{$tourOperator->getLink()}';" id="btns" type="button" class="btn btn-sm text-light mb-3">
                                     Voir Tour 
                                 </button>
                             </div>
                         HTML;
-                }
-                echo <<<HTML
+            }
+            echo <<<HTML
                         </div>
                         </div>  
                         </div>
@@ -158,16 +158,17 @@ if (!isset($_GET['destinationId'])) {
                     </div>
 
             HTML;
-            foreach ($reviewList as $review) {
-                $author = $manager->readAuthorById($review->getAuthorId());
-                $scoreOp = $review->getScore();
-                $authorName = $author->getAuthorName();
-                $message = $review->getMessage();
+            if ($reviewList !== null) {
+                foreach ($reviewList as $review) {
+                    $author = $manager->readAuthorById($review->getAuthorId());
+                    $scoreOp = $review->getScore();
+                    $authorName = $author->getAuthorName();
+                    $message = $review->getMessage();
 
 
 
 
-                echo <<<HTML
+                    echo <<<HTML
                 <p class="text">
                     <small class="text-body-secondary">
                         <h3>{$authorName} :</h3> {$message}
@@ -181,6 +182,7 @@ if (!isset($_GET['destinationId'])) {
                     <div class="star"></div>
                 </div>
 HTML;
+                }
             }
             echo <<<HTML
                                 </div>
@@ -197,8 +199,8 @@ HTML;
         }
         ?>
     </div>
-    
-    <footer>
+
+    <footer class="mt-auto">
         <div class="footer-basic">
             <div class="social"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-snapchat"></i></a><a href="#"><i class="fa-brands fa-x-twitter"></i></a><a href="#"><i class="fa-brands fa-facebook-f"></i></a></div>
             <ul class="list-inline">

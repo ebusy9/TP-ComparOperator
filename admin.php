@@ -107,8 +107,8 @@ $tourOperatorList = $manager->readTourOperatorAll();
             </div>
             <div class="container-fluid" style="max-width: 85%;">
                 <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addTourOperatorForm"><i class="fa-solid fa-plus"></i> Add Tour Operator</button>
-                <button type="button" class="btn btn-outline-danger mb-3 mt-3" onclick="window.location.href='process/user_logout.php'"><i class="fa-solid fa-right-from-bracket"></i>Log out</button>
+                    <button type="button" class="btn btn-outline-success mb-3 mt-3" data-bs-toggle="modal" data-bs-target="#addTourOperatorForm"><i class="fa-solid fa-plus"></i> Add Tour Operator</button>
+                    <button type="button" class="btn btn-outline-danger mb-3 mt-3" onclick="window.location.href='process/user_logout.php'"><i class="fa-solid fa-right-from-bracket"></i>Log out</button>
                 </div>
                 <table class="table table-dark table-striped table-hover">
                     <thead>
@@ -300,8 +300,6 @@ $tourOperatorList = $manager->readTourOperatorAll();
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <script src="assets/js/admin.js"></script>
 </body>
-
 
 </html>
